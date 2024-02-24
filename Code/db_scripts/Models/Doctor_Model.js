@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//schema for doctor
 const doctor_schema=new mongoose.Schema({
     person_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -9,7 +10,7 @@ const doctor_schema=new mongoose.Schema({
     },
     opd:{
         type:String,
-        enum:["Medicine","Surgery","Orthopaedics","ENT","Opthamology","Gynaceology",
+        enum:["Medicine","Surgery","Orthopaedics","ENT","Opthamology","Gynaceology",       //types of OPDs
               "Paediatry","Skin","Psychiatry","TB","Dental"],
         required:true,
     },
