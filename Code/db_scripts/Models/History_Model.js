@@ -31,7 +31,7 @@ const history_schema={
     date_time:{
         type:Date,
         required:true
-    },
+    }
 };
 
 export const history_model=mongoose.model("history_model",history_schema);
