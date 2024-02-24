@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 
+//schema for person that is superset for doctor,patient,pharmacist,lab technician,counter
 const person_schema=new mongoose.Schema({
     u_id:{
         type:String,
         required:true,
         unique:true,
-        validate:{
-            validator:(value)=>{
-                return /^\d{12}$/.test(value);
+        validate:{                             
+            validator:(value)=>{                              
+                return /^\d{12}$/.test(value);               //validation for checking if value is 12 digits only
             },
             message:"The unique id number should be of 12 digits"
         }
@@ -39,7 +40,7 @@ const person_schema=new mongoose.Schema({
         unique:true,
         validate:{
             validator:(value)=>{
-                return /^\d{10}$/.test(value);
+                return /^\d{10}$/.test(value);                  //validation for checking if value is 10 digits only
             },
             message:"The phone number should be of 10 digits"
         }
@@ -55,6 +56,6 @@ const person_schema=new mongoose.Schema({
     }
 });
 
-person_schema.index({ firstName: 1, middleName: 1, lastName: 1 }, { unique: true });
+person_schema.index({ firstName: 1, middleName: 1, lastName: 1 }, { unique: true });  //combining first,middle and last name and checking if it is unique or not
 
 export const person_model=mongoose.model("person_model",person_schema);
