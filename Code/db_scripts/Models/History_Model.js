@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//schema that will contain schema of all patients 
 const history_schema={
     patient_u_id:{
         type:String,
@@ -31,6 +32,23 @@ const history_schema={
     date_time:{
         type:Date,
         required:true
+    },
+    complaints:{                   //complaints of patients here
+        type:[String],
+        required:true,
+    },
+    general_examination:{          //gen. examination of patient here
+        type:[String],
+        required:true
+    },
+    systemic_examination:{         //particular examination here
+        type:[String],
+    },
+    investigation:{                //investigation and redirection here
+        type:[String],
+    },
+    treatment:{                    //medicine and pharmacist redirection here 
+        type:[String],
     }
 };
 

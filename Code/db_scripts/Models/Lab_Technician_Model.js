@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//schema for lab technician
 const lab_technician_schema=new mongoose.Schema({
     person_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -17,7 +18,7 @@ const lab_technician_schema=new mongoose.Schema({
     },
     lab_type:{
         type:String,
-        enum:["Radiology","Pathology"],
+        enum:["Radiology","Pathology"],       //types of labs
         required:true
     }
 });

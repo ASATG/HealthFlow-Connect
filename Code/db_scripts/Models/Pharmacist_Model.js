@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//schema for pharmacist
 const pharmacist_schema=new mongoose.Schema({
     person_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -13,7 +14,7 @@ const pharmacist_schema=new mongoose.Schema({
     },
     specialization:{
         type:[String],
-        default:''
+        default:'',
     }
 });
 
