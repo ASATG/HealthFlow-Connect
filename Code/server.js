@@ -11,6 +11,10 @@ import cors from "cors";
 // Importing the function for connection to database
 import { connect_db } from "./db_scripts/db_connect.js";
 
+// Importing the routes
+import { general_router } from "./api_routes/general_routes.js";
+import { admin_router } from "./api_routes/admin_routes.js";
+
 // This will be used for connection with local mongo database
 await connect_db(process.env.DATABASE_URL);
 
@@ -22,6 +26,10 @@ const server_port = process.env.SERVER_PORT;
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
+
+// Configuration of routes
+app.use('', general_router);
+app.use('/admin', admin_router);
 
 // Setting up the server
 app.listen(server_port, () => {
