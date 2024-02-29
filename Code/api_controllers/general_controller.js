@@ -1,4 +1,5 @@
 import { person_model } from "../db_scripts/Models/Person_Model.js";
+import { redirection_model } from "../db_scripts/Models/Redirection_Model.js";
 import { user_model } from "../db_scripts/Models/User_Model.js";
 import bcrypt from "bcrypt";
 
@@ -8,6 +9,7 @@ export const add_person_record = async (person_body) => {
         const response = await new_person.save();
         return { success_status: true, created_person_record_id: response._id };
     } catch (error) {
+        console.log(error);
         return { success_status: false, error_message: "Error happened while creating the Person!" };
     }
 };
@@ -84,3 +86,14 @@ export const change_password = async (req, res) => {
         return res.send({ success_status: false, error_message: "Something went wrong while changing the password!" });
     }
 };
+
+export const add_redirection_record_in_general_controller = async (redirection_body) => {
+    const new_redirection = new redirection_model(redirection_body);
+    try {
+        const response = await new_redirection.save();
+        return { success_status: true };
+    } catch (error) {
+        console.log(error);
+        return { success_status: false, error_message: "Error happened while creating the redirection record!" };
+    }
+}
