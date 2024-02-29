@@ -56,6 +56,6 @@ const person_schema=new mongoose.Schema({
     }
 });
 
-person_schema.index({ firstName: 1, middleName: 1, lastName: 1 }, { unique: true });  //combining first,middle and last name and checking if it is unique or not
+person_schema.index({ first_name: 1, middle_name: 1, last_name: 1 }, { unique: true });  //combining first,middle and last name and checking if it is unique or not
 
 export const person_model=mongoose.model("person_model",person_schema);
