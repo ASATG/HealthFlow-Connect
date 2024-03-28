@@ -8,3 +8,12 @@ export const connect_db = async (DATABASE_URL) => {
         console.log(err);
     }
 };
+
+let gfs;
+mongoose.connection.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+        bucketName: 'uploaded_lab_reports',
+    });
+});
+
+export { gfs };
