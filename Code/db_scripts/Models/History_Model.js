@@ -1,55 +1,81 @@
 import mongoose from "mongoose";
 
 //schema that will contain schema of all patients 
-const history_schema={
-    patient_u_id:{
-        type:String,
-        required:true,
-        unique:true,
-        validate:{
-            validator:(value)=>{
+const history_schema = {
+    patient_u_id: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (value) => {
                 return /^\d{12}$/.test(value);
             },
-            message:"The unique id number should be of 12 digits"
+            message: "The unique id number should be of 12 digits"
         }
     },
-    who_u_id:{
-        type:String,
-        required:true,
-        unique:true,
-        validate:{
-            validator:(value)=>{
+    who_u_id: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (value) => {
                 return /^\d{12}$/.test(value);
             },
-            message:"The unique id number should be of 12 digits"
+            message: "The unique id number should be of 12 digits"
         }
     },
-    who:{
-        type:String,
-        enum:["Doctor","Lab Technician","Pharmacist"],
-        required:true
+    who: {
+        type: String,
+        enum: ["Doctor", "Lab Technician", "Pharmacist"],
+        required: true
     },
-    date_time:{
-        type:Date,
-        required:true
+    date_time: {
+        type: Date,
+        default: Date.now(),
     },
-    complaints:{                   //complaints of patients here
-        type:[String],
-        required:true,
+
+    // For doctor
+    complaints: {
+        type: [String],
     },
-    general_examination:{          //gen. examination of patient here
-        type:[String],
-        required:true
+    general_examination: {
+        type: [{
+            property: {
+                type: String
+            },
+            value: {
+                type: String
+            }
+        }]
     },
-    systemic_examination:{         //particular examination here
-        type:[String],
+    lab_testing_to_be_done: {
+        type: [String]
     },
-    investigation:{                //investigation and redirection here
-        type:[String],
+    medicines_prescribed: {
+        type: [{
+            medicine_name: {
+                type: String,
+            },
+            when_to_take: {
+                type: String,
+            },
+            other_note: {
+                type: String
+            }
+        }]
     },
-    treatment:{                    //medicine and pharmacist redirection here 
-        type:[String],
+    extra_notes: {
+        type: [String]
+    },
+
+    // For lab technician
+    lab_report_files_id: {
+        type: [mongoose.Schema.Types.ObjectId]
+    },
+
+    // For pharmacist
+    medicines_given: {
+        type: [String]
     }
+
 };
 
-export const history_model=mongoose.model("history_model",history_schema);
+export const history_model = mongoose.model("history_model", history_schema);

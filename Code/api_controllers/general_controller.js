@@ -1,6 +1,7 @@
 import { person_model } from "../db_scripts/Models/Person_Model.js";
 import { redirection_model } from "../db_scripts/Models/Redirection_Model.js";
 import { user_model } from "../db_scripts/Models/User_Model.js";
+import { history_model } from "../db_scripts/Models/History_Model.js";
 import bcrypt from "bcrypt";
 
 export const add_person_record = async (person_body) => {
@@ -90,10 +91,29 @@ export const change_password = async (req, res) => {
 export const add_redirection_record_in_general_controller = async (redirection_body) => {
     const new_redirection = new redirection_model(redirection_body);
     try {
-        const response = await new_redirection.save();
+        await new_redirection.save();
+        return { success_status: true };
+    } catch (error) {
+        return { success_status: false, error_message: "Error happened while creating the redirection record!" };
+    }
+};
+
+export const view_redirection_records = async (who_u_id, who) => {
+    try {
+        const result = await redirection_model.find({ who_u_id: who_u_id, who: who });
+        return { success_status: true, result: result };
+    } catch (error) {
+        return { success_status: false, error_message: "Couldn't find the redirection record" };
+    }
+};
+
+export const add_patient_history_record = async (record) => {
+    const history_record = new history_model(record);
+    try {
+        await history_record.save();
         return { success_status: true };
     } catch (error) {
         console.log(error);
-        return { success_status: false, error_message: "Error happened while creating the redirection record!" };
+        return { success_status: false, error_message: "Error happened while adding in patients history" };
     }
-}
+};
