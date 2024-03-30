@@ -1,15 +1,50 @@
-import { add_person_record, add_user_record, update_person_record, delete_person_record, delete_user_record } from "./general_controller.js";
+import { get_person_info, add_person_record, add_user_record, update_person_record, delete_person_record, delete_user_record } from "./general_controller.js";
 import { doctor_model } from "../db_scripts/Models/Doctor_Model.js";
 import { pharmacist_model } from "../db_scripts/Models/Pharmacist_Model.js";
 import { lab_technician_model } from "../db_scripts/Models/Lab_Technician_Model.js";
+import { person_model } from "../db_scripts/Models/Person_Model.js";
+
+export const get_admin_info = async (req, res) => {
+    const { u_id } = req.body;
+    const temp = await get_person_info(u_id);
+    if (temp.success_status) {
+        const person_record = temp.record;
+        const admin_record = await doctor_model.findOne({ person_id: person_record._id });
+        return res.send({ success_status: true, ans: [person_record, admin_record] });
+    }
+    else {
+        return res.send(temp);
+    }
+};
+
+export const get_staff_record_by_uid = async (req, res) => {
+    const { u_id } = req.body;
+    const person_result = await person_model.findOne({ u_id: u_id });
+    if (person_result) {
+        let staff_result = {};
+        if (person_result.role === "Doctor") {
+            staff_result = await doctor_model.findOne({ person_id: person_result._id });
+        }
+        else if (person_result.role === "Lab Technician") {
+            staff_result = await lab_technician_model.findOne({ person_id: person_result._id });
+        }
+        else if (person_result.role === "Pharmacist") {
+            staff_result = await pharmacist_model.findOne({ person_id: person_result._id });
+        }
+        return res.send({ success_status: true, ans: [person_result, staff_result] });
+    }
+    else {
+        return res.send({ success_status: false, error_message: "The given record does not exists" });
+    }
+};
 
 export const add_doctor_record = async (req, res) => {
     const body = req.body;
-    const only_doctor_attributes = ['opd', 'degree', 'specialization'];
+    const only_doctor_attributes = ['opd', 'degree', 'specialization', 'is_admin'];
 
     // First of all we need to create a corresponding person
     const person_body = { ...body };
-    person_body.role = 'Doctor';
+    person_body.role = body.is_admin ? "Admin" : "Doctor";
     only_doctor_attributes.forEach(attr => delete person_body[attr]);
     const person_add_response = await add_person_record(person_body);
     if (!person_add_response.success_status) {
@@ -21,13 +56,14 @@ export const add_doctor_record = async (req, res) => {
         person_id: person_add_response.created_person_record_id,
         opd: body.opd,
         degree: body.degree,
-        specialization: body.specialization
+        specialization: body.specialization,
+        is_admin: body.is_admin
     });
     try {
         await doctor_obj.save();
 
         // Now we need to also create entry in the user model
-        const user_add_response = await add_user_record({ username: body.u_id, phone_number: body.phone_number, designation: 'Doctor' });
+        const user_add_response = await add_user_record({ username: body.u_id, phone_number: body.phone_number, designation: body.is_admin ? "Admin" : "Doctor" });
         if (!user_add_response.success_status) {
             return res.send({ success_status: false, error_message: 'Something went wrong while saving the user object!' });
         }
@@ -36,26 +72,6 @@ export const add_doctor_record = async (req, res) => {
         }
     } catch (error) {
         return res.send({ success_status: false, error_message: 'Something went wrong while saving the doctor object!' });
-    }
-};
-
-export const update_doctor_record = async (req, res) => {
-    const body = req.body;
-    const to_update_body = { ...body };
-    delete to_update_body["u_id"];
-    delete to_update_body["is_admin"];
-    try {
-        const person_update_response = await update_person_record(body.u_id, to_update_body);
-        if (person_update_response.success_status) {
-            await doctor_model.findOneAndUpdate({ person_id: person_update_response.person_id }, { is_admin: body.is_admin });
-            return res.send({ success_status: true });
-        }
-        else {
-            return res.send({ success_status: false, error_message: "Error in updating the person!" });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.send({ success_status: false, error_message: "Error in updating the doctor!" });
     }
 };
 
@@ -91,7 +107,7 @@ export const add_counter_record = async (req, res) => {
     const person_add_response = await add_person_record(person_body);
     if (!person_add_response.success_status) {
         return res.send({ success_status: false, error_message: person_add_response.error_message });
-    }else{
+    } else {
         // Now we need to also create entry in the user model
         const user_add_response = await add_user_record({ username: body.u_id, phone_number: body.phone_number, designation: 'Counter' });
         if (!user_add_response.success_status) {
@@ -108,13 +124,13 @@ export const delete_counter_record = async (req, res) => {
     const { u_id } = req.body;
     try {
         await delete_person_record(u_id);
-            const delete_user_response = await delete_user_record(u_id);
-            if (delete_user_response.success_status) {
-                return res.send({ success_status: true });
-            }
-            else {
-                return res.send({ success_status: false, error_message: "Error while deleting the user" });
-            }
+        const delete_user_response = await delete_user_record(u_id);
+        if (delete_user_response.success_status) {
+            return res.send({ success_status: true });
+        }
+        else {
+            return res.send({ success_status: false, error_message: "Error while deleting the user" });
+        }
     } catch (error) {
         return res.send({ success_status: false, error_message: "Error while deleting the counter!" });
     }
@@ -237,16 +253,65 @@ export const delete_lab_technician_record = async (req, res) => {
     }
 };
 
-export const update_otherstaff_record = async (req, res) => {
+export const update_staff_record = async (req, res) => {
+    const { role, u_id } = req.body;
     const body = req.body;
-    const to_update_body = { ...body };
-    delete to_update_body["u_id"];
-    try {
-        const person_update_response = await update_person_record(body.u_id, to_update_body);
-        if (person_update_response.success_status) {
-            return res.send({ success_status: true});
+    const person_body = {
+        first_name: body.first_name,
+        middle_name: body.middle_name,
+        last_name: body.last_name,
+        dob: body.dob,
+        phone_number: body.phone_number,
+        address: body.address
+    };
+    const person_update_result = await update_person_record(u_id, person_body);
+    if (person_update_result.success_status) {
+        if (role === "Doctor") {
+            const doctor_body = {
+                opd: body.opd,
+                degree: body.degree,
+                specialization: body.specialization,
+            };
+            try {
+                await doctor_model.findOneAndUpdate({ person_id: person_update_result.person_id }, doctor_body, { runValidators: true });
+                return res.send({ success_status: true });
+            } catch (error) {
+                return res.send({ success_status: false, error_message: "Error while updating the doctor" });
+            }
         }
-    } catch (error) {
-        return res.send({ success_status: false, error_message: "Error in updating the staff member!" });
+
+        else if (role === "Lab Technician") {
+            const lab_technician_body = {
+                lab_type: body.lab_type,
+                degree: body.degree,
+                specialization: body.specialization,
+            };
+            try {
+                await lab_technician_model.findOneAndUpdate({ person_id: person_update_result.person_id }, lab_technician_body, { runValidators: true });
+                return res.send({ success_status: true });
+            } catch (error) {
+                return res.send({ success_status: false, error_message: "Error while updating the lab technician" });
+            }
+        }
+
+        else if (role === "Pharmacist") {
+            const pharmacist_body = {
+                degree: body.degree,
+                specialization: body.specialization,
+            };
+            try {
+                await pharmacist_model.findOneAndUpdate({ person_id: person_update_result.person_id }, pharmacist_body, { runValidators: true });
+                return res.send({ success_status: true });
+            } catch (error) {
+                return res.send({ success_status: false, error_message: "Error while updating the pharmacist" });
+            }
+        }
+
+        else if (role === "Counter") {
+            return res.send({ success_status: true });
+        }
+    }
+    else {
+        return res.send(person_update_result);
     }
 };

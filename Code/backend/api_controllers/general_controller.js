@@ -4,13 +4,21 @@ import { user_model } from "../db_scripts/Models/User_Model.js";
 import { history_model } from "../db_scripts/Models/History_Model.js";
 import bcrypt from "bcrypt";
 
+export const get_person_info = async (u_id) => {
+    try {
+        const record = await person_model.findOne({ u_id: u_id });
+        return { success_status: true, record: record };
+    } catch (error) {
+        return { success_status: false, error_message: "Error while fetching the person record" };
+    }
+};
+
 export const add_person_record = async (person_body) => {
     const new_person = new person_model(person_body);
     try {
         const response = await new_person.save();
         return { success_status: true, created_person_record_id: response._id };
     } catch (error) {
-        console.log(error);
         return { success_status: false, error_message: "Error happened while creating the Person!" };
     }
 };

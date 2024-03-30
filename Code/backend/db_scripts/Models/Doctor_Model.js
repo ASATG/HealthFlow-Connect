@@ -10,7 +10,7 @@ const doctor_schema = new mongoose.Schema({
     },
     opd: {
         type: String,
-        enum: ["Medicine", "Surgery", "Orthopaedics", "ENT", "Opthamology", "Gynaceology",       //types of OPDs
+        enum: ["Medicine", "Surgery", "Orthopaedics", "ENT", "Opthamology", "Gynaceology",
             "Paediatry", "Skin", "Psychiatry", "TB", "Dental"],
         required: true,
     },
