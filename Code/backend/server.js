@@ -18,6 +18,7 @@ import { counter_router } from "./api_routes/counter_routes.js";
 import { lab_technician_router } from "./api_routes/lab_technician_routes.js";
 import { doctor_router } from "./api_routes/doctor_routes.js";
 import { pharmacist_router } from "./api_routes/pharmacist_routes.js";
+import { otp_router } from "./api_routes/otp_routes.js"
 
 // This will be used for connection with local mongo database
 await connect_db(process.env.DATABASE_URL);
@@ -38,6 +39,7 @@ app.use('/counter', counter_router);
 app.use('/lab_technician', lab_technician_router);
 app.use('/doctor', doctor_router);
 app.use('/pharmacist', pharmacist_router);
+app.use('/otp', otp_router);
 
 // Setting up the server
 app.listen(server_port, () => {
