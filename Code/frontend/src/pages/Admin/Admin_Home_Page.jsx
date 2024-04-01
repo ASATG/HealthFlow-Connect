@@ -24,6 +24,9 @@ export const Admin_Home_Page = () => {
             }
         };
 
+        if (sessionStorage.getItem("user_designation") !== "Admin") {
+            navigator("/", { replace: true });
+        }
         fetchData();
     }, []);
 
@@ -33,7 +36,7 @@ export const Admin_Home_Page = () => {
             <button onClick={(e) => navigator("/logout/", { replace: true })}>Logout</button>
             <div>
                 <Personal_Info_Component explicit_keys_to_exclude={[]} record={personInfo} />
-                <Personal_Info_Component explicit_keys_to_exclude={["person_id","is_admin"]} record={adminInfo} />
+                <Personal_Info_Component explicit_keys_to_exclude={["person_id", "is_admin"]} record={adminInfo} />
             </div>
 
             <h2 onClick={(e) => navigator("/admin/create_staff_record/Doctor", { replace: false })}>Create Doctor Record</h2>

@@ -1,44 +1,20 @@
-import dotenv from 'dotenv'
-import Twilio from 'twilio';
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
+import AWS from 'aws-sdk';
+import otpGenerator from 'otp-generator';
 
-const { TWILIO_SERVICE_SID, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } = process.env;
+export const send_otp = async (req, res) => {
+    const { phoneNumber } = req.body;
+    const new_otp = otpGenerator.generate(6);
+    const params = {
+        PhoneNumber: "+91" + phoneNumber,
+        Message: `YOUR OTP IS ${new_otp}`
+    };
 
-const client = Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-
-
-
-class UserController {
-    //Send OTP to User
-    static sendOTP = async (req, res) => {
-        const { countryCode, phoneNumber } = req.body;
-        try {
-            const otpResponse = await client.verify
-                .v2.services(TWILIO_SERVICE_SID)
-                .verifications.create({
-                    to: `${countryCode}${phoneNumber}`,
-                    channel: "sms",
-                });
-            res.status(200).send(`${otpResponse}\nOTP Sent Successfully`);
-        } catch (error) {
-            res.status(400).send(`${error}\nSomething went wrong!`);
-        }
+    try {
+        const response = await new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
+        return res.send({ success_status: true, otp: new_otp });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while generating the OTP" });
     }
-
-    static verifyOTP = async (req, res) => {
-        const { countryCode, phoneNumber, otp } = req.body;
-        try {
-            const verifiedResponse = await client.verify
-                .v2.services(TWILIO_SERVICE_SID)
-                .verificationChecks.create({
-                    to: `${countryCode}${phoneNumber}`,
-                    code: otp,
-                });
-            res.status(200).send(`${verifiedResponse.status}\nOTP Verified Successfully`);
-        } catch (error) {
-            res.status(400).send(`${error}\nSomething went Wrong`);
-        }
-    }
-}
-
-export default UserController
+};

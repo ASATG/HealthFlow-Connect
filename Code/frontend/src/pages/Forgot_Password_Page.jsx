@@ -1,0 +1,49 @@
+import React, { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+export const Forgot_Password_Page = () => {
+    const navigator = useNavigate();
+    const [newPassword, setNewPassword] = useState("");
+
+    useEffect(() => {
+        if (sessionStorage.getItem("otp_verified") === "false") {
+            window.alert("Please do OTP verification first");
+            return navigator("/otp_verify/forgot_password", { replace: true });
+        } else {
+            sessionStorage.setItem("otp_verified", "false");
+        }
+    }, []);
+
+    const handle_submit = async (event) => {
+        event.preventDefault();
+        const change_password = await axios.post("http://localhost:3500/change_password/", { username: sessionStorage.getItem("change_password_uid"), new_password: newPassword });
+        if (change_password.data.success_status) {
+            window.alert("Password Changed Successfully");
+        }
+        else {
+            window.alert("Couldn't change password!");
+        }
+        sessionStorage.clear();
+        return navigator("/", { replace: true });
+    };
+
+    return (
+        <Fragment>
+            <h1>Forgot Password Page</h1>
+            <form onSubmit={handle_submit}>
+                <div>
+                    <label htmlFor="newPassword">New Password:</label>
+                    <input
+                        type="password"
+                        id="newPassword"
+                        value={newPassword}
+                        onInput={(event) => setNewPassword(event.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </Fragment>
+    );
+};
