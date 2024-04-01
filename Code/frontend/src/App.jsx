@@ -1,7 +1,11 @@
 import React, { Fragment } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Website_Landing_Page } from "./pages/Website_Landing_Page.jsx"
-import { Logout_Component } from "./components/Logout_Component.jsx"
+
+import { Logout_Component } from "./components/Logout_Component.jsx";
+
+import { Website_Landing_Page } from "./pages/Website_Landing_Page.jsx";
+import { OTP_Verification_Page } from "./pages/OTP_Verification_Page.jsx";
+import { Forgot_Password_Page } from "./pages/Forgot_Password_Page.jsx";
 import { Admin_Home_Page } from "./pages/Admin/Admin_Home_Page.jsx";
 import { Create_Staff_Records_Page } from "./pages/Admin/Create_Staff_Records_Page.jsx";
 import { Delete_Staff_Records_Page } from "./pages/Admin/Delete_Staff_Records_Page.jsx";
@@ -18,6 +22,8 @@ export const App = () => {
                 <Routes>
                     <Route path="/" element={<Website_Landing_Page />} />
                     <Route path="/logout/" element={<Logout_Component />} />
+                    <Route path="/forgot_password/" element={<Forgot_Password_Page />} />
+                    <Route path="/otp_verify/:success_url" element={<OTP_Verification_Page />} />
 
                     <Route path="/admin/home_page" element={<Admin_Home_Page />} />
                     <Route path="/admin/create_staff_record/:entity" element={<Create_Staff_Records_Page />} />

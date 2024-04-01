@@ -13,6 +13,17 @@ export const get_person_info = async (u_id) => {
     }
 };
 
+export const get_phone_number_from_uid = async (req, res) => {
+    const { u_id } = req.body;
+    const temp = await get_person_info(u_id);
+    if (temp.success_status) {
+        return res.send({ success_status: true, phone_number: temp.record.phone_number });
+    }
+    else {
+        return res.send(temp);
+    }
+};
+
 export const add_person_record = async (person_body) => {
     const new_person = new person_model(person_body);
     try {
@@ -91,7 +102,6 @@ export const change_password = async (req, res) => {
         await user_model.findOneAndUpdate({ username: username }, { password: hashed_password }, { runValidators: true });
         return res.send({ success_status: true });
     } catch (error) {
-        console.log(error);
         return res.send({ success_status: false, error_message: "Something went wrong while changing the password!" });
     }
 };

@@ -1,9 +1,8 @@
 import express from "express";
+import { send_otp } from "../api_controllers/otp_controllers.js";
+
 const otp_router = express.Router();
-import UserController from '../api_controllers/otp_controllers.js'
 
-otp_router.get('/sendOTP',UserController.sendOTP)
-otp_router.get('/verifyOTP',UserController.verifyOTP)
+otp_router.post("/sendOTP", send_otp);
 
-
-export {otp_router}
+export { otp_router };

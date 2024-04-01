@@ -8,7 +8,7 @@ export const Website_Landing_Page = () => {
     const [password, set_password] = useState('');
 
     useEffect(() => {
-        if (sessionStorage.getItem("is_authenticated")) {
+        if (sessionStorage.getItem("is_authenticated") === "true") {
             const temp = sessionStorage.getItem("user_designation");
             let page_to_naviagate = "";
             if (temp === "Doctor") {
@@ -32,8 +32,9 @@ export const Website_Landing_Page = () => {
         else {
             sessionStorage.clear();
             sessionStorage.setItem("username", "");
-            sessionStorage.setItem("is_authenticated", false);
+            sessionStorage.setItem("is_authenticated", "false");
             sessionStorage.setItem("user_designation", "");
+            sessionStorage.setItem("otp_verified", "false");
         }
     }, [])
 
@@ -51,7 +52,7 @@ export const Website_Landing_Page = () => {
         const response = await axios.post("http://localhost:3500/verify_user/", { username: username, password: password });
         if (response.data.success_status) {
             sessionStorage.setItem("username", username);
-            sessionStorage.setItem("is_authenticated", true);
+            sessionStorage.setItem("is_authenticated", "true");
             sessionStorage.setItem("user_designation", response.data.user_designation);
 
             const temp = response.data.user_designation;
@@ -91,6 +92,7 @@ export const Website_Landing_Page = () => {
 
                 <input type="submit" value="Submit" />
             </form>
+            <h2 onClick={(e) => navigator("/forgot_password/")}>Forgot Password</h2>
         </Fragment>
     );
 };
