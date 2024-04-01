@@ -29,21 +29,21 @@ export const Forgot_Password_Page = () => {
     };
 
     return (
-        <Fragment>
-            <h1>Forgot Password Page</h1>
-            <form onSubmit={handle_submit}>
-                <div>
-                    <label htmlFor="newPassword">New Password:</label>
-                    <input
-                        type="password"
-                        id="newPassword"
-                        value={newPassword}
-                        onInput={(event) => setNewPassword(event.target.value)}
-                        required
-                    />
+        <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+            <div className="card w-40">
+                <h1 className="card-header text-center">Forgot Password Page</h1>
+                <div className="card-body">
+                    <form onSubmit={handle_submit}>
+                        <div className="mb-3">
+                            <label htmlFor="newPassword" className="form-label">New Password:</label>
+                            <input type="password" className="form-control" id="newPassword" name="newPassword" value={newPassword} onInput={(event) => setNewPassword(event.target.value)} required />
+                        </div>
+                        <div className="card-footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary w-50">Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit">Submit</button>
-            </form>
-        </Fragment>
+            </div>
+        </div>
     );
 };

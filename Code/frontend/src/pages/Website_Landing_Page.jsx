@@ -1,6 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import backgroundImage from '../images/bgadmin.jpg';
+import '../styles/style.css';
 
 export const Website_Landing_Page = () => {
     const navigator = useNavigate();
@@ -81,18 +85,28 @@ export const Website_Landing_Page = () => {
     }
 
     return (
-        <Fragment>
-            <h1>Welcome to Health Flow Connect</h1>
-            <form onSubmit={handle_form_submit}>
-                <label htmlFor="username">Username:</label><br />
-                <input type="text" id="username" name="username" value={username} required onInput={handle_username_input} /><br /><br />
+        <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+            <div className="card w-40">
+                <h1 className="card-header text-center">Welcome to Health Flow Connect</h1>
+                <div className="card-body">
+                    <form onSubmit={handle_form_submit}>
+                        <div className="mb-3">
+                            <label htmlFor="username" className="form-label">Username:</label>
+                            <input type="text" className="form-control" id="username" name="username" value={username} required onInput={handle_username_input} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password:</label>
+                            <input type="password" className="form-control" id="password" name="password" value={password} required onInput={handle_password_input} />
+                        </div>
+                        <div className="card-footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary w-50">Submit</button>
+                            <button className="btn btn-link" onClick={(e) => navigator("/forgot_password/")}>Forgot Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
 
-                <label htmlFor="password">Password:</label><br />
-                <input type="password" id="password" name="password" value={password} required onInput={handle_password_input} /><br /><br />
-
-                <input type="submit" value="Submit" />
-            </form>
-            <h2 onClick={(e) => navigator("/forgot_password/")}>Forgot Password</h2>
-        </Fragment>
     );
 };
