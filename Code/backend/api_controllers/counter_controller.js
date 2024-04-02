@@ -1,4 +1,7 @@
-import { add_person_record, add_user_record, update_person_record, add_redirection_record_in_general_controller } from "./general_controller.js";
+import mongoose from "mongoose";
+import { get_person_info, add_person_record, add_user_record, update_person_record, add_redirection_record_in_general_controller } from "./general_controller.js";
+import { case_paper_model } from "../db_scripts/Models/Case_Paper_Model.js";
+import { history_model } from "../db_scripts/Models/History_Model.js";
 
 export const add_patient_record = async (req, res) => {
     const body = req.body;
@@ -9,7 +12,7 @@ export const add_patient_record = async (req, res) => {
     if (!person_add_response.success_status) {
         return res.send({ success_status: false, error_message: person_add_response.error_message });
     }
-    else{
+    else {
         return res.send({ success_status: true });
     }
 };
@@ -18,7 +21,7 @@ export const update_patient_record = async (req, res) => {
     const body = req.body;
     const to_update_body = { ...body };
     delete to_update_body["u_id"];
-    
+
     const person_update_response = await update_person_record(body.u_id, to_update_body);
     if (person_update_response.success_status) {
         return res.send({ success_status: true });
@@ -26,7 +29,7 @@ export const update_patient_record = async (req, res) => {
     else {
         return res.send({ success_status: false, error_message: "Error in updating the person!" });
     }
-    
+
 };
 
 export const add_redirection_record = async (req, res) => {
@@ -37,7 +40,145 @@ export const add_redirection_record = async (req, res) => {
     if (!redirection_add_response.success_status) {
         return res.send({ success_status: false, error_message: redirection_add_response.error_message });
     }
-    else{
+    else {
         return res.send({ success_status: true });
+    }
+};
+
+export const parse_history_record = async (history_id) => {
+    const record = await history_model.findById(history_id);
+    let fun_call = await get_person_info(record.patient_u_id);
+    const patient_basic_info = fun_call.record;
+
+    fun_call = await get_person_info(record.who_u_id);
+    const staff_basic_info = fun_call.record;
+
+    const ans = {
+        patient_u_id: record.patient_u_id,
+        patient_name: patient_basic_info.first_name + " " + patient_basic_info.middle_name + " " + patient_basic_info.last_name,
+        staff_u_id: record.who_u_id,
+        staff_name: staff_basic_info.first_name + " " + staff_basic_info.middle_name + " " + staff_basic_info.last_name,
+        staff_designation: record.who,
+        date_time: record.date_time.toString()
+    };
+
+    if (record.who === "Doctor") {
+        ans["complaints"] = record.complaints;
+        ans["general_examination"] = record.general_examination;
+        ans["lab_testing_to_be_done"] = record.lab_testing_to_be_done;
+        ans["medicines_prescribed"] = record.medicines_prescribed;
+        ans["extra_notes"] = record.extra_notes;
+    }
+
+    else if (record.who === "Lab Technician") {
+        ans["lab_report_ids"] = record.lab_report_files_id.map((value) => {
+            return value.toString();
+        });
+    }
+
+    else if (record.who === "Pharmacist") {
+        ans["medicines_given"] = record.medicines_given;
+    }
+
+    return ans;
+};
+
+export const get_all_case_papers_of_patients = async (req, res) => {
+    const { patient_u_id } = req.body;
+    try {
+        const all_records = await case_paper_model.find({ patient_u_id: patient_u_id });
+        if (all_records.length === 0) {
+            return res.send({ success_status: false, error_message: "No case papers found for this patient" });
+        }
+
+        const ans = [];
+        for (const record of all_records) {
+            const curr_history = [];
+            for (const id of record.history_id_array) {
+                const temp = await parse_history_record(id);
+                curr_history.push(temp);
+            }
+            curr_history.sort((a, b) => new Date(a.date_time) - new Date(b.date_time));
+            ans.push({ is_active: record.is_active, start_date_time: record.start_date_time, end_date_time: record.end_date_time, all_history: curr_history });
+        }
+
+        ans.sort((a, b) => new Date(a.start_date_time) - new Date(b.start_date_time));
+
+        return res.send({ success_status: true, ans: ans });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Internal Server Error!" });
+    }
+};
+
+export const create_new_case_paper = async (req, res) => {
+    const { patient_u_id } = req.body;
+    let all_prev_case_papers;
+    try {
+        all_prev_case_papers = await case_paper_model.find({ patient_u_id: patient_u_id });
+        for (const record of all_prev_case_papers) {
+            if (record.is_active === true) {
+                return res.send({ success_status: false, error_message: "Already their exist a case paper which is active." });
+            }
+        }
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while retreving the case paper records" });
+    }
+
+    try {
+        const start_date = new Date();
+        const new_case_paper = new case_paper_model({
+            patient_u_id: patient_u_id,
+            history_id_array: [],
+            start_date_time: start_date.toString(),
+            is_active: true,
+        });
+        await new_case_paper.save();
+        return res.send({ success_status: true });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while creating new case paper object" });
+    }
+};
+
+export const mark_latest_active_case_paper_inactive = async (req, res) => {
+    const { patient_u_id } = req.body;
+    try {
+        const active_case_paper = await case_paper_model.findOne({ patient_u_id: patient_u_id, is_active: true });
+        if (active_case_paper === null) {
+            return res.send({ success_status: false, error_message: "Their is no latest active case paper" });
+        }
+
+        const end_date_time = new Date();
+        active_case_paper.end_date_time = end_date_time.toString();
+        active_case_paper.is_active = false;
+
+        await active_case_paper.save();
+
+        return res.send({ success_status: true });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Some internal error happened while marking the case paper inactive" });
+    }
+};
+
+export const add_new_history_id_in_active_case_paper = async (req, res) => {
+    const { history_id_string, patient_u_id } = req.body;
+    try {
+        const active_case_paper = await case_paper_model.findOne({ patient_u_id: patient_u_id, is_active: true });
+        if (active_case_paper === null) {
+            return res.send({ success_status: false, error_message: "No active case paper found!" });
+        }
+        const history_id_mongoose_represenation = new mongoose.Types.ObjectId(history_id_string);
+
+        for (const record of active_case_paper.history_id_array) {
+            if (record.equals(history_id_mongoose_represenation)) {
+                return res.send({ success_status: false, error_message: "This history record is already added to latest active case paper" });
+            }
+        }
+
+        active_case_paper.history_id_array.push(history_id_mongoose_represenation);
+        await active_case_paper.save();
+        return res.send({ success_status: true });
+    } catch (error) {
+        console.log(error);
+        return res.send({ success_status: false, error_message: "Error while adding the history id to the case paper" });
     }
 };
