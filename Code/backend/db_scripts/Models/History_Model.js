@@ -28,8 +28,8 @@ const history_schema = {
         required: true
     },
     date_time: {
-        type: Date,
-        default: Date.now(),
+        type: String,
+        required: true
     },
 
     // For doctor
@@ -37,30 +37,13 @@ const history_schema = {
         type: [String],
     },
     general_examination: {
-        type: [{
-            property: {
-                type: String
-            },
-            value: {
-                type: String
-            }
-        }]
+        type: Object
     },
     lab_testing_to_be_done: {
         type: [String]
     },
     medicines_prescribed: {
-        type: [{
-            medicine_name: {
-                type: String,
-            },
-            when_to_take: {
-                type: String,
-            },
-            other_note: {
-                type: String
-            }
-        }]
+        type: [Object]
     },
     extra_notes: {
         type: [String]

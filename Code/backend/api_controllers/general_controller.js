@@ -7,7 +7,12 @@ import bcrypt from "bcrypt";
 export const get_person_info = async (u_id) => {
     try {
         const record = await person_model.findOne({ u_id: u_id });
-        return { success_status: true, record: record };
+        if (record) {
+            return { success_status: true, record: record };
+        }
+        else {
+            return { success_status: false, error_message: "Not found record" };
+        }
     } catch (error) {
         return { success_status: false, error_message: "Error while fetching the person record" };
     }
@@ -127,6 +132,7 @@ export const view_redirection_records = async (who_u_id, who) => {
 
 export const add_patient_history_record = async (record) => {
     const history_record = new history_model(record);
+    history_record.date_time = new Date().toString();
     try {
         await history_record.save();
         return { success_status: true };
