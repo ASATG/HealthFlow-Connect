@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import axios from "axios";
+import { useParams,useNavigate } from "react-router-dom";
 
 export const Update_Staff_Records_Page = () => {
     const [requested_uid, set_requested_uid] = useState("");
@@ -16,6 +17,11 @@ export const Update_Staff_Records_Page = () => {
     const [degree, setDegree] = useState("");
     const [specialization, setSpecialization] = useState("");
     const [labType, setLabType] = useState("");
+
+    const navigate = useNavigate();
+    const handleBack = () => {
+      navigate(-1); // Navigate back to previous page
+    };
 
     const handle_submit_1 = async (event) => {
         event.preventDefault();
@@ -87,29 +93,43 @@ export const Update_Staff_Records_Page = () => {
 
     return (
         <Fragment>
-            <h1>Update Staff Records</h1>
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+          <div
+            className="card w-50 "
+            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+          >
+            <h1 className="card-header text-center" style={{ padding: 20 }}>
+            Update Staff Records
+            </h1>
+            <div className="card-body">
+
+            
             <form onSubmit={handle_submit_1}>
-                <div>
-                    <label htmlFor="requested_uid">Enter Staff's UID:</label>
+                <div className="mb-3" style={{padding:'10px 10px 10px 10px'}}>
+                    <label htmlFor="requested_uid" className="form-label">Enter Staff's UID:</label>
                     <input
                         type="text"
                         id="requested_uid"
                         name="requested_uid"
+                        className="form-control"
                         value={requested_uid}
                         onChange={(e) => set_requested_uid(e.target.value)}
                         required
-                    />
+                        />
                 </div>
-                <button type="submit">Submit</button>
+                <div className="footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
+                            <button onClick={handleBack} className="btn btn-secondary" style={{marginRight:"10px",padding:"10px 60px 10px 60px"}}>Back</button>
+                </div>
             </form>
             {requested_uid_role && (
-                <h2>This is {requested_uid_role} record</h2>
-            )}
+                <h2 className="card-header text-center" style={{ padding: 20 }}>This is {requested_uid_role} record</h2>
+                )}
 
             {requested_uid_role === "Counter" &&
                 (<form onSubmit={handle_submit_2}>
-                    <div className="form-group">
-                        <label>First Name</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">First Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -117,20 +137,20 @@ export const Update_Staff_Records_Page = () => {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Middle Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Middle Name</label>
                         <input
                             type="text"
                             className="form-control"
                             placeholder="Enter Middle Name"
                             value={middleName}
                             onChange={(e) => setMiddleName(e.target.value)}
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Last Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -140,18 +160,18 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Date of Birth</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Date of Birth</label>
                         <input
                             type="date"
                             className="form-control"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Phone Number</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Phone Number</label>
                         <input
                             type="text"
                             className="form-control"
@@ -161,8 +181,8 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Address</label>
+                    <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
+                        <label className="form-label">Address</label>
                         <input
                             type="text"
                             className="form-control"
@@ -172,15 +192,17 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <div className="footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
+                </div>
                 </form>
                 )
             }
 
             {requested_uid_role === "Doctor" && (
                 <form onSubmit={handle_submit_2}>
-                    <div className="form-group">
-                        <label>First Name</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">First Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -188,10 +210,10 @@ export const Update_Staff_Records_Page = () => {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Middle Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Middle Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -200,8 +222,8 @@ export const Update_Staff_Records_Page = () => {
                             onChange={(e) => setMiddleName(e.target.value)}
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Last Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -211,18 +233,18 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Date of Birth</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Date of Birth</label>
                         <input
                             type="date"
                             className="form-control"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Phone Number</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Phone Number</label>
                         <input
                             type="text"
                             className="form-control"
@@ -230,10 +252,10 @@ export const Update_Staff_Records_Page = () => {
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Address</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Address</label>
                         <input
                             type="text"
                             className="form-control"
@@ -241,10 +263,10 @@ export const Update_Staff_Records_Page = () => {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>OPD</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">OPD</label>
                         <select className="form-control" value={opd} onChange={(e) => setOpd(e.target.value)} required>
                             <option value="">Select OPD</option>
                             <option value="Medicine">Medicine</option>
@@ -261,8 +283,8 @@ export const Update_Staff_Records_Page = () => {
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <label>Degree</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Degree</label>
                         <input
                             type="text"
                             className="form-control"
@@ -270,11 +292,11 @@ export const Update_Staff_Records_Page = () => {
                             value={degree}
                             onChange={(e) => setDegree(e.target.value)}
                             required
-                        />
+                            />
                     </div>
 
-                    <div className="form-group">
-                        <label>Specialization</label>
+                    <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
+                        <label className="form-label">Specialization</label>
                         <input
                             type="text"
                             className="form-control"
@@ -282,15 +304,17 @@ export const Update_Staff_Records_Page = () => {
                             value={specialization}
                             onChange={(e) => setSpecialization(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <div className="footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
+                </div>
                 </form>)}
 
             {requested_uid_role === "Lab Technician" && (
                 <form onSubmit={handle_submit_2}>
-                    <div className="form-group">
-                        <label>First Name</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">First Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -300,18 +324,18 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Middle Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Middle Name</label>
                         <input
                             type="text"
                             className="form-control"
                             placeholder="Enter Middle Name"
                             value={middleName}
                             onChange={(e) => setMiddleName(e.target.value)}
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">Last Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -319,20 +343,20 @@ export const Update_Staff_Records_Page = () => {
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Date of Birth</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">Date of Birth</label>
                         <input
                             type="date"
                             className="form-control"
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Phone Number</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Phone Number</label>
                         <input
                             type="text"
                             className="form-control"
@@ -342,8 +366,8 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Address</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Address</label>
                         <input
                             type="text"
                             className="form-control"
@@ -351,11 +375,11 @@ export const Update_Staff_Records_Page = () => {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             required
-                        />
+                            />
                     </div>
 
-                    <div className="form-group">
-                        <label>Lab Type</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Lab Type</label>
                         <select
                             className="form-control"
                             value={labType}
@@ -367,8 +391,8 @@ export const Update_Staff_Records_Page = () => {
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <label>Degree</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Degree</label>
                         <input
                             type="text"
                             className="form-control"
@@ -376,11 +400,11 @@ export const Update_Staff_Records_Page = () => {
                             value={degree}
                             onChange={(e) => setDegree(e.target.value)}
                             required
-                        />
+                            />
                     </div>
 
-                    <div className="form-group">
-                        <label>Specialization</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Specialization</label>
                         <input
                             type="text"
                             className="form-control"
@@ -388,15 +412,17 @@ export const Update_Staff_Records_Page = () => {
                             value={specialization}
                             onChange={(e) => setSpecialization(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <div className="footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
+                </div>
                 </form>)}
 
             {requested_uid_role === "Pharmacist" && (
                 <form onSubmit={handle_submit_2}>
-                    <div className="form-group">
-                        <label>First Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">First Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -404,20 +430,20 @@ export const Update_Staff_Records_Page = () => {
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Middle Name</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Middle Name</label>
                         <input
                             type="text"
                             className="form-control"
                             placeholder="Enter Middle Name"
                             value={middleName}
                             onChange={(e) => setMiddleName(e.target.value)}
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">Last Name</label>
                         <input
                             type="text"
                             className="form-control"
@@ -425,10 +451,10 @@ export const Update_Staff_Records_Page = () => {
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Date of Birth</label>
+                    <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                        <label className="form-label">Date of Birth</label>
                         <input
                             type="date"
                             className="form-control"
@@ -437,8 +463,8 @@ export const Update_Staff_Records_Page = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Phone Number</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Phone Number</label>
                         <input
                             type="text"
                             className="form-control"
@@ -446,10 +472,10 @@ export const Update_Staff_Records_Page = () => {
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <div className="form-group">
-                        <label>Address</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Address</label>
                         <input
                             type="text"
                             className="form-control"
@@ -460,8 +486,8 @@ export const Update_Staff_Records_Page = () => {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label>Degree</label>
+                    <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                        <label className="form-label">Degree</label>
                         <input
                             type="text"
                             className="form-control"
@@ -469,11 +495,11 @@ export const Update_Staff_Records_Page = () => {
                             value={degree}
                             onChange={(e) => setDegree(e.target.value)}
                             required
-                        />
+                            />
                     </div>
 
-                    <div className="form-group">
-                        <label>Specialization</label>
+                    <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
+                        <label className="form-label">Specialization</label>
                         <input
                             type="text"
                             className="form-control"
@@ -481,10 +507,15 @@ export const Update_Staff_Records_Page = () => {
                             value={specialization}
                             onChange={(e) => setSpecialization(e.target.value)}
                             required
-                        />
+                            />
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <div className="footer d-flex justify-content-between align-items-center">
+                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
+                </div>
                 </form>)}
+                            </div>
+                            </div>
+                            </div>
 
         </Fragment>
     )

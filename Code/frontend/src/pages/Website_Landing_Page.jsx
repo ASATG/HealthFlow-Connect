@@ -86,19 +86,19 @@ export const Website_Landing_Page = () => {
 
     return (
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
-            <div className="card w-40">
-                <h1 className="card-header text-center">Welcome to Health Flow Connect</h1>
+            <div className="card w-45 " style={{padding:10, borderRadius:"15px"}}>
+                <h1 className="card-header text-center" style={{padding:20}}>Welcome to Health Flow Connect</h1>
                 <div className="card-body">
                     <form onSubmit={handle_form_submit}>
-                        <div className="mb-3">
+                        <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
                             <label htmlFor="username" className="form-label">Username:</label>
                             <input type="text" className="form-control" id="username" name="username" value={username} required onInput={handle_username_input} />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
                             <label htmlFor="password" className="form-label">Password:</label>
                             <input type="password" className="form-control" id="password" name="password" value={password} required onInput={handle_password_input} />
                         </div>
-                        <div className="card-footer d-flex justify-content-between align-items-center">
+                        <div className="footer d-flex justify-content-between align-items-center">
                             <button type="submit" className="btn btn-primary w-50">Submit</button>
                             <button className="btn btn-link" onClick={(e) => navigator("/forgot_password/")}>Forgot Password</button>
                         </div>
