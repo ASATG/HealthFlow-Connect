@@ -47,9 +47,12 @@ export const add_redirection_record = async (req, res) => {
     }
 };
 
-export const see_all_redirection_records = async (req, res) => {
+export const see_patient_redirection_records = async (req, res) => {
+    const { patient_u_id } = req.body;
+    console.log("Here")
+    console.log(patient_u_id)
     try {
-        const all_records = await redirection_model.find({});
+        const all_records = await redirection_model.find({ patient_u_id: patient_u_id });
         const ans = [];
         for (const redirection_record of all_records) {
             const temp = await parse_redirection_record(redirection_record);
@@ -124,6 +127,19 @@ export const get_all_case_papers_of_patients = async (req, res) => {
         return res.send({ success_status: false, error_message: "Internal Server Error!" });
     }
 };
+
+export const get_active_case_paper_of_patient = async (req, res) => {
+    const { patient_u_id } = req.body;
+    try {
+        const all_records = await case_paper_model.find({ patient_u_id: patient_u_id, is_active: true });
+        if (all_records.length == 0){
+            return res.send({ success_status: false, error_message: "No active case Paper for Patient!" });
+        } 
+        return res.send({ success_status: true, ans: all_records[0] });
+    }catch (error) {
+        return res.send({ success_status: false, error_message: "Cannot get the case aper!" });
+    }
+}
 
 export const create_new_case_paper = async (req, res) => {
     const { patient_u_id } = req.body;

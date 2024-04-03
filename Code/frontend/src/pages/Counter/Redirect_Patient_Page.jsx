@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import axios from "axios";
-import { Personal_Info_Component } from "../../components/Personal_Info_Component.jsx";
+
 
 export const Redirect_Patient_Page = () => {
     const [patientUId, setpatientUId] = useState("");
@@ -21,6 +21,7 @@ export const Redirect_Patient_Page = () => {
             const obj = result.data.ans
             setPersonInfo(obj)
             setgotpatientdata("True")
+            console.log(personInfo)
         } else {
             window.alert(result.data.error_message);
         }
@@ -59,7 +60,7 @@ export const Redirect_Patient_Page = () => {
 
     return (
         <Fragment>
-            <h1>Update Patient Records</h1>
+            <h1>Update Patient Redirection Records</h1>
             <form onSubmit={handle_submit_1}>
                 <div>
                     <label htmlFor="requested_uid">Enter Patient's UID:</label>
@@ -72,14 +73,61 @@ export const Redirect_Patient_Page = () => {
                         required
                     />
                 </div>
-                <button type="submit">Get Record</button>
+                <button type="submit" className="btn btn-primary">Get Record</button>
             </form>
 
             {gotpatientdata === "True" &&
                 (
                     <div>
+                        <h3>Patient History</h3>
                         {personInfo.map((personInfoentry) => (
-                            <Personal_Info_Component explicit_keys_to_exclude={[]} record={personInfoentry} />
+
+                            <div className="personal-info">
+                                <h5>Record: </h5>
+                                <div>
+                                    <span>StaffUID: </span>
+                                    <span>{personInfoentry.who_u_id}</span>
+                                </div>
+                                <div>
+                                    <span>Staff: </span>
+                                    <span>{personInfoentry.who}</span>
+                                </div>
+                                <div>
+                                    <span>Date: </span>
+                                    <span>{personInfoentry.date_time}</span>
+                                </div>
+                                <div>
+                                    {personInfoentry.lab_testing_to_be_done.length != 0 && (<span>
+                                        <span>Lab_testing_to_be_done: </span>
+                                        <ol>
+                                            {
+                                                personInfoentry.lab_testing_to_be_done.map((test) => (
+                                                    <li>{test}</li>
+                                                )
+                                                )
+                                            }
+                                        </ol></span>)}
+                                </div>
+                                <div>{Object.keys(personInfoentry.medicines_prescribed).length != 0 &&
+                                    (<span><span>Medicines_prescribed: </span>
+                                        <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
+                                }
+                                </div>
+                                <div>
+                                    {personInfoentry.extra_notes.length != 0 && (<span>
+                                        <span>Extra Notes: </span>
+                                        <ol>
+                                            {
+                                                personInfoentry.extra_notes.map((note) => (
+                                                    <li>{note}</li>
+                                                )
+                                                )
+                                            }
+                                        </ol>
+                                    </span>)}
+                                </div>
+                                <p />
+                            </div>
                         ))}
                         <form onSubmit={get_staff_data}>
                             <div className="form-group">
@@ -159,6 +207,12 @@ export const Redirect_Patient_Page = () => {
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
+                )
+            }
+            {gotstaffdata === "True" &&
+                who === "Doctor" &&
+                (
+                    <button onClick={handle_submit_2} className="btn btn-primary">Submit</button>
                 )
             }
 

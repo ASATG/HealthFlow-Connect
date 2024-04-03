@@ -10,6 +10,7 @@ export const Create_Patient_Records_Page = () => {
     const [dob, setDob] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
+    const [patientAddeded, setpatientAddeded] = useState("");
 
     const handle_form_submit = async (event) => {
         event.preventDefault();
@@ -27,6 +28,19 @@ export const Create_Patient_Records_Page = () => {
         const result = await axios.post("http://localhost:3500/counter/add_patient_record/", post_data);
         if (result.data.success_status) {
             window.alert("Patient Record Added Successfully");
+            setpatientAddeded("True");
+        }
+        else {
+            window.alert(result.data.error_message);
+        }
+    }
+
+    const handle_add_case_paper = async (event) =>{
+        event.preventDefault();
+        console.log(uId)
+        const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id :  uId});
+        if (result.data.success_status) {
+            window.alert("Patient Case Paper Added Successfully");
         }
         else {
             window.alert(result.data.error_message);
@@ -127,6 +141,11 @@ export const Create_Patient_Records_Page = () => {
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+        {
+            patientAddeded === "True" && uId && (
+                <button onClick={handle_add_case_paper}>Click to Add New Case Paper</button>
+            )
+        }
     </Fragment>);
     return patient_jsx;
 }

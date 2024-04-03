@@ -21,7 +21,9 @@ export const Counter_Home_Page = () => {
                 console.error("Error fetching data:", error);
             }
         };
-
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+          }
         fetchData();
     }, []);
     return (
@@ -34,6 +36,8 @@ export const Counter_Home_Page = () => {
             <h2 onClick={(e) => navigator("/counter/create_patient_record")}>Create Patient Record</h2>
             <h2 onClick={(e) => navigator("/counter/update_patient_record")}>Update Patient Record</h2>
             <h2 onClick={(e) => navigator("/counter/redirect_patient")}>Redirect Patient</h2>
+            <h2 onClick={(e) => navigator("/counter/show_patient_redirection_record")}>Show Patient Redirection Records</h2>
+            <h2 onClick={(e) => navigator("/counter/print_case_paper")}>Print Case Paper</h2>
         </Fragment>
     );
 };
