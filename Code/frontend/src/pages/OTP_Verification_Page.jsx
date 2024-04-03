@@ -89,7 +89,7 @@ export const OTP_Verification_Page = () => {
 
   return (
     <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
-      <div className="card w-40">
+      <div className="card w-45" style={{padding:10, borderRadius:"15px"}}>
         <h2 className="card-header text-center">OTP Verification</h2>
         <div className="card-body">
           <form onSubmit={handle_submit_1} className="mb-4">

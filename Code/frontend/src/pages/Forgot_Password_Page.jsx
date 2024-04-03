@@ -30,7 +30,7 @@ export const Forgot_Password_Page = () => {
 
     return (
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
-            <div className="card w-40">
+            <div className="card w-45" style={{padding:10, borderRadius:"15px"}}>
                 <h1 className="card-header text-center">Forgot Password Page</h1>
                 <div className="card-body">
                     <form onSubmit={handle_submit}>
