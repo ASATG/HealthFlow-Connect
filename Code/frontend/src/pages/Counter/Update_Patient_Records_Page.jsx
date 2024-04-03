@@ -59,6 +59,17 @@ export const Update_Patient_Records_Page = () => {
         }
     }
 
+    const handle_add_case_paper = async (event) => {
+        event.preventDefault();
+        const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id: requested_uid });
+        if (result.data.success_status) {
+            window.alert("Patient Case Paper Added Successfully");
+        }
+        else {
+            window.alert(result.data.error_message);
+        }
+    }
+
     return (
         <Fragment>
             <h1>Update Patient Records</h1>
@@ -80,73 +91,78 @@ export const Update_Patient_Records_Page = () => {
                 <h2>This is {requested_uid_role} record</h2>
             )}
             {requested_uid_role === "Patient" &&
-                (<form onSubmit={handle_submit_2}>
-                    <div className="form-group">
-                        <label>First Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter First Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            required
-                        />
+                (
+                    <div>
+                        <button onClick={handle_add_case_paper}>Click to Add New Case Paper</button>
+
+                        <form onSubmit={handle_submit_2}>
+                            <div className="form-group">
+                                <label>First Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter First Name"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Middle Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Middle Name"
+                                    value={middleName}
+                                    onChange={(e) => setMiddleName(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Last Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Last Name"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Date of Birth</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={dob}
+                                    onChange={(e) => setDob(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Phone Number</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Phone Number"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Address</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Address"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary">Submit</button>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label>Middle Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Middle Name"
-                            value={middleName}
-                            onChange={(e) => setMiddleName(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Last Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Date of Birth</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Phone Number</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Phone Number"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Address</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Enter Address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                </form>
                 )
             }
         </Fragment>
