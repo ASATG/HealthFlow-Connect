@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
-import { get_person_info, add_person_record, add_user_record, update_person_record, add_redirection_record_in_general_controller } from "./general_controller.js";
+import { parse_history_record, parse_redirection_record, add_person_record, update_person_record, add_redirection_record_in_general_controller } from "./general_controller.js";
 import { case_paper_model } from "../db_scripts/Models/Case_Paper_Model.js";
-import { add_person_record, update_person_record, add_redirection_record_in_general_controller } from "./general_controller.js";
 import { person_model } from "../db_scripts/Models/Person_Model.js";
+import { history_model } from "../db_scripts/Models/History_Model.js";
+import { redirection_model } from "../db_scripts/Models/Redirection_Model.js";
 
 export const add_patient_record = async (req, res) => {
     const body = req.body;
@@ -46,6 +47,23 @@ export const add_redirection_record = async (req, res) => {
     }
 };
 
+export const see_all_redirection_records = async (req, res) => {
+    try {
+        const all_records = await redirection_model.find({});
+        const ans = [];
+        for (const redirection_record of all_records) {
+            const temp = await parse_redirection_record(redirection_record);
+            ans.push(temp);
+        }
+
+        ans.sort((a, b) => new Date(a.redirection_creation_date_time) - new Date(b.redirection_creation_date_time));
+
+        return res.send({ success_status: true, ans: ans });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while fetching the redirection records" });
+    }
+};
+
 export const get_patient_record_by_uid = async (req, res) => {
     const { u_id } = req.body;
     const person_result = await person_model.findOne({ u_id: u_id });
@@ -73,50 +91,12 @@ export const get_staff_list_by_role = async (req, res) => {
 export const get_patient_allhistory_by_uid = async (req, res) => {
     const { patient_u_id } = req.body;
     const patient_history = await history_model.find({ patient_u_id: patient_u_id })
-    if (patient_history){
+    if (patient_history) {
         return res.send({ success_status: true, ans: patient_history });
-    }else {
+    } else {
         return res.send({ success_status: false, error_message: "No history for this patient" });
     }
 }
-
-export const parse_history_record = async (history_id) => {
-    const record = await history_model.findById(history_id);
-    let fun_call = await get_person_info(record.patient_u_id);
-    const patient_basic_info = fun_call.record;
-
-    fun_call = await get_person_info(record.who_u_id);
-    const staff_basic_info = fun_call.record;
-
-    const ans = {
-        patient_u_id: record.patient_u_id,
-        patient_name: patient_basic_info.first_name + " " + patient_basic_info.middle_name + " " + patient_basic_info.last_name,
-        staff_u_id: record.who_u_id,
-        staff_name: staff_basic_info.first_name + " " + staff_basic_info.middle_name + " " + staff_basic_info.last_name,
-        staff_designation: record.who,
-        date_time: record.date_time.toString()
-    };
-
-    if (record.who === "Doctor") {
-        ans["complaints"] = record.complaints;
-        ans["general_examination"] = record.general_examination;
-        ans["lab_testing_to_be_done"] = record.lab_testing_to_be_done;
-        ans["medicines_prescribed"] = record.medicines_prescribed;
-        ans["extra_notes"] = record.extra_notes;
-    }
-
-    else if (record.who === "Lab Technician") {
-        ans["lab_report_ids"] = record.lab_report_files_id.map((value) => {
-            return value.toString();
-        });
-    }
-
-    else if (record.who === "Pharmacist") {
-        ans["medicines_given"] = record.medicines_given;
-    }
-
-    return ans;
-};
 
 export const get_all_case_papers_of_patients = async (req, res) => {
     const { patient_u_id } = req.body;
@@ -217,5 +197,3 @@ export const add_new_history_id_in_active_case_paper = async (req, res) => {
         return res.send({ success_status: false, error_message: "Error while adding the history id to the case paper" });
     }
 };
-
-
