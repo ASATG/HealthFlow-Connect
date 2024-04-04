@@ -152,6 +152,7 @@ export const parse_history_record = async (history_id) => {
 
 export const parse_redirection_record = async (redirection_record) => {
     const temp = {
+        redirection_record_id_string: redirection_record._id.toString(),
         redirection_creation_date_time: redirection_record.redirection_creation_date_time,
         is_redirection_served: redirection_record.is_redirection_served,
     };
@@ -200,9 +201,17 @@ export const add_redirection_record_in_general_controller = async (redirection_b
     }
 };
 
-export const view_redirection_records = async (who_u_id, who) => {
+export const view_unserved_redirection_records = async (who_u_id, who) => {
     try {
-        const result = await redirection_model.find({ who_u_id: who_u_id, who: who });
+        const response = await redirection_model.find({ who_u_id: who_u_id, who: who, is_redirection_served: false });
+        const result = [];
+        for (const item of response) {
+            const temp = await parse_redirection_record(item);
+            result.push(temp);
+        }
+
+        result.sort((a, b) => new Date(a.redirection_creation_date_time) - new Date(b.redirection_creation_date_time));
+
         return { success_status: true, result: result };
     } catch (error) {
         return { success_status: false, error_message: "Couldn't find the redirection record" };
@@ -227,8 +236,8 @@ export const add_patient_history_record = async (record) => {
     const history_record = new history_model(record);
     history_record.date_time = new Date().toString();
     try {
-        await history_record.save();
-        return { success_status: true };
+        const temp = await history_record.save();
+        return { success_status: true, new_history_record_id: temp._id.toString() };
     } catch (error) {
         console.log(error);
         return { success_status: false, error_message: "Error happened while adding in patients history" };

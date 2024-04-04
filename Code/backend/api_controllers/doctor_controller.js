@@ -1,9 +1,9 @@
-import { view_redirection_records, add_patient_history_record } from "./general_controller.js";
+import { view_unserved_redirection_records, add_patient_history_record } from "./general_controller.js";
 import { history_model } from "../db_scripts/Models/History_Model.js";
 
 export const doctor_view_redirection_records = async (req, res) => {
     const { u_id } = req.body;
-    const result = await view_redirection_records(u_id, "Doctor");
+    const result = await view_unserved_redirection_records(u_id, "Doctor");
     return res.send(result);
 };
 

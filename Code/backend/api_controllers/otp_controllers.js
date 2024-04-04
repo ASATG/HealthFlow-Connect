@@ -15,6 +15,6 @@ export const send_otp = async (req, res) => {
         const response = await new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
         return res.send({ success_status: true, otp: new_otp });
     } catch (error) {
-        return res.send({ success_status: false, error_message: "Error while generating the OTP" });
+        return res.send({ success_status: false, error_message: "Error while sending the OTP" });
     }
 };
