@@ -1,8 +1,8 @@
-import { add_patient_history_record, view_redirection_records } from "./general_controller.js";
+import { add_patient_history_record, view_unserved_redirection_records } from "./general_controller.js";
 
 export const pharmacist_view_redirection_records = async (req, res) => {
     const { u_id } = req.body;
-    const result = await view_redirection_records(u_id, "Pharmacist");
+    const result = await view_unserved_redirection_records(u_id, "Pharmacist");
     return res.send(result);
 };
 

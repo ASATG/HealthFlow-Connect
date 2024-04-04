@@ -1,7 +1,21 @@
-import { add_patient_history_record, view_redirection_records } from "./general_controller.js";
+import { get_person_info, add_patient_history_record, view_unserved_redirection_records } from "./general_controller.js";
+import { lab_technician_model } from "../db_scripts/Models/Lab_Technician_Model.js";
 import { join } from "path"
 import { gfs } from "../db_scripts/db_connect.js"
 import fs from "fs";
+
+export const get_full_lab_technician_details = async (req, res) => {
+    const { u_id } = req.body;
+    const person_response = await get_person_info(u_id);
+    if (person_response.success_status) {
+        const person_record = person_response.record;
+        const other_record = await lab_technician_model.findOne({ person_id: person_record._id });
+        return res.send({ success_status: true, ans: [person_record, other_record] });
+    }
+    else {
+        res.send(person_response);
+    }
+};
 
 export const add_patient_lab_findings = async (req, res) => {
     const record = req.body;
@@ -29,6 +43,6 @@ export const add_patient_lab_findings = async (req, res) => {
 
 export const lab_technician_view_redirection_records = async (req, res) => {
     const { u_id } = req.body;
-    const result = await view_redirection_records(u_id, "Lab Technician");
+    const result = await view_unserved_redirection_records(u_id, "Lab Technician");
     return res.send(result);
 };

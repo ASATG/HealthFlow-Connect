@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Logout_Component = () => {
@@ -9,7 +9,7 @@ export const Logout_Component = () => {
         navigate("/", { replace: true });
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         handleLogout();
     }, []);
 
