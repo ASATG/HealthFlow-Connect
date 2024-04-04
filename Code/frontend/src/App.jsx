@@ -25,6 +25,7 @@ import { Lab_Technician_Home_Page } from "./pages/Lab_Technician/Lab_Technician_
 import { Lab_Technician_Serve_Patient_Page } from "./pages/Lab_Technician/Lab_Technician_Serve_Patient_Page.jsx";
 
 import { Pharmacist_Home_Page } from "./pages/Pharmacist/Pharmacist_Home_Page.jsx";
+import { Pharmacist_Serve_Patient_Page } from "./pages/Pharmacist/Pharmacist_Serve_Patient_Page.jsx";
 
 export const App = () => {
     return (
@@ -55,6 +56,7 @@ export const App = () => {
                     <Route path="/lab_technician/serve_patient/:redirection_id" element={<Lab_Technician_Serve_Patient_Page />} />
 
                     <Route path="/pharmacist/home_page" element={<Pharmacist_Home_Page />} />
+                    <Route path="/pharmacist/serve_patient/:redirection_id" element={<Pharmacist_Serve_Patient_Page />} />
                 </Routes>
             </BrowserRouter>
         </Fragment>
