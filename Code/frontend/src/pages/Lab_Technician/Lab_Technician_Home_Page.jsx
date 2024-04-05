@@ -43,26 +43,26 @@ export const Lab_Technician_Home_Page = () => {
             const phone_number = api_call.data.phone_number;
 
             api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phone_number });
-            if (api_call.data.success_status) {
-                const backend_otp = api_call.data.otp;
-                let otp_entered = prompt(`Please enter OTP sent to patient at number ${phone_number}`, '');
-                if (otp_entered === backend_otp) {
-                    sessionStorage.setItem("otp_verified", "true")
-                    sessionStorage.setItem("patient_id", patient_id);
-                    window.alert("OTP Verification Successfull");
-                    navigator(`/lab_technician/serve_patient/${helper_id}`, { replace: false });
-                }
-                else {
-                    sessionStorage.setItem("otp_verified", "false");
-                    window.alert("OTP Verification Failed");
-                }
-            }
-            else {
-                window.alert(api_call.data.error_message);
-            }
+            // if (api_call.data.success_status) {
+            //     const backend_otp = api_call.data.otp;
+            //     let otp_entered = prompt(`Please enter OTP sent to patient at number ${phone_number}`, '');
+            //     if (otp_entered === backend_otp) {
+            //         sessionStorage.setItem("otp_verified", "true")
+            //         sessionStorage.setItem("patient_id", patient_id);
+            //         window.alert("OTP Verification Successfull");
+            //         navigator(`/lab_technician/serve_patient/${helper_id}`, { replace: false });
+            //     }
+            //     else {
+            //         sessionStorage.setItem("otp_verified", "false");
+            //         window.alert("OTP Verification Failed");
+            //     }
+            // }
+            // else {
+            //     window.alert(api_call.data.error_message);
+            // }
             
             // Code for avoiding the otp verifation for testing only 🛑
-            /* let otp_entered = prompt(`Please enter Hello`, '');
+            let otp_entered = prompt(`Please enter Hello`, '');
             if (otp_entered === "Hello") {
                 sessionStorage.setItem("otp_verified", "true")
                 sessionStorage.setItem("patient_id", patient_id);
@@ -72,7 +72,7 @@ export const Lab_Technician_Home_Page = () => {
             else {
                 sessionStorage.setItem("otp_verified", "false");
                 window.alert("OTP Verification Failed");
-            } */
+            }
         }
         else {
             window.alert(api_call.data.error_message);

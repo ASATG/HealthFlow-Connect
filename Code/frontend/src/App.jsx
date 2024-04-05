@@ -20,11 +20,15 @@ import { Show_Patient_Redirection_Record } from "./pages/Counter/Show_Patient_Re
 import { Print_Case_Paper } from "./pages/Counter/Print_Case_Paper.jsx";
 
 import { Doctor_Home_Page } from "./pages/Doctor/Doctor_Home_Page.jsx";
+import {Doctor_Serve_Patient_Page} from "./pages/Doctor/Doctor_Serve_Patient_Page.jsx"
 
 import { Lab_Technician_Home_Page } from "./pages/Lab_Technician/Lab_Technician_Home_Page.jsx";
 import { Lab_Technician_Serve_Patient_Page } from "./pages/Lab_Technician/Lab_Technician_Serve_Patient_Page.jsx";
 
 import { Pharmacist_Home_Page } from "./pages/Pharmacist/Pharmacist_Home_Page.jsx";
+
+import { Show_Patient_History } from "./pages/Doctor/Show_Patient_History.jsx";
+
 import { Pharmacist_Serve_Patient_Page } from "./pages/Pharmacist/Pharmacist_Serve_Patient_Page.jsx";
 
 export const App = () => {
@@ -50,7 +54,8 @@ export const App = () => {
                     <Route path="/counter/print_case_paper" element={<Print_Case_Paper />} />
 
                     <Route path="/doctor/home_page" element={<Doctor_Home_Page />} />
-
+                    <Route path="/doctor/serve_patient/:redirection_id"  element={<Doctor_Serve_Patient_Page/>}/>
+                    <Route path="/doctor/show_patient_history" element={<Show_Patient_History/>}/>
 
                     <Route path="/lab_technician/home_page" element={<Lab_Technician_Home_Page />} />
                     <Route path="/lab_technician/serve_patient/:redirection_id" element={<Lab_Technician_Serve_Patient_Page />} />
