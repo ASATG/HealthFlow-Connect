@@ -42,7 +42,7 @@ export const Lab_Technician_Home_Page = () => {
         if (api_call.data.success_status) {
             const phone_number = api_call.data.phone_number;
 
-            api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phone_number });
+            // api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phone_number });
             // if (api_call.data.success_status) {
             //     const backend_otp = api_call.data.otp;
             //     let otp_entered = prompt(`Please enter OTP sent to patient at number ${phone_number}`, '');
