@@ -103,6 +103,7 @@ export const get_patient_allhistory_by_uid = async (req, res) => {
 
 export const get_all_case_papers_of_patients = async (req, res) => {
     const { patient_u_id } = req.body;
+    console.log(patient_u_id);
     try {
         const all_records = await case_paper_model.find({ patient_u_id: patient_u_id });
         if (all_records.length === 0) {
@@ -124,6 +125,7 @@ export const get_all_case_papers_of_patients = async (req, res) => {
 
         return res.send({ success_status: true, ans: ans });
     } catch (error) {
+        console.log(error);
         return res.send({ success_status: false, error_message: "Internal Server Error!" });
     }
 };
