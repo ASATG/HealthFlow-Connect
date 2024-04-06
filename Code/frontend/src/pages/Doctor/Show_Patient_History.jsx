@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
@@ -7,6 +8,15 @@ export const Show_Patient_History = () => {
     const [patientUId, setpatientUId] = useState("");
     const [personInfo, setPersonInfo] = useState([]);
     const [gotpatientdata, setgotpatientdata] = useState("");
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Doctor") {
+            navigator("/", { replace: true });
+        }
+    }, []);
+
     const handle_submit_1 = async (event) => {
         event.preventDefault();
         const result = await axios.post("http://localhost:3500/counter/get_patient_allhistory_by_uid/", { patient_u_id: patientUId });
@@ -59,7 +69,7 @@ export const Show_Patient_History = () => {
                                     <span>{personInfoentry.date_time}</span>
                                 </div>
                                 <div>
-                                    {personInfoentry.complaints.length != 0 && (<span>
+                                    {personInfoentry.complaints.length !== 0 && (<span>
                                         <span>complaints: </span>
                                         <ol>
                                             {
@@ -71,11 +81,11 @@ export const Show_Patient_History = () => {
                                         </ol></span>)}
                                 </div>
                                 <div>
-                                <span><span>general_examination: </span>
+                                    <span><span>general_examination: </span>
                                         <span>{JSON.stringify(personInfoentry.general_examination)}</span></span>
                                 </div>
                                 <div>
-                                    {personInfoentry.lab_testing_to_be_done.length != 0 && (<span>
+                                    {personInfoentry.lab_testing_to_be_done.length !== 0 && (<span>
                                         <span>Lab_testing_to_be_done: </span>
                                         <ol>
                                             {
@@ -86,13 +96,13 @@ export const Show_Patient_History = () => {
                                             }
                                         </ol></span>)}
                                 </div>
-                                <div>{Object.keys(personInfoentry.medicines_prescribed).length != 0 &&
+                                <div>{Object.keys(personInfoentry.medicines_prescribed).length !== 0 &&
                                     (<span><span>Medicines_prescribed: </span>
                                         <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
                                 }
                                 </div>
                                 <div>
-                                    {personInfoentry.extra_notes.length != 0 && (<span>
+                                    {personInfoentry.extra_notes.length !== 0 && (<span>
                                         <span>Extra Notes: </span>
                                         <ol>
                                             {
@@ -105,7 +115,7 @@ export const Show_Patient_History = () => {
                                     </span>)}
                                 </div>
                                 <div>
-                                    {personInfoentry.medicines_given.length != 0 && (<span>
+                                    {personInfoentry.medicines_given.length !== 0 && (<span>
                                         <span>medicines_given: </span>
                                         <ol>
                                             {
@@ -120,7 +130,7 @@ export const Show_Patient_History = () => {
                         ))}
                     </div>
                 )
-                        }
+            }
         </Fragment>
     );
 

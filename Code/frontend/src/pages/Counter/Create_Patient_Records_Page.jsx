@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Create_Patient_Records_Page = () => {
@@ -11,6 +12,14 @@ export const Create_Patient_Records_Page = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
     const [patientAddeded, setpatientAddeded] = useState("");
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+        }
+    }, []);
 
     const handle_form_submit = async (event) => {
         event.preventDefault();
@@ -35,10 +44,10 @@ export const Create_Patient_Records_Page = () => {
         }
     }
 
-    const handle_add_case_paper = async (event) =>{
+    const handle_add_case_paper = async (event) => {
         event.preventDefault();
         console.log(uId)
-        const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id :  uId});
+        const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id: uId });
         if (result.data.success_status) {
             window.alert("Patient Case Paper Added Successfully");
         }

@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Update_Patient_Records_Page = () => {
@@ -11,6 +12,14 @@ export const Update_Patient_Records_Page = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [dob, setDob] = useState("");
     const [address, setAddress] = useState("");
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+        }
+    }, []);
 
     const handle_submit_1 = async (event) => {
         event.preventDefault();

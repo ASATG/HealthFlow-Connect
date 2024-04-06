@@ -1,9 +1,19 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Show_Patient_Redirection_Record = () => {
     const [records, setrecord] = useState([]);
     const [patientUId, setpatientUId] = useState("");
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+        }
+    }, []);
+
     const handle_submit_1 = async (event) => {
         event.preventDefault();
         console.log(patientUId);
@@ -36,7 +46,7 @@ export const Show_Patient_Redirection_Record = () => {
                 <button type="submit" className="btn btn-primary">Get Record</button>
             </form>
             {
-                records.length != 0 &&
+                records.length !== 0 &&
                 (
                     <div>
                         <h3>Redirection History</h3>
@@ -137,7 +147,7 @@ export const Show_Patient_Redirection_Record = () => {
                                     }
                                 </div>
 
-                                )} 
+                                )}
                             </div>
                         ))}
                     </div>

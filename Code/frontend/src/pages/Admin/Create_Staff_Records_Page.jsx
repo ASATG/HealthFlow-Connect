@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const Create_Staff_Records_Page = () => {
   const [uId, setUId] = useState("");
@@ -18,8 +18,15 @@ export const Create_Staff_Records_Page = () => {
   const [labType, setLabType] = useState("");
 
   const { entity } = useParams();
-  
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("user_designation") !== "Admin") {
+      navigate("/", { replace: true });
+    }
+  }, []);
+
   const handleBack = () => {
     navigate(-1); // Navigate back to previous page
   };
@@ -176,7 +183,7 @@ export const Create_Staff_Records_Page = () => {
             </h1>
             <div className="card-body">
               <form onSubmit={handle_form_submit}>
-              <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
                   <label className="form-label">Unique ID</label>
                   <input
                     type="text"
@@ -187,7 +194,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
@@ -198,7 +205,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">Middle Name</label>
                   <input
                     type="text"
@@ -208,7 +215,7 @@ export const Create_Staff_Records_Page = () => {
                     onInput={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
@@ -219,7 +226,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">Gender</label>
                   <select
                     className="form-control"
@@ -233,7 +240,7 @@ export const Create_Staff_Records_Page = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">Date of Birth</label>
                   <input
                     type="date"
@@ -243,7 +250,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
                   <label className="form-label">Phone Number</label>
                   <input
                     type="text"
@@ -254,7 +261,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
+                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
                   <label className="form-label">Address</label>
                   <input
                     type="text"
@@ -266,8 +273,8 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
-                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
-                            <button onClick={handleBack} className="btn btn-secondary" style={{marginRight:"10px",padding:"10px 60px 10px 60px"}}>Back</button>
+                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
                 </div>
               </form>
             </div>
@@ -289,154 +296,154 @@ export const Create_Staff_Records_Page = () => {
               Adding Doctor Record
             </h1>
             <div className="card-body">
-            <form onSubmit={handle_form_submit}>
-          <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
-            <label className="form-label">Unique ID</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Unique ID"
-              value={uId}
-              onInput={(e) => setUId(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter First Name"
-              value={firstName}
-              onInput={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Middle Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Middle Name"
-              value={middleName}
-              onInput={(e) => setMiddleName(e.target.value)}
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Last Name"
-              value={lastName}
-              onInput={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Gender</label>
-            <select
-              className="form-control"
-              value={gender}
-              onInput={(e) => setGender(e.target.value)}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Date of Birth</label>
-            <input
-              type="date"
-              className="form-control"
-              value={dob}
-              onInput={(e) => setDob(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Phone Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Phone Number"
-              value={phoneNumber}
-              onInput={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Address</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Address"
-              value={address}
-              onInput={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">OPD</label>
-            <select
-              className="form-control"
-              value={opd}
-              onInput={(e) => setOpd(e.target.value)}
-              required
-            >
-              <option value="">Select OPD</option>
-              <option value="Medicine">Medicine</option>
-              <option value="Surgery">Surgery</option>
-              <option value="Orthopaedics">Orthopaedics</option>
-              <option value="ENT">ENT</option>
-              <option value="Opthamology">Opthamology</option>
-              <option value="Gynaceology">Gynaceology</option>
-              <option value="Paediatry">Paediatry</option>
-              <option value="Skin">Skin</option>
-              <option value="Psychiatry">Psychiatry</option>
-              <option value="TB">TB</option>
-              <option value="Dental">Dental</option>
-            </select>
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Degree</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Degree"
-              value={degree}
-              onInput={(e) => setDegree(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
-            <label className="form-label">Specialization</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Specialization"
-              value={specialization}
-              onInput={(e) => setSpecialization(e.target.value)}
-              required
-            />
-          </div>
-          <div className="footer d-flex justify-content-between align-items-center">
-                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
-                            <button onClick={handleBack} className="btn btn-secondary" style={{marginRight:"10px",padding:"10px 60px 10px 60px"}}>Back</button>
+              <form onSubmit={handle_form_submit}>
+                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                  <label className="form-label">Unique ID</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Unique ID"
+                    value={uId}
+                    onInput={(e) => setUId(e.target.value)}
+                    required
+                  />
                 </div>
-          {/* <button type="submit" className="btn btn-primary">
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter First Name"
+                    value={firstName}
+                    onInput={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Middle Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Middle Name"
+                    value={middleName}
+                    onInput={(e) => setMiddleName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Last Name"
+                    value={lastName}
+                    onInput={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Gender</label>
+                  <select
+                    className="form-control"
+                    value={gender}
+                    onInput={(e) => setGender(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={dob}
+                    onInput={(e) => setDob(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Phone Number"
+                    value={phoneNumber}
+                    onInput={(e) => setPhoneNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Address"
+                    value={address}
+                    onInput={(e) => setAddress(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">OPD</label>
+                  <select
+                    className="form-control"
+                    value={opd}
+                    onInput={(e) => setOpd(e.target.value)}
+                    required
+                  >
+                    <option value="">Select OPD</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Surgery">Surgery</option>
+                    <option value="Orthopaedics">Orthopaedics</option>
+                    <option value="ENT">ENT</option>
+                    <option value="Opthamology">Opthamology</option>
+                    <option value="Gynaceology">Gynaceology</option>
+                    <option value="Paediatry">Paediatry</option>
+                    <option value="Skin">Skin</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="TB">TB</option>
+                    <option value="Dental">Dental</option>
+                  </select>
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Degree</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Degree"
+                    value={degree}
+                    onInput={(e) => setDegree(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                  <label className="form-label">Specialization</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Specialization"
+                    value={specialization}
+                    onInput={(e) => setSpecialization(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center">
+                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                </div>
+                {/* <button type="submit" className="btn btn-primary">
             Submit
           </button> */}
-        </form>
-        </div>
-        </div>
+              </form>
             </div>
-        
+          </div>
+        </div>
+
       </Fragment>
     );
     return doctor_jsx;
@@ -452,144 +459,144 @@ export const Create_Staff_Records_Page = () => {
               Adding Lab Technician Record
             </h1>
             <div className="card-body">
-            <form onSubmit={handle_form_submit}>
-          <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
-            <label className="form-label">Unique ID</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Unique ID"
-              value={uId}
-              onInput={(e) => setUId(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter First Name"
-              value={firstName}
-              onInput={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Middle Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Middle Name"
-              value={middleName}
-              onInput={(e) => setMiddleName(e.target.value)}
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Last Name"
-              value={lastName}
-              onInput={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Gender</label>
-            <select
-              className="form-control"
-              value={gender}
-              onInput={(e) => setGender(e.target.value)}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Date of Birth</label>
-            <input
-              type="date"
-              className="form-control"
-              value={dob}
-              onInput={(e) => setDob(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Phone Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Phone Number"
-              value={phoneNumber}
-              onInput={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Address</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Address"
-              value={address}
-              onInput={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Lab Type</label>
-            <select
-              className="form-control"
-              value={labType}
-              onChange={(e) => setLabType(e.target.value)}
-              required
-            >
-              <option value="">Select Lab Type</option>
-              <option value="Radiology">Radiology</option>
-              <option value="Pathology">Pathology</option>
-            </select>
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Degree</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Degree"
-              value={degree}
-              onInput={(e) => setDegree(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
-            <label className="form-label">Specialization</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Specialization"
-              value={specialization}
-              onInput={(e) => setSpecialization(e.target.value)}
-              required
-            />
-          </div>
-          <div className="footer d-flex justify-content-between align-items-center">
-                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
-                            <button onClick={handleBack} className="btn btn-secondary" style={{marginRight:"10px",padding:"10px 60px 10px 60px"}}>Back</button>
+              <form onSubmit={handle_form_submit}>
+                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                  <label className="form-label">Unique ID</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Unique ID"
+                    value={uId}
+                    onInput={(e) => setUId(e.target.value)}
+                    required
+                  />
                 </div>
-          {/* <button type="submit" className="btn btn-primary">
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter First Name"
+                    value={firstName}
+                    onInput={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Middle Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Middle Name"
+                    value={middleName}
+                    onInput={(e) => setMiddleName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Last Name"
+                    value={lastName}
+                    onInput={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Gender</label>
+                  <select
+                    className="form-control"
+                    value={gender}
+                    onInput={(e) => setGender(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={dob}
+                    onInput={(e) => setDob(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Phone Number"
+                    value={phoneNumber}
+                    onInput={(e) => setPhoneNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Address"
+                    value={address}
+                    onInput={(e) => setAddress(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Lab Type</label>
+                  <select
+                    className="form-control"
+                    value={labType}
+                    onChange={(e) => setLabType(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Lab Type</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Pathology">Pathology</option>
+                  </select>
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Degree</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Degree"
+                    value={degree}
+                    onInput={(e) => setDegree(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                  <label className="form-label">Specialization</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Specialization"
+                    value={specialization}
+                    onInput={(e) => setSpecialization(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center">
+                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                </div>
+                {/* <button type="submit" className="btn btn-primary">
             Submit
           </button> */}
-        </form>
+              </form>
             </div>
-        </div>
+          </div>
         </div>
       </Fragment>
     );
@@ -606,132 +613,132 @@ export const Create_Staff_Records_Page = () => {
               Adding Pharmacist Record
             </h1>
             <div className="card-body">
-            <form onSubmit={handle_form_submit}>
-          <div className="mb-3" style={{padding:'10px 10px 5px 10px'}}>
-            <label className="form-label">Unique ID</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Unique ID"
-              value={uId}
-              onInput={(e) => setUId(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter First Name"
-              value={firstName}
-              onInput={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Middle Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Middle Name"
-              value={middleName}
-              onInput={(e) => setMiddleName(e.target.value)}
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Last Name"
-              value={lastName}
-              onInput={(e) => setLastName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Gender</label>
-            <select
-              className="form-control"
-              value={gender}
-              onInput={(e) => setGender(e.target.value)}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Date of Birth</label>
-            <input
-              type="date"
-              className="form-control"
-              value={dob}
-              onInput={(e) => setDob(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Phone Number</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Phone Number"
-              value={phoneNumber}
-              onInput={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Address</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Address"
-              value={address}
-              onInput={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 5px 10px'}}>
-            <label className="form-label">Degree</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Degree"
-              value={degree}
-              onInput={(e) => setDegree(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3" style={{padding:'5px 10px 10px 10px'}}>
-            <label className="form-label">Specialization</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Specialization"
-              value={specialization}
-              onInput={(e) => setSpecialization(e.target.value)}
-              required
-            />
-          </div>
-          <div className="footer d-flex justify-content-between align-items-center">
-                            <button type="submit" className="btn btn-primary " style={{marginLeft:"10px",padding:"10px 50px 10px 50px"}}>Submit</button>
-                            <button onClick={handleBack} className="btn btn-secondary" style={{marginRight:"10px",padding:"10px 60px 10px 60px"}}>Back</button>
+              <form onSubmit={handle_form_submit}>
+                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                  <label className="form-label">Unique ID</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Unique ID"
+                    value={uId}
+                    onInput={(e) => setUId(e.target.value)}
+                    required
+                  />
                 </div>
-          {/* <button type="submit" className="btn btn-primary">
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter First Name"
+                    value={firstName}
+                    onInput={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Middle Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Middle Name"
+                    value={middleName}
+                    onInput={(e) => setMiddleName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Last Name"
+                    value={lastName}
+                    onInput={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Gender</label>
+                  <select
+                    className="form-control"
+                    value={gender}
+                    onInput={(e) => setGender(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={dob}
+                    onInput={(e) => setDob(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Phone Number</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Phone Number"
+                    value={phoneNumber}
+                    onInput={(e) => setPhoneNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Address"
+                    value={address}
+                    onInput={(e) => setAddress(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                  <label className="form-label">Degree</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Degree"
+                    value={degree}
+                    onInput={(e) => setDegree(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                  <label className="form-label">Specialization</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Specialization"
+                    value={specialization}
+                    onInput={(e) => setSpecialization(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center">
+                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                </div>
+                {/* <button type="submit" className="btn btn-primary">
             Submit
           </button> */}
-        </form>
+              </form>
             </div>
-            </div>
-            </div>
-        
+          </div>
+        </div>
+
       </Fragment>
     );
     return pharmacist_jsx;

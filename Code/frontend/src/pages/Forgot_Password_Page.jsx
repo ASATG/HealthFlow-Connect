@@ -7,6 +7,10 @@ export const Forgot_Password_Page = () => {
     const [newPassword, setNewPassword] = useState("");
 
     useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "") {
+            return navigator("/", { replace: true });
+        }
+
         if (sessionStorage.getItem("otp_verified") === "false") {
             window.alert("Please do OTP verification first");
             return navigator("/otp_verify/forgot_password", { replace: true });
@@ -30,7 +34,7 @@ export const Forgot_Password_Page = () => {
 
     return (
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
-            <div className="card w-45" style={{padding:10, borderRadius:"15px"}}>
+            <div className="card w-45" style={{ padding: 10, borderRadius: "15px" }}>
                 <h1 className="card-header text-center">Forgot Password Page</h1>
                 <div className="card-body">
                     <form onSubmit={handle_submit}>
