@@ -1,9 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Print_Case_Paper = () => {
     const [uId, setUId] = useState("");
     const [casePaper, setcasePaper] = useState({});
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+        }
+    }, []);
 
     const handle_form_submit = async (event) => {
         event.preventDefault();
@@ -19,7 +28,7 @@ export const Print_Case_Paper = () => {
     const handle_print = async (event) => {
         event.preventDefault();
         const result = await axios.post("http://localhost:3500/counter/mark_latest_active_case_paper_inactive", { patient_u_id: uId });
-        if (result.data.success_status == false) {
+        if (result.data.success_status === false) {
             window.alert(result.data.error_message);
         }
     }
@@ -42,7 +51,7 @@ export const Print_Case_Paper = () => {
                 <button type="submit">Submit</button>
             </form>
             {
-                Object.keys(casePaper).length != 0 &&
+                Object.keys(casePaper).length !== 0 &&
                 (
                     <div>
                         <h3>Patient History</h3>

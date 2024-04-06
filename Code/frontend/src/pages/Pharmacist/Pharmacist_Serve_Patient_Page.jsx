@@ -10,6 +10,10 @@ export const Pharmacist_Serve_Patient_Page = () => {
     const [medicinesgiven, setmedicinesgiven] = useState("");
 
     useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Pharmacist") {
+            naviagator("/", { replace: true });
+        }
+
         if (sessionStorage.getItem("otp_verified") === "true") {
             set_patient_uid(sessionStorage.getItem("patient_id"));
             sessionStorage.removeItem("patient_id");

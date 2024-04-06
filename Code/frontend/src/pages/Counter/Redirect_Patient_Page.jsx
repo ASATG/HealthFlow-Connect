@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
@@ -13,6 +14,14 @@ export const Redirect_Patient_Page = () => {
 
     const [personInfo, setPersonInfo] = useState([]);
     const [stafflist, setstafflist] = useState({});
+
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Counter") {
+            navigator("/", { replace: true });
+        }
+    }, []);
 
     const handle_submit_1 = async (event) => {
         event.preventDefault();
@@ -97,7 +106,7 @@ export const Redirect_Patient_Page = () => {
                                     <span>{personInfoentry.date_time}</span>
                                 </div>
                                 <div>
-                                    {personInfoentry.lab_testing_to_be_done.length != 0 && (<span>
+                                    {personInfoentry.lab_testing_to_be_done.length !== 0 && (<span>
                                         <span>Lab_testing_to_be_done: </span>
                                         <ol>
                                             {
@@ -108,13 +117,13 @@ export const Redirect_Patient_Page = () => {
                                             }
                                         </ol></span>)}
                                 </div>
-                                <div>{Object.keys(personInfoentry.medicines_prescribed).length != 0 &&
+                                <div>{Object.keys(personInfoentry.medicines_prescribed).length !== 0 &&
                                     (<span><span>Medicines_prescribed: </span>
                                         <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
                                 }
                                 </div>
                                 <div>
-                                    {personInfoentry.extra_notes.length != 0 && (<span>
+                                    {personInfoentry.extra_notes.length !== 0 && (<span>
                                         <span>Extra Notes: </span>
                                         <ol>
                                             {

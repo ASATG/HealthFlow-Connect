@@ -8,6 +8,10 @@ export const Lab_Technician_Serve_Patient_Page = () => {
     const [patient_uid, set_patient_uid] = useState("");
 
     useEffect(() => {
+        if (sessionStorage.getItem("user_designation") !== "Lab Technician") {
+            return naviagator("/", { replace: true });
+        }
+
         if (sessionStorage.getItem("otp_verified") === "true") {
             set_patient_uid(sessionStorage.getItem("patient_id"));
             sessionStorage.removeItem("patient_id");

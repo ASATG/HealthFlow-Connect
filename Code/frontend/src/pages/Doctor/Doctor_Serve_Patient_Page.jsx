@@ -14,11 +14,15 @@ export const Doctor_Serve_Patient_Page = () => {
   //   const [newMedicine, setNewMedicine] = useState('');
   //   const [newDosage, setNewDosage] = useState('');
   const [records, setrecord] = useState([]);
-    const [patientUId, setpatientUId] = useState("");
-    const [personInfo, setPersonInfo] = useState([]);
-    const [gotpatientdata, setgotpatientdata] = useState("");
+  const [patientUId, setpatientUId] = useState("");
+  const [personInfo, setPersonInfo] = useState([]);
+  const [gotpatientdata, setgotpatientdata] = useState("");
 
   useEffect(() => {
+    if (sessionStorage.getItem("user_designation") !== "Doctor") {
+      return navigator("/", { replace: true });
+    }
+
     if (sessionStorage.getItem("otp_verified") === "true") {
       set_patient_uid(sessionStorage.getItem("patient_id"));
       setpatientUId(sessionStorage.getItem("patient_id"));
@@ -38,10 +42,10 @@ export const Doctor_Serve_Patient_Page = () => {
 
   const handle_form_submit = async (event) => {
     event.preventDefault();
-    const prescriptions1=[]
+    const prescriptions1 = []
     prescriptions.map((item) => {
       if (item.medicine !== "" && item.dosage !== "" && item !== undefined) {
-        prescriptions1.push( { [item.medicine]: item.dosage });
+        prescriptions1.push({ [item.medicine]: item.dosage });
       }
     });
     const general_examination1 = {}
@@ -52,7 +56,7 @@ export const Doctor_Serve_Patient_Page = () => {
         item !== undefined
       ) {
         // return { [item.examing_object]: item.value };
-        general_examination1[item.examing_object]=item.value
+        general_examination1[item.examing_object] = item.value
       }
     });
     const post_data = {
@@ -160,33 +164,33 @@ export const Doctor_Serve_Patient_Page = () => {
     // console.log(prescriptions)
   };
 
-  const handle_history = async(event) => {
+  const handle_history = async (event) => {
     // const handle_submit_1 = async (event) => {
-        event.preventDefault();
-        const result = await axios.post("http://localhost:3500/counter/get_patient_allhistory_by_uid/", { patient_u_id: patientUId });
-        if (result.data.success_status) {
-            const obj = result.data.ans
-            setPersonInfo(obj)
-            setgotpatientdata("True")
-            console.log(personInfo)
-        } else {
-            window.alert(result.data.error_message);
-        }
+    event.preventDefault();
+    const result = await axios.post("http://localhost:3500/counter/get_patient_allhistory_by_uid/", { patient_u_id: patientUId });
+    if (result.data.success_status) {
+      const obj = result.data.ans
+      setPersonInfo(obj)
+      setgotpatientdata("True")
+      console.log(personInfo)
+    } else {
+      window.alert(result.data.error_message);
+    }
   }
 
-  const handle_lab_files = async(event) =>{
+  const handle_lab_files = async (event) => {
     event.preventDefault();
-    
-    let response=await axios.post("http://localhost:3500/doctor/get_lab_report_name_from_file_id",{
-      lab_report_file_id_string:event.target.id
+
+    let response = await axios.post("http://localhost:3500/doctor/get_lab_report_name_from_file_id", {
+      lab_report_file_id_string: event.target.id
     });
 
-    if(response.data.success_status){
-      const filename=response.data.filename;
+    if (response.data.success_status) {
+      const filename = response.data.filename;
       response = await axios.post(
         "http://localhost:3500/doctor/download_lab_report_by_file_id",
         {
-          lab_report_file_id_string:event.target.id
+          lab_report_file_id_string: event.target.id
         },
         { responseType: "blob" }
       );
@@ -200,196 +204,196 @@ export const Doctor_Serve_Patient_Page = () => {
   return (
     <Fragment>
       <h1>Redirection</h1>
-        <div className="form-group">
-          <label>Patient's Complaints</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Patient's Complaints"
-            value={complaints}
-            onInput={(e) => set_complaints(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Lab Testings to be done</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Lab Testings to be done"
-            value={lab_testing_to_be_done}
-            onInput={(e) => set_lab_testing_to_be_done(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Extra notes</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Extra notes"
-            value={extra_notes}
-            onInput={(e) => set_extra_notes(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <h2>Prescription Form</h2>
-          {prescriptions.map((prescription, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                placeholder="Medicine"
-                value={prescription.medicine}
-                onChange={(e) =>
-                  handleInputChange(index, "medicine", e.target.value)
-                }
-              />
-              <input
-                type="text"
-                placeholder="Dosage"
-                value={prescription.dosage}
-                onChange={(e) =>
-                  handleInputChange(index, "dosage", e.target.value)
-                }
-              />
-              <button onClick={() => handleRemovePrescription(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
-          <button onClick={handleAddPrescription}>Add Prescription</button>
-        </div>
-        <div>
-          <h2>General Examination Form</h2>
-          {general_examination.map((general_exam, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                placeholder="examing object"
-                value={general_exam.examing_object}
-                onChange={(e) =>
-                  handleInputChange1(index, "examing_object", e.target.value)
-                }
-              />
-              <input
-                type="text"
-                placeholder="Values"
-                value={general_exam.value}
-                onChange={(e) =>
-                  handleInputChange1(index, "value", e.target.value)
-                }
-              />
-              <button onClick={() => handleRemoveExamination(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
-          <button onClick={handleAddExamination}>Add General Examination</button>
-        </div>
-        <button onClick={handle_form_submit} className="btn btn-primary">
-          Submit
-        </button>
+      <div className="form-group">
+        <label>Patient's Complaints</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter Patient's Complaints"
+          value={complaints}
+          onInput={(e) => set_complaints(e.target.value)}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Lab Testings to be done</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter Lab Testings to be done"
+          value={lab_testing_to_be_done}
+          onInput={(e) => set_lab_testing_to_be_done(e.target.value)}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label>Extra notes</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Enter Extra notes"
+          value={extra_notes}
+          onInput={(e) => set_extra_notes(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <h2>Prescription Form</h2>
+        {prescriptions.map((prescription, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder="Medicine"
+              value={prescription.medicine}
+              onChange={(e) =>
+                handleInputChange(index, "medicine", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Dosage"
+              value={prescription.dosage}
+              onChange={(e) =>
+                handleInputChange(index, "dosage", e.target.value)
+              }
+            />
+            <button onClick={() => handleRemovePrescription(index)}>
+              Remove
+            </button>
+          </div>
+        ))}
+        <button onClick={handleAddPrescription}>Add Prescription</button>
+      </div>
+      <div>
+        <h2>General Examination Form</h2>
+        {general_examination.map((general_exam, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder="examing object"
+              value={general_exam.examing_object}
+              onChange={(e) =>
+                handleInputChange1(index, "examing_object", e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="Values"
+              value={general_exam.value}
+              onChange={(e) =>
+                handleInputChange1(index, "value", e.target.value)
+              }
+            />
+            <button onClick={() => handleRemoveExamination(index)}>
+              Remove
+            </button>
+          </div>
+        ))}
+        <button onClick={handleAddExamination}>Add General Examination</button>
+      </div>
+      <button onClick={handle_form_submit} className="btn btn-primary">
+        Submit
+      </button>
 
-        <div>
+      <div>
         <button onClick={handle_history}>Show history</button>
-        </div>
-        {gotpatientdata === "True" &&
-                (
-                    <div>
-                        <h3>Patient History</h3>
-                        {personInfo.slice().reverse().map((personInfoentry) => (
+      </div>
+      {gotpatientdata === "True" &&
+        (
+          <div>
+            <h3>Patient History</h3>
+            {personInfo.slice().reverse().map((personInfoentry) => (
 
-                            <div className="personal-info">
-                                <h5>Record: </h5>
-                                <div>
-                                    <span>StaffUID: </span>
-                                    <span>{personInfoentry.who_u_id}</span>
-                                </div>
-                                <div>
-                                    <span>Staff: </span>
-                                    <span>{personInfoentry.who}</span>
-                                </div>
-                                <div>
-                                    <span>Date: </span>
-                                    <span>{personInfoentry.date_time}</span>
-                                </div>
-                                <div>
-                                    {personInfoentry.complaints.length != 0 && (<span>
-                                        <span>complaints: </span>
-                                        <ol>
-                                            {
-                                                personInfoentry.complaints.map((test) => (
-                                                    <li>{test}</li>
-                                                )
-                                                )
-                                            }
-                                        </ol></span>)}
-                                </div>
-                                <div>
-                                <span><span>general_examination: </span>
-                                        <span>{JSON.stringify(personInfoentry.general_examination)}</span></span>
-                                </div>
-                                <div>
-                                    {personInfoentry.lab_testing_to_be_done.length != 0 && (<span>
-                                        <span>Lab_testing_to_be_done: </span>
-                                        <ol>
-                                            {
-                                                personInfoentry.lab_testing_to_be_done.map((test) => (
-                                                    <li>{test}</li>
-                                                )
-                                                )
-                                            }
-                                        </ol></span>)}
-                                </div>
-                                <div>
-                                  {/* <button onClick={handle_lab_files}>Show File</button> */}
-                                  <span>
-                                  <span>Lab Files Uploaded: </span>
-                                        <ol>
-                                            {
-                                                personInfoentry.lab_report_files_id.map((test) => (
-                                                    <li onClick={handle_lab_files} id={test.toString()}>{test}</li>
-                                                )
-                                                )
-                                            }
-                                        </ol></span>
-                                </div>
-                                <div>{Object.keys(personInfoentry.medicines_prescribed).length != 0 &&
-                                    (<span><span>Medicines_prescribed: </span>
-                                        <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
-                                }
-                                </div>
-                                <div>
-                                    {personInfoentry.extra_notes.length != 0 && (<span>
-                                        <span>Extra Notes: </span>
-                                        <ol>
-                                            {
-                                                personInfoentry.extra_notes.map((note) => (
-                                                    <li>{note}</li>
-                                                )
-                                                )
-                                            }
-                                        </ol>
-                                    </span>)}
-                                </div>
-                                <div>
-                                    {personInfoentry.medicines_given.length != 0 && (<span>
-                                        <span>medicines_given: </span>
-                                        <ol>
-                                            {
-                                                personInfoentry.medicines_given.map((test) => (
-                                                    <li>{test}</li>
-                                                )
-                                                )
-                                            }
-                                        </ol></span>)}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )
-                        }
+              <div className="personal-info">
+                <h5>Record: </h5>
+                <div>
+                  <span>StaffUID: </span>
+                  <span>{personInfoentry.who_u_id}</span>
+                </div>
+                <div>
+                  <span>Staff: </span>
+                  <span>{personInfoentry.who}</span>
+                </div>
+                <div>
+                  <span>Date: </span>
+                  <span>{personInfoentry.date_time}</span>
+                </div>
+                <div>
+                  {personInfoentry.complaints.length !== 0 && (<span>
+                    <span>complaints: </span>
+                    <ol>
+                      {
+                        personInfoentry.complaints.map((test) => (
+                          <li>{test}</li>
+                        )
+                        )
+                      }
+                    </ol></span>)}
+                </div>
+                <div>
+                  <span><span>general_examination: </span>
+                    <span>{JSON.stringify(personInfoentry.general_examination)}</span></span>
+                </div>
+                <div>
+                  {personInfoentry.lab_testing_to_be_done.length !== 0 && (<span>
+                    <span>Lab_testing_to_be_done: </span>
+                    <ol>
+                      {
+                        personInfoentry.lab_testing_to_be_done.map((test) => (
+                          <li>{test}</li>
+                        )
+                        )
+                      }
+                    </ol></span>)}
+                </div>
+                <div>
+                  {/* <button onClick={handle_lab_files}>Show File</button> */}
+                  <span>
+                    <span>Lab Files Uploaded: </span>
+                    <ol>
+                      {
+                        personInfoentry.lab_report_files_id.map((test) => (
+                          <li onClick={handle_lab_files} id={test.toString()}>{test}</li>
+                        )
+                        )
+                      }
+                    </ol></span>
+                </div>
+                <div>{Object.keys(personInfoentry.medicines_prescribed).length !== 0 &&
+                  (<span><span>Medicines_prescribed: </span>
+                    <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
+                }
+                </div>
+                <div>
+                  {personInfoentry.extra_notes.length !== 0 && (<span>
+                    <span>Extra Notes: </span>
+                    <ol>
+                      {
+                        personInfoentry.extra_notes.map((note) => (
+                          <li>{note}</li>
+                        )
+                        )
+                      }
+                    </ol>
+                  </span>)}
+                </div>
+                <div>
+                  {personInfoentry.medicines_given.length !== 0 && (<span>
+                    <span>medicines_given: </span>
+                    <ol>
+                      {
+                        personInfoentry.medicines_given.map((test) => (
+                          <li>{test}</li>
+                        )
+                        )
+                      }
+                    </ol></span>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
 
 
     </Fragment>
