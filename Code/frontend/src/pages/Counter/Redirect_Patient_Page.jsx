@@ -50,20 +50,64 @@ export const Redirect_Patient_Page = () => {
     const handle_submit_2 = async (event) => {
         event.preventDefault();
 
-        const post_data = {
-            patient_u_id: patientUId,
-            who_u_id: whoUId,
-            who: who,
-            lab_testings_to_be_done: labtestingstobedone.split(","),
-            medicines_to_be_given: medicinestobegiven.split(","),
-        };
+        let api_call1 = await axios.post("http://localhost:3500/get_phone_number_from_uid", { u_id: patientUId });
+        if (api_call1.data.success_status) {
+            const phoneNumber = api_call1.data.phone_number;
+            // let api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phoneNumber });
+            // if (api_call.data.success_status) {
+            //     const backend_otp = api_call.data.otp;
+            //     let otp_entered = prompt(`Please enter OTP sent to patient at number ${phoneNumber}`, '');
+            //     if (otp_entered === backend_otp) {
+            //         window.alert("OTP Verification Successfull");
+            //         const post_data = {
+            //             patient_u_id: patientUId,
+            //             who_u_id: whoUId,
+            //             who: who,
+            //             lab_testings_to_be_done: labtestingstobedone.split(","),
+            //             medicines_to_be_given: medicinestobegiven.split(","),
+            //         };
 
-        const result = await axios.post("http://localhost:3500/counter/add_redirection_record/", post_data);
-        if (result.data.success_status) {
-            window.alert("Redirection Record Added Successfully");
+            //         const result = await axios.post("http://localhost:3500/counter/add_redirection_record/", post_data);
+            //         if (result.data.success_status) {
+            //             window.alert("Redirection Record Added Successfully");
+            //         }
+            //         else {
+            //             window.alert(result.data.error_message);
+            //         }
+            //     }
+            //     else {
+            //         window.alert("OTP Verification Failed");
+            //     }
+            // }
+            // else {
+            //     window.alert(api_call.data.error_message);
+            // }
+
+            let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+            if (otp_entered === "Hello") {
+                window.alert("OTP Verification Successfull");
+                const post_data = {
+                    patient_u_id: patientUId,
+                    who_u_id: whoUId,
+                    who: who,
+                    lab_testings_to_be_done: labtestingstobedone.split(","),
+                    medicines_to_be_given: medicinestobegiven.split(","),
+                };
+
+                const result = await axios.post("http://localhost:3500/counter/add_redirection_record/", post_data);
+                if (result.data.success_status) {
+                    window.alert("Redirection Record Added Successfully");
+                }
+                else {
+                    window.alert(result.data.error_message);
+                }
+            }
+            else {
+                window.alert("OTP Verification Failed");
+            }
         }
         else {
-            window.alert(result.data.error_message);
+            window.alert(api_call1.data.error_message);
         }
     }
 

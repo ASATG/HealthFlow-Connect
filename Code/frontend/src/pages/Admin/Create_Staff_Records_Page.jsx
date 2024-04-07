@@ -34,140 +34,299 @@ export const Create_Staff_Records_Page = () => {
   const handle_form_submit = async (event) => {
     event.preventDefault();
 
-    if (entity === "Counter") {
-      const post_data = {
-        u_id: uId,
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        gender: gender,
-        dob: dob,
-        phone_number: phoneNumber,
-        address: address,
-        role: "Counter",
-      };
-      const result = await axios.post(
-        "http://localhost:3500/admin/add_counter_record/",
-        post_data
-      );
-      if (result.data.success_status) {
-        window.alert("Counter Record Added Successfully");
-        setUId("");
-        setFirstName("");
-        setMiddleName("");
-        setLastName("");
-        setGender("");
-        setDob("");
-        setPhoneNumber("");
-        setAddress("");
-      } else {
-        window.alert(result.data.error_message);
-      }
-    } else if (entity === "Doctor") {
-      const post_data = {
-        u_id: uId,
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        gender: gender,
-        dob: dob,
-        phone_number: phoneNumber,
-        address: address,
-        role: "Doctor",
-        opd: opd,
-        degree: degree.split(","),
-        specialization: specialization.split(","),
-        is_admin: false,
-      };
-      const result = await axios.post(
-        "http://localhost:3500/admin/add_doctor_record/",
-        post_data
-      );
-      if (result.data.success_status) {
-        window.alert("Doctor Record Added Successfully");
-        setUId("");
-        setFirstName("");
-        setMiddleName("");
-        setLastName("");
-        setGender("");
-        setDob("");
-        setPhoneNumber("");
-        setAddress("");
-        setOpd("");
-        setDegree("");
-        setSpecialization("");
-      } else {
-        window.alert(result.data.error_message);
-      }
-    } else if (entity === "Lab_Technician") {
-      const post_data = {
-        u_id: uId,
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        gender: gender,
-        dob: dob,
-        phone_number: phoneNumber,
-        address: address,
-        role: "Lab Technician",
-        lab_type: labType,
-        degree: degree.split(","),
-        specialization: specialization.split(","),
-      };
-      const result = await axios.post(
-        "http://localhost:3500/admin/add_lab_technician_record/",
-        post_data
-      );
-      if (result.data.success_status) {
-        window.alert("Lab Technician Record Added Successfully");
-        setUId("");
-        setFirstName("");
-        setMiddleName("");
-        setLastName("");
-        setGender("");
-        setDob("");
-        setPhoneNumber("");
-        setAddress("");
-        setLabType("");
-        setDegree("");
-        setSpecialization("");
-      } else {
-        window.alert(result.data.error_message);
-      }
-    } else if (entity === "Pharmacist") {
-      const post_data = {
-        u_id: uId,
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        gender: gender,
-        dob: dob,
-        phone_number: phoneNumber,
-        address: address,
-        role: "Pharmacist",
-        degree: degree.split(","),
-        specialization: specialization.split(","),
-      };
-      const result = await axios.post(
-        "http://localhost:3500/admin/add_pharmacist_record/",
-        post_data
-      );
-      if (result.data.success_status) {
-        window.alert("Pharmacist Record Added Successfully");
-        setUId("");
-        setFirstName("");
-        setMiddleName("");
-        setLastName("");
-        setGender("");
-        setDob("");
-        setPhoneNumber("");
-        setAddress("");
-        setDegree("");
-        setSpecialization("");
-      } else {
-        window.alert(result.data.error_message);
+    // let api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phoneNumber });
+    // if (api_call.data.success_status) {
+    //   const backend_otp = api_call.data.otp;
+    //   let otp_entered = prompt(`Please enter OTP sent to staff at number ${phoneNumber}`, '');
+    //   if (otp_entered === backend_otp) {
+    //     window.alert("OTP Verification Successfull");
+    //     if (entity === "Counter") {
+    //       const post_data = {
+    //         u_id: uId,
+    //         first_name: firstName,
+    //         middle_name: middleName,
+    //         last_name: lastName,
+    //         gender: gender,
+    //         dob: dob,
+    //         phone_number: phoneNumber,
+    //         address: address,
+    //         role: "Counter",
+    //       };
+    //       const result = await axios.post(
+    //         "http://localhost:3500/admin/add_counter_record/",
+    //         post_data
+    //       );
+    //       if (result.data.success_status) {
+    //         window.alert("Counter Record Added Successfully");
+    //         setUId("");
+    //         setFirstName("");
+    //         setMiddleName("");
+    //         setLastName("");
+    //         setGender("");
+    //         setDob("");
+    //         setPhoneNumber("");
+    //         setAddress("");
+    //       } else {
+    //         window.alert(result.data.error_message);
+    //       }
+    //     } else if (entity === "Doctor") {
+    //       const post_data = {
+    //         u_id: uId,
+    //         first_name: firstName,
+    //         middle_name: middleName,
+    //         last_name: lastName,
+    //         gender: gender,
+    //         dob: dob,
+    //         phone_number: phoneNumber,
+    //         address: address,
+    //         role: "Doctor",
+    //         opd: opd,
+    //         degree: degree.split(","),
+    //         specialization: specialization.split(","),
+    //         is_admin: false,
+    //       };
+    //       const result = await axios.post(
+    //         "http://localhost:3500/admin/add_doctor_record/",
+    //         post_data
+    //       );
+    //       if (result.data.success_status) {
+    //         window.alert("Doctor Record Added Successfully");
+    //         setUId("");
+    //         setFirstName("");
+    //         setMiddleName("");
+    //         setLastName("");
+    //         setGender("");
+    //         setDob("");
+    //         setPhoneNumber("");
+    //         setAddress("");
+    //         setOpd("");
+    //         setDegree("");
+    //         setSpecialization("");
+    //       } else {
+    //         window.alert(result.data.error_message);
+    //       }
+    //     } else if (entity === "Lab_Technician") {
+    //       const post_data = {
+    //         u_id: uId,
+    //         first_name: firstName,
+    //         middle_name: middleName,
+    //         last_name: lastName,
+    //         gender: gender,
+    //         dob: dob,
+    //         phone_number: phoneNumber,
+    //         address: address,
+    //         role: "Lab Technician",
+    //         lab_type: labType,
+    //         degree: degree.split(","),
+    //         specialization: specialization.split(","),
+    //       };
+    //       const result = await axios.post(
+    //         "http://localhost:3500/admin/add_lab_technician_record/",
+    //         post_data
+    //       );
+    //       if (result.data.success_status) {
+    //         window.alert("Lab Technician Record Added Successfully");
+    //         setUId("");
+    //         setFirstName("");
+    //         setMiddleName("");
+    //         setLastName("");
+    //         setGender("");
+    //         setDob("");
+    //         setPhoneNumber("");
+    //         setAddress("");
+    //         setLabType("");
+    //         setDegree("");
+    //         setSpecialization("");
+    //       } else {
+    //         window.alert(result.data.error_message);
+    //       }
+    //     } else if (entity === "Pharmacist") {
+    //       const post_data = {
+    //         u_id: uId,
+    //         first_name: firstName,
+    //         middle_name: middleName,
+    //         last_name: lastName,
+    //         gender: gender,
+    //         dob: dob,
+    //         phone_number: phoneNumber,
+    //         address: address,
+    //         role: "Pharmacist",
+    //         degree: degree.split(","),
+    //         specialization: specialization.split(","),
+    //       };
+    //       const result = await axios.post(
+    //         "http://localhost:3500/admin/add_pharmacist_record/",
+    //         post_data
+    //       );
+    //       if (result.data.success_status) {
+    //         window.alert("Pharmacist Record Added Successfully");
+    //         setUId("");
+    //         setFirstName("");
+    //         setMiddleName("");
+    //         setLastName("");
+    //         setGender("");
+    //         setDob("");
+    //         setPhoneNumber("");
+    //         setAddress("");
+    //         setDegree("");
+    //         setSpecialization("");
+    //       } else {
+    //         window.alert(result.data.error_message);
+    //       }
+    //     }
+    //   }
+    //   else {
+    //     window.alert("OTP Verification Failed");
+    //   }
+    // }
+    // else {
+    //   window.alert(api_call.data.error_message);
+    // }
+
+    // Code for avoiding the otp verifation for testing only 🛑
+    let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+    if (otp_entered === "Hello") {
+      window.alert("OTP Verification Successfull");
+      if (entity === "Counter") {
+        const post_data = {
+          u_id: uId,
+          first_name: firstName,
+          middle_name: middleName,
+          last_name: lastName,
+          gender: gender,
+          dob: dob,
+          phone_number: phoneNumber,
+          address: address,
+          role: "Counter",
+        };
+        const result = await axios.post(
+          "http://localhost:3500/admin/add_counter_record/",
+          post_data
+        );
+        if (result.data.success_status) {
+          window.alert("Counter Record Added Successfully");
+          setUId("");
+          setFirstName("");
+          setMiddleName("");
+          setLastName("");
+          setGender("");
+          setDob("");
+          setPhoneNumber("");
+          setAddress("");
+        } else {
+          window.alert(result.data.error_message);
+        }
+      } else if (entity === "Doctor") {
+        const post_data = {
+          u_id: uId,
+          first_name: firstName,
+          middle_name: middleName,
+          last_name: lastName,
+          gender: gender,
+          dob: dob,
+          phone_number: phoneNumber,
+          address: address,
+          role: "Doctor",
+          opd: opd,
+          degree: degree.split(","),
+          specialization: specialization.split(","),
+          is_admin: false,
+        };
+        const result = await axios.post(
+          "http://localhost:3500/admin/add_doctor_record/",
+          post_data
+        );
+        if (result.data.success_status) {
+          window.alert("Doctor Record Added Successfully");
+          setUId("");
+          setFirstName("");
+          setMiddleName("");
+          setLastName("");
+          setGender("");
+          setDob("");
+          setPhoneNumber("");
+          setAddress("");
+          setOpd("");
+          setDegree("");
+          setSpecialization("");
+        } else {
+          window.alert(result.data.error_message);
+        }
+      } else if (entity === "Lab_Technician") {
+        const post_data = {
+          u_id: uId,
+          first_name: firstName,
+          middle_name: middleName,
+          last_name: lastName,
+          gender: gender,
+          dob: dob,
+          phone_number: phoneNumber,
+          address: address,
+          role: "Lab Technician",
+          lab_type: labType,
+          degree: degree.split(","),
+          specialization: specialization.split(","),
+        };
+        const result = await axios.post(
+          "http://localhost:3500/admin/add_lab_technician_record/",
+          post_data
+        );
+        if (result.data.success_status) {
+          window.alert("Lab Technician Record Added Successfully");
+          setUId("");
+          setFirstName("");
+          setMiddleName("");
+          setLastName("");
+          setGender("");
+          setDob("");
+          setPhoneNumber("");
+          setAddress("");
+          setLabType("");
+          setDegree("");
+          setSpecialization("");
+        } else {
+          window.alert(result.data.error_message);
+        }
+      } else if (entity === "Pharmacist") {
+        const post_data = {
+          u_id: uId,
+          first_name: firstName,
+          middle_name: middleName,
+          last_name: lastName,
+          gender: gender,
+          dob: dob,
+          phone_number: phoneNumber,
+          address: address,
+          role: "Pharmacist",
+          degree: degree.split(","),
+          specialization: specialization.split(","),
+        };
+        const result = await axios.post(
+          "http://localhost:3500/admin/add_pharmacist_record/",
+          post_data
+        );
+        if (result.data.success_status) {
+          window.alert("Pharmacist Record Added Successfully");
+          setUId("");
+          setFirstName("");
+          setMiddleName("");
+          setLastName("");
+          setGender("");
+          setDob("");
+          setPhoneNumber("");
+          setAddress("");
+          setDegree("");
+          setSpecialization("");
+        } else {
+          window.alert(result.data.error_message);
+        }
       }
     }
+    else {
+      window.alert("OTP Verification Failed");
+    }
+
+
   };
 
   if (entity === "Counter") {
