@@ -18,6 +18,8 @@ export const Doctor_Serve_Patient_Page = () => {
   const [personInfo, setPersonInfo] = useState([]);
   const [gotpatientdata, setgotpatientdata] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (sessionStorage.getItem("user_designation") !== "Doctor") {
       return navigator("/", { replace: true });
@@ -34,21 +36,32 @@ export const Doctor_Serve_Patient_Page = () => {
     }
   }, []);
 
+  const handleBack = () => {
+    navigate(-1); // Navigate back to previous page
+  };
+
   const handle_redirection_serve_btn = async (event) => {
     event.preventDefault();
     // const helper_id = event.target.id;
-    navigator(`/doctor/show_patient_hist/${patient_uid}`)
-  }
+    navigator(`/doctor/show_patient_hist/${patient_uid}`);
+  };
 
+  useEffect(() => {
+    if (gotpatientdata === "True") {
+      const targetDiv = document.getElementById('scroll');
+      targetDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [gotpatientdata]);
+  
   const handle_form_submit = async (event) => {
     event.preventDefault();
-    const prescriptions1 = []
+    const prescriptions1 = [];
     prescriptions.map((item) => {
       if (item.medicine !== "" && item.dosage !== "" && item !== undefined) {
         prescriptions1.push({ [item.medicine]: item.dosage });
       }
     });
-    const general_examination1 = {}
+    const general_examination1 = {};
     general_examination.map((item) => {
       if (
         item.examing_object !== "" &&
@@ -56,7 +69,7 @@ export const Doctor_Serve_Patient_Page = () => {
         item !== undefined
       ) {
         // return { [item.examing_object]: item.value };
-        general_examination1[item.examing_object] = item.value
+        general_examination1[item.examing_object] = item.value;
       }
     });
     const post_data = {
@@ -110,6 +123,11 @@ export const Doctor_Serve_Patient_Page = () => {
 
         if (api_response.data.success_status) {
           window.alert("Patient History Record Added successfully");
+          set_complaints("");
+          set_lab_testing_to_be_done("");
+          set_extra_notes("");
+          setPrescriptions([]);
+          set_general_examination([]);
         } else {
           window.alert(api_response.data.error_message);
         }
@@ -167,30 +185,36 @@ export const Doctor_Serve_Patient_Page = () => {
   const handle_history = async (event) => {
     // const handle_submit_1 = async (event) => {
     event.preventDefault();
-    const result = await axios.post("http://localhost:3500/counter/get_patient_allhistory_by_uid/", { patient_u_id: patientUId });
+    const result = await axios.post(
+      "http://localhost:3500/counter/get_patient_allhistory_by_uid/",
+      { patient_u_id: patientUId }
+    );
     if (result.data.success_status) {
-      const obj = result.data.ans
-      setPersonInfo(obj)
-      setgotpatientdata("True")
-      console.log(personInfo)
+      const obj = result.data.ans;
+      setPersonInfo(obj);
+      setgotpatientdata("True");
+      console.log(personInfo);
     } else {
       window.alert(result.data.error_message);
     }
-  }
+  };
 
   const handle_lab_files = async (event) => {
     event.preventDefault();
 
-    let response = await axios.post("http://localhost:3500/doctor/get_lab_report_name_from_file_id", {
-      lab_report_file_id_string: event.target.id
-    });
+    let response = await axios.post(
+      "http://localhost:3500/doctor/get_lab_report_name_from_file_id",
+      {
+        lab_report_file_id_string: event.target.id,
+      }
+    );
 
     if (response.data.success_status) {
       const filename = response.data.filename;
       response = await axios.post(
         "http://localhost:3500/doctor/download_lab_report_by_file_id",
         {
-          lab_report_file_id_string: event.target.id
+          lab_report_file_id_string: event.target.id,
         },
         { responseType: "blob" }
       );
@@ -199,203 +223,316 @@ export const Doctor_Serve_Patient_Page = () => {
       link.download = filename;
       link.click();
     }
-  }
+  };
 
   return (
     <Fragment>
-      <h1>Redirection</h1>
-      <div className="form-group">
-        <label>Patient's Complaints</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter Patient's Complaints"
-          value={complaints}
-          onInput={(e) => set_complaints(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label>Lab Testings to be done</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter Lab Testings to be done"
-          value={lab_testing_to_be_done}
-          onInput={(e) => set_lab_testing_to_be_done(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label>Extra notes</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter Extra notes"
-          value={extra_notes}
-          onInput={(e) => set_extra_notes(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <h2>Prescription Form</h2>
-        {prescriptions.map((prescription, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              placeholder="Medicine"
-              value={prescription.medicine}
-              onChange={(e) =>
-                handleInputChange(index, "medicine", e.target.value)
-              }
-            />
-            <input
-              type="text"
-              placeholder="Dosage"
-              value={prescription.dosage}
-              onChange={(e) =>
-                handleInputChange(index, "dosage", e.target.value)
-              }
-            />
-            <button onClick={() => handleRemovePrescription(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
-        <button onClick={handleAddPrescription}>Add Prescription</button>
-      </div>
-      <div>
-        <h2>General Examination Form</h2>
-        {general_examination.map((general_exam, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              placeholder="examing object"
-              value={general_exam.examing_object}
-              onChange={(e) =>
-                handleInputChange1(index, "examing_object", e.target.value)
-              }
-            />
-            <input
-              type="text"
-              placeholder="Values"
-              value={general_exam.value}
-              onChange={(e) =>
-                handleInputChange1(index, "value", e.target.value)
-              }
-            />
-            <button onClick={() => handleRemoveExamination(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
-        <button onClick={handleAddExamination}>Add General Examination</button>
-      </div>
-      <button onClick={handle_form_submit} className="btn btn-primary">
-        Submit
-      </button>
+      <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page serve-container">
+        <div
+          className="card w-50 "
+          style={{
+            padding: 10,
+            borderRadius: "15px",
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
+        >
+          {/* <h1>Redirection</h1> */}
+          <h1 className="card-header text-center" style={{ padding: 20 }}>
+            Add patient's medical information
+          </h1>
+          <div className="card-body">
+            <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
+              <label className="form-label">Patient's Complaints</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Patient's Complaints"
+                value={complaints}
+                onInput={(e) => set_complaints(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3" style={{ padding: "5px 10px 10px 10px" }}>
+              <h2>General Examination Form</h2>
+              {general_examination.map((general_exam, index) => (
+                <div
+                  key={index}
+                  className="prescribe"
+                  style={{ padding: "10px 10px 10px 10px" }}
+                >
+                  <input
+                    type="text"
+                    placeholder="examing object"
+                    value={general_exam.examing_object}
+                    onChange={(e) =>
+                      handleInputChange1(
+                        index,
+                        "examing_object",
+                        e.target.value
+                      )
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Values"
+                    value={general_exam.value}
+                    onChange={(e) =>
+                      handleInputChange1(index, "value", e.target.value)
+                    }
+                  />
+                  <button
+                    onClick={() => handleRemoveExamination(index)}
+                    className="btn btn-danger "
+                    style={{ marginLeft: "10px", padding: "5px 40px 5px 40px" }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={handleAddExamination}
+                className="btn btn-primary"
+                style={{ padding: "10px" }}
+              >
+                Add General Examination
+              </button>
+            </div>
+            <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
+              <label className="form-label">Lab Testings to be done</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Lab Testings to be done"
+                value={lab_testing_to_be_done}
+                onInput={(e) => set_lab_testing_to_be_done(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
+              <label className="form-label">Extra notes</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Extra notes"
+                value={extra_notes}
+                onInput={(e) => set_extra_notes(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
+              <h2>Prescription Form</h2>
+              {prescriptions.map((prescription, index) => (
+                <div
+                  key={index}
+                  className="prescribe"
+                  style={{ padding: "10px 10px 10px 10px" }}
+                >
+                  <input
+                    type="text"
+                    // className="form-control"
+                    placeholder="Medicine"
+                    value={prescription.medicine}
+                    onChange={(e) =>
+                      handleInputChange(index, "medicine", e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    // className="form-control"
+                    placeholder="Dosage"
+                    value={prescription.dosage}
+                    onChange={(e) =>
+                      handleInputChange(index, "dosage", e.target.value)
+                    }
+                  />
+                  <button
+                    onClick={() => handleRemovePrescription(index)}
+                    className="btn btn-danger "
+                    style={{ marginLeft: "10px", padding: "5px 40px 5px 40px" }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={handleAddPrescription}
+                className="btn btn-primary"
+                style={{ padding: "10px 40px 10px 40px" }}
+              >
+                Add Prescription
+              </button>
+            </div>
+            
+            <div className="footer d-flex justify-content-between align-items-center">
+              <button
+                type="submit"
+                className="btn btn-primary "
+                onClick={handle_form_submit}
+                style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}
+              >
+                Submit
+              </button>
+              <button
+                onClick={handleBack}
+                className="btn btn-secondary"
+                style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}
+              >
+                Back
+              </button>
+            </div>
 
-      <div>
-        <button onClick={handle_history}>Show history</button>
-      </div>
-      {gotpatientdata === "True" &&
-        (
-          <div>
-            <h3>Patient History</h3>
-            {personInfo.slice().reverse().map((personInfoentry) => (
-
-              <div className="personal-info">
-                <h5>Record: </h5>
-                <div>
-                  <span>StaffUID: </span>
-                  <span>{personInfoentry.who_u_id}</span>
+            <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
+              <button onClick={handle_history} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Show history</button>
+            </div>
+            <hr />
+            {gotpatientdata === "True" && (
+              <div className="served-patients_dsp" id="scroll">
+                <p className="p_doctor_dsp">Patient History</p>
+                <div className="records-container_dsp">
+                  {personInfo
+                    .slice()
+                    .reverse()
+                    .map((personInfoentry) => (
+                      <div className="personal-info_dsp">
+                        <h5 style={{marginBottom:"15px"}}><b>RECORD: </b></h5>
+                        <div class="form-group">
+                          <p>Date: </p>
+                          <span style={{marginBottom:"10px"}}>{personInfoentry.date_time}</span>
+                        </div>
+                        <div class="form-group">
+                          <p>StaffUID: </p>
+                          <span style={{marginBottom:"10px"}}>{personInfoentry.who_u_id}</span>
+                        </div>
+                        <div class="form-group">
+                          <p>Staff: </p>
+                          <span style={{marginBottom:"10px"}}>{personInfoentry.who}</span>
+                        </div>
+                        
+                        <div class="form-group">
+                          {personInfoentry.complaints.length !== 0 && (
+                            <span style={{marginBottom:"10px"}}>
+                              <p>Complaints: </p>
+                              <ol>
+                                {personInfoentry.complaints.map((test) => (
+                                  <li>{test}</li>
+                                ))}
+                              </ol>
+                            </span>
+                          )}
+                        </div>
+                        <div class="form-group">
+                          <p>General Examination</p>
+                          {personInfoentry.general_examination ? (
+                            <ol>
+                              {Object.entries(
+                                personInfoentry.general_examination
+                              ).map(([key, value]) => (
+                                <li key={key}>
+                                  <strong>{key}:</strong> {value}
+                                </li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <p>No general examination data available</p>
+                          )}
+                        </div >
+                        <div class="form-group">
+                          {personInfoentry.lab_testing_to_be_done.length !==
+                            0 && (
+                            <span>
+                              <p>Lab_testing_to_be_done: </p>
+                              <ol>
+                                {personInfoentry.lab_testing_to_be_done.map(
+                                  (test) => (
+                                    <li>{test}</li>
+                                  )
+                                )}
+                              </ol>
+                            </span>
+                          )}
+                        </div>
+                        <div class="form-group">
+                          {/* <button onClick={handle_lab_files}>Show File</button> */}
+                          <span>
+                            <p>Lab Files Uploaded: </p>
+                            <ol>
+                              {personInfoentry.lab_report_files_id.map(
+                                (test) => (
+                                  <li
+                                    onClick={handle_lab_files}
+                                    id={test.toString()}
+                                  >
+                                    {test}
+                                  </li>
+                                )
+                              )}
+                            </ol>
+                          </span>
+                        </div>
+                        <div class="form-group">
+                          <p>Medicines Prescribed</p>
+                          <ol>
+                            {personInfoentry.medicines_prescribed.map(
+                              (medicine, index) => (
+                                <li key={index}>
+                                  <ul>
+                                    {Object.entries(medicine).map(
+                                      ([key, value]) => (
+                                        <li
+                                          key={key}
+                                          style={{ listStyleType: "none" }}
+                                        >
+                                          <strong>{key}:</strong> {value}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </li>
+                              )
+                            )}
+                          </ol>
+                        </div>
+                        <div class="form-group">
+                          {personInfoentry.extra_notes.length !== 0 && (
+                            <span style={{marginBottom:"10px"}}>
+                              <p>Extra Notes: </p>
+                              <ol>
+                                {personInfoentry.extra_notes.map((note) => (
+                                  <li>{note}</li>
+                                ))}
+                              </ol>
+                            </span>
+                          )}
+                        </div>
+                        <div class="form-group">
+                          {personInfoentry.medicines_given.length !== 0 && (
+                            <span>
+                              <span style={{marginBottom:"10px"}}>medicines_given: </span>
+                              <ol>
+                                {personInfoentry.medicines_given.map((test) => (
+                                  <li>{test}</li>
+                                ))}
+                              </ol>
+                            </span>
+                          )}
+                        </div>
+                        <hr />
+                      </div>
+                    ))}
                 </div>
-                <div>
-                  <span>Staff: </span>
-                  <span>{personInfoentry.who}</span>
-                </div>
-                <div>
-                  <span>Date: </span>
-                  <span>{personInfoentry.date_time}</span>
-                </div>
-                <div>
-                  {personInfoentry.complaints.length !== 0 && (<span>
-                    <span>complaints: </span>
-                    <ol>
-                      {
-                        personInfoentry.complaints.map((test) => (
-                          <li>{test}</li>
-                        )
-                        )
-                      }
-                    </ol></span>)}
-                </div>
-                <div>
-                  <span><span>general_examination: </span>
-                    <span>{JSON.stringify(personInfoentry.general_examination)}</span></span>
-                </div>
-                <div>
-                  {personInfoentry.lab_testing_to_be_done.length !== 0 && (<span>
-                    <span>Lab_testing_to_be_done: </span>
-                    <ol>
-                      {
-                        personInfoentry.lab_testing_to_be_done.map((test) => (
-                          <li>{test}</li>
-                        )
-                        )
-                      }
-                    </ol></span>)}
-                </div>
-                <div>
-                  {/* <button onClick={handle_lab_files}>Show File</button> */}
-                  <span>
-                    <span>Lab Files Uploaded: </span>
-                    <ol>
-                      {
-                        personInfoentry.lab_report_files_id.map((test) => (
-                          <li onClick={handle_lab_files} id={test.toString()}>{test}</li>
-                        )
-                        )
-                      }
-                    </ol></span>
-                </div>
-                <div>{Object.keys(personInfoentry.medicines_prescribed).length !== 0 &&
-                  (<span><span>Medicines_prescribed: </span>
-                    <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
-                }
-                </div>
-                <div>
-                  {personInfoentry.extra_notes.length !== 0 && (<span>
-                    <span>Extra Notes: </span>
-                    <ol>
-                      {
-                        personInfoentry.extra_notes.map((note) => (
-                          <li>{note}</li>
-                        )
-                        )
-                      }
-                    </ol>
-                  </span>)}
-                </div>
-                <div>
-                  {personInfoentry.medicines_given.length !== 0 && (<span>
-                    <span>medicines_given: </span>
-                    <ol>
-                      {
-                        personInfoentry.medicines_given.map((test) => (
-                          <li>{test}</li>
-                        )
-                        )
-                      }
-                    </ol></span>)}
-                </div>
+                <button
+                onClick={handleBack}
+                className="btn btn-secondary"
+                style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}
+              >
+                Back
+              </button>
               </div>
-            ))}
+            )}
           </div>
-        )
-      }
-
-
+        </div>
+      </div>
     </Fragment>
   );
 };
