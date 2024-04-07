@@ -81,6 +81,7 @@
 }
 .main-container{
   font-size: 20px;
+  overflow-y: scroll;
 }
 
 .home-container .main-container {
@@ -129,4 +130,350 @@ text-align: left;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
+}
+
+/* Doctor home page: */
+
+.doctor-home-container{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: url('../images/bgadmin.jpg');
+  background-repeat: no-repeat;
+  backdrop-filter: blur(5px);
+  background-size: cover;
+}
+
+.doctor-home-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white overlay */
+  backdrop-filter: blur(5px); /* Apply blur effect to the background image */
+}
+
+.doctor-home-container h1{
+  font-size: 35px;
+  font-weight: 700;
+  padding: 15px 0;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.doctor-home-container div{
+  display: flex;
+  align-items: space-between;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.doctor-home-container .sidebar{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 10px;
+  width: 20vw;
+  height: 80vh;
+  margin-right: 40px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.doctor-home-container .sidebar p{
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.doctor-home-container .sidebar ul li{
+  list-style: none;
+  margin: 15px 0;
+  cursor: pointer;
+  /* border: 1px solid black; */
+  padding: 5px 10px;
+}
+
+.doctor-home-container .main-container{
+  font-size: 20px;
+}
+
+.doctor-home-container .main-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 60vw;
+  height: 80vh;
+  border: 1px solid black;
+  padding: 0 15%;
+  background-color: white;
+  border-radius: 15px;
+}
+
+
+.doctor-home-container .main-container .personal-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+  background-color: white;
+  border-radius: 15px;
+}
+
+
+.doctor-home-container .personal-info div{
+display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+.doctor-home-container .main-container div p{
+min-width: 120px;
+text-align: left;
+text-align: left;
+}
+
+.doctor-home-container .main-container .personal-info1 div{
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+.doctor-home-container .sidebar-doctor{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 10px;
+  width: 30vw;
+  height: 80vh;
+  margin-right: 40px;
+  background-color: white;
+  border-radius: 15px;
+  overflow-y: scroll;
+}
+
+.doctor-home-container .served-patients{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.served-patients div{
+  display: flex;
+  align-items: left;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+  /* overflow-y: scroll;
+  overflow-x: scroll; */
+}
+.doctor-home-container .sidebar-doctor div{
+  font-size: 22px;
+}
+
+.doctor-home-container .sidebar-doctor ul li{
+  list-style: none;
+  margin: 15px 0;
+  cursor: pointer;
+  /* border: 1px solid black; */
+  padding: 5px 10px;
+}
+
+.doctor-home-container .records-container{
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+}
+/* .served-patients{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 10px;
+  width: 30vw;
+  height: 80vh;
+  margin-right: 40px;
+  background-color: white;
+  border-radius: 15px;
+} */
+
+.p_doctor{
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.btn1 {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition-duration: 0.4s;
+}
+
+.btn1:hover {
+  background-color: #45a049; /* Darker Green */
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.content {
+  width: 80vw;
+}
+
+.logout-button {
+  position: absolute;
+  top: 2%;
+  right: 3.5%;
+  background-color: red; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition-duration: 0.4s;
+}
+
+.prescribe{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
+.serve-container .personal-info div p{
+  font-weight: 700;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+@media (max-width:800px) {
+  .content{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+
+  .logout-button{
+    position: static;
+  }
+}
+
+.served-patients_dsp {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* .served-patients_dsp div{
+  display: flex;
+  align-items: left;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+  /* overflow-y: scroll;
+  overflow-x: scroll; */
+/* }  */
+
+.p_doctor_dsp {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.records-container_dsp {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.personal-info_dsp {
+  margin-bottom: 30px;
+}
+
+.personal-info_dsp > div {
+  margin-bottom: 10px;
+}
+
+.personal-info_dsp h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.personal-info_dsp ol {
+  padding-left: 20px;
+}
+
+.personal-info_dsp li {
+  margin-bottom: 5px;
+}
+
+.personal-info_dsp .form-group p {
+  font-weight: bold;
+}
+
+.personal-info_dsp span {
+  display: block;
+}
+
+.personal-info_dsp span > ol > li {
+  margin-bottom: 3px;
+  /* list-style-type: none; */
+  /* margin-left: -15px; */
+  padding-left: 0;
+  position: relative;
+}
+
+.personal-info_dsp > .form-group > ol > li > ul {
+  padding-left: 0px;
+}
+.personal-info span > ol > li:before {
+  content: "•";
+  color: #666;
+  font-size: 14px;
+  position: absolute;
+  /* left: -15px; */
+}
+
+.personal-info_dsp{
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  flex-direction: column;
+} 
+.records-container_dsp{
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
 }
