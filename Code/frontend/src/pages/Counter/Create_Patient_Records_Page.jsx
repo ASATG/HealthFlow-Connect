@@ -23,36 +23,113 @@ export const Create_Patient_Records_Page = () => {
 
     const handle_form_submit = async (event) => {
         event.preventDefault();
-        const post_data = {
-            u_id: uId,
-            first_name: firstName,
-            middle_name: middleName,
-            last_name: lastName,
-            gender: gender,
-            dob: dob,
-            phone_number: phoneNumber,
-            address: address,
-            role: "Patient"
-        };
-        const result = await axios.post("http://localhost:3500/counter/add_patient_record/", post_data);
-        if (result.data.success_status) {
-            window.alert("Patient Record Added Successfully");
-            setpatientAddeded("True");
+
+        // let api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phoneNumber });
+        // if (api_call.data.success_status) {
+        //     const backend_otp = api_call.data.otp;
+        //     let otp_entered = prompt(`Please enter OTP sent to patient at number ${phoneNumber}`, '');
+        //     if (otp_entered === backend_otp) {
+        //         window.alert("OTP Verification Successfull");
+        //         const post_data = {
+        //             u_id: uId,
+        //             first_name: firstName,
+        //             middle_name: middleName,
+        //             last_name: lastName,
+        //             gender: gender,
+        //             dob: dob,
+        //             phone_number: phoneNumber,
+        //             address: address,
+        //             role: "Patient"
+        //         };
+        //         const result = await axios.post("http://localhost:3500/counter/add_patient_record/", post_data);
+        //         if (result.data.success_status) {
+        //             window.alert("Patient Record Added Successfully");
+        //             setpatientAddeded("True");
+        //         }
+        //         else {
+        //             window.alert(result.data.error_message);
+        //         }
+        //     }
+        //     else {
+        //         window.alert("OTP Verification Failed");
+        //     }
+        // }
+        // else {
+        //     window.alert(api_call.data.error_message);
+        // }
+
+        // Code for avoiding the otp verifation for testing only 🛑
+        let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+        if (otp_entered === "Hello") {
+            window.alert("OTP Verification Successfull");
+            const post_data = {
+                u_id: uId,
+                first_name: firstName,
+                middle_name: middleName,
+                last_name: lastName,
+                gender: gender,
+                dob: dob,
+                phone_number: phoneNumber,
+                address: address,
+                role: "Patient"
+            };
+            const result = await axios.post("http://localhost:3500/counter/add_patient_record/", post_data);
+            if (result.data.success_status) {
+                window.alert("Patient Record Added Successfully");
+                setpatientAddeded("True");
+            }
+            else {
+                window.alert(result.data.error_message);
+            }
         }
         else {
-            window.alert(result.data.error_message);
+            window.alert("OTP Verification Failed");
         }
+
+
+
     }
 
     const handle_add_case_paper = async (event) => {
         event.preventDefault();
-        console.log(uId)
-        const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id: uId });
-        if (result.data.success_status) {
-            window.alert("Patient Case Paper Added Successfully");
+
+        // let api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber: phoneNumber });
+        // if (api_call.data.success_status) {
+        //     const backend_otp = api_call.data.otp;
+        //     let otp_entered = prompt(`Please enter OTP sent to patient at number ${phoneNumber}`, '');
+        //     if (otp_entered === backend_otp) {
+        //         window.alert("OTP Verification Successfull");
+        //         console.log(uId)
+        //         const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id: uId });
+        //         if (result.data.success_status) {
+        //             window.alert("Patient Case Paper Added Successfully");
+        //         }
+        //         else {
+        //             window.alert(result.data.error_message);
+        //         }
+        //     }
+        //     else {
+        //         window.alert("OTP Verification Failed");
+        //     }
+        // }
+        // else {
+        //     window.alert(api_call.data.error_message);
+        // }
+
+        let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+        if (otp_entered === "Hello") {
+            window.alert("OTP Verification Successfull");
+            console.log(uId)
+            const result = await axios.post("http://localhost:3500/counter/create_new_case_paper", { patient_u_id: uId });
+            if (result.data.success_status) {
+                window.alert("Patient Case Paper Added Successfully");
+            }
+            else {
+                window.alert(result.data.error_message);
+            }
         }
         else {
-            window.alert(result.data.error_message);
+            window.alert("OTP Verification Failed");
         }
     }
 

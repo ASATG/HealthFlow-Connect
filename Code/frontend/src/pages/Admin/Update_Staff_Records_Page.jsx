@@ -73,27 +73,73 @@ export const Update_Staff_Records_Page = () => {
 
     const handle_submit_2 = async (event) => {
         event.preventDefault();
-        const post_data = {
-            u_id: requested_uid,
-            first_name: firstName,
-            middle_name: middleName,
-            last_name: lastName,
-            dob: dob,
-            phone_number: phoneNumber,
-            address: address,
-            role: requested_uid_role,
-            opd: opd,
-            degree: degree.split(","),
-            specialization: specialization.split(","),
-            lab_type: labType
-        };
 
-        const result = await axios.post("http://localhost:3500/admin/update_staff_record/", post_data);
-        if (result.data.success_status) {
-            window.alert(`${requested_uid_role} record Updated successfully`);
+        // let api_call = await axios.post("http://localhost:3500/otp/sendOTP", { phoneNumber });
+        // if (api_call.data.success_status) {
+        //     const backend_otp = api_call.data.otp;
+        //     let otp_entered = prompt(`Please enter OTP sent to staff at number ${phoneNumber}`, '');
+        //     if (otp_entered === backend_otp) {
+        //         window.alert("OTP Verification Successfull");
+        //         const post_data = {
+        //             u_id: requested_uid,
+        //             first_name: firstName,
+        //             middle_name: middleName,
+        //             last_name: lastName,
+        //             dob: dob,
+        //             phone_number: phoneNumber,
+        //             address: address,
+        //             role: requested_uid_role,
+        //             opd: opd,
+        //             degree: degree.split(","),
+        //             specialization: specialization.split(","),
+        //             lab_type: labType
+        //         };
+
+        //         const result = await axios.post("http://localhost:3500/admin/update_staff_record/", post_data);
+        //         if (result.data.success_status) {
+        //             window.alert(`${requested_uid_role} record Updated successfully`);
+        //         }
+        //         else {
+        //             window.alert(result.data.error_message);
+        //         }
+        //     }
+        //     else {
+        //         window.alert("OTP Verification Failed");
+        //     }
+        // }
+        // else {
+        //     window.alert(api_call.data.error_message);
+        // }
+
+        // Code for avoiding the otp verifation for testing only 🛑
+        let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+        if (otp_entered === "Hello") {
+            window.alert("OTP Verification Successfull");
+            const post_data = {
+                u_id: requested_uid,
+                first_name: firstName,
+                middle_name: middleName,
+                last_name: lastName,
+                dob: dob,
+                phone_number: phoneNumber,
+                address: address,
+                role: requested_uid_role,
+                opd: opd,
+                degree: degree.split(","),
+                specialization: specialization.split(","),
+                lab_type: labType
+            };
+
+            const result = await axios.post("http://localhost:3500/admin/update_staff_record/", post_data);
+            if (result.data.success_status) {
+                window.alert(`${requested_uid_role} record Updated successfully`);
+            }
+            else {
+                window.alert(result.data.error_message);
+            }
         }
         else {
-            window.alert(result.data.error_message);
+            window.alert("OTP Verification Failed");
         }
     }
 
