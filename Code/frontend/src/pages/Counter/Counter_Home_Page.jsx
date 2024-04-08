@@ -31,7 +31,7 @@ export const Counter_Home_Page = () => {
             <h1>Counter Home Page</h1>
             <div>
             <div className="sidebar">
-          <p>Admin Facilities</p>
+          <p>Counter Facilities</p>
           <ul>
           <hr />
             <li
@@ -72,7 +72,7 @@ export const Counter_Home_Page = () => {
         </div>
 
         <div className="main-container">
-          <h2>Admin Information</h2>
+          <h2>Counter Information</h2>
           <div className="personal-info">
             <div>
               <p>UID</p>

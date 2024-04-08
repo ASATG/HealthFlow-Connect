@@ -113,8 +113,196 @@ export const Redirect_Patient_Page = () => {
 
     return (
         <Fragment>
-            <h1>Update Patient Redirection Records</h1>
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+            <div
+          className="card w-50 "
+          // style={{ padding: 10, borderRadius: "15px" }}
+          style={{
+            padding: 10,
+            borderRadius: "15px",
+            maxHeight: "80vh",
+            overflowY: "auto",
+          }}
+        >
+            <h1 className="card-header text-center" style={{ padding: 20 }}>Update Patient Redirection Records</h1>
+            <div className="card-body">
             <form onSubmit={handle_submit_1}>
+                <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
+                    <label htmlFor="requested_uid">Enter Patient's UID:</label>
+                    <input
+                        type="text"
+                        id="requested_uid"
+                        name="requested_uid"
+                        className="form-control"
+                        value={patientUId}
+                        onChange={(e) => setpatientUId(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center" style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>
+                                <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+            </form>
+
+            {gotpatientdata === "True" &&
+                (
+                    <div>
+                        <h3>Patient History</h3>
+                        {personInfo.map((personInfoentry) => (
+
+                            <div className="personal-info">
+                                <h5>Record: </h5>
+                                <div>
+                                    <span>StaffUID: </span>
+                                    <span>{personInfoentry.who_u_id}</span>
+                                </div>
+                                <div>
+                                    <span>Staff: </span>
+                                    <span>{personInfoentry.who}</span>
+                                </div>
+                                <div>
+                                    <span>Date: </span>
+                                    <span>{personInfoentry.date_time}</span>
+                                </div>
+                                <div>
+                                    {personInfoentry.lab_testing_to_be_done.length !== 0 && (<span>
+                                        <span>Lab_testing_to_be_done: </span>
+                                        <ol>
+                                            {
+                                                personInfoentry.lab_testing_to_be_done.map((test) => (
+                                                    <li>{test}</li>
+                                                )
+                                                )
+                                            }
+                                        </ol></span>)}
+                                </div>
+                                <div>{Object.keys(personInfoentry.medicines_prescribed).length !== 0 &&
+                                    (<span><span>Medicines_prescribed: </span>
+                                        <span>{JSON.stringify(personInfoentry.medicines_prescribed)}</span></span>)
+                                }
+                                </div>
+                                <div>
+                                    {personInfoentry.extra_notes.length !== 0 && (<span>
+                                        <span>Extra Notes: </span>
+                                        <ol>
+                                            {
+                                                personInfoentry.extra_notes.map((note) => (
+                                                    <li>{note}</li>
+                                                )
+                                                )
+                                            }
+                                        </ol>
+                                    </span>)}
+                                </div>
+                                <p />
+                            </div>
+                        ))}
+                        <form onSubmit={get_staff_data}>
+                            <div className="form-group">
+                                <label>Redirect To</label>
+                                <select
+                                    className="form-control"
+                                    value={who}
+                                    onInput={(e) => setwho(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Redirection Staff</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Lab Technician">Lab Technician</option>
+                                    <option value="Pharmacist">Pharmacist</option>
+                                </select>
+                            </div>
+                            <div className="footer d-flex justify-content-between align-items-center" style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>
+                                <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+                        </form>
+                    </div>
+                )
+            }
+
+            {
+                gotstaffdata === "True" &&
+                (
+                    <form>
+                        <div className="form-group">
+                            <label>{who}s</label>
+                            <select className="form-control" value={whoUId} onInput={(e) => setwhoUId(e.target.value)} required>
+                                <option value="">Select {who}s</option>
+                                {stafflist.map((stafflistentry) => (
+                                    <option key={stafflistentry[0]} value={stafflistentry[0]}>
+                                        {stafflistentry[0]}({stafflistentry[1]} {stafflistentry[2]} {stafflistentry[3]})
+                                    </option>
+                                ))}
+
+                            </select>
+                        </div>
+                    </form>
+                )
+            }
+
+            {gotstaffdata === "True" &&
+                who === "Pharmacist" &&
+                (
+                    <form onSubmit={handle_submit_2}>
+                        <div className="form-group">
+                            <label>Medication to be done: </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter medication to be given"
+                                value={medicinestobegiven}
+                                onInput={(e) => setmedicinestobegiven(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="footer d-flex justify-content-between align-items-center">
+                                <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+                    </form>
+                )
+            }
+
+            {gotstaffdata === "True" &&
+                who === "Lab Technician" &&
+                (
+                    <form onSubmit={handle_submit_2}>
+                        <div className="form-group">
+                            <label>Tests to be done: </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Enter tests to be done"
+                                value={labtestingstobedone}
+                                onInput={(e) => setlabtestingstobedone(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="footer d-flex justify-content-between align-items-center" style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>
+                                <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+                    </form>
+                )
+            }
+            {gotstaffdata === "True" &&
+                who === "Doctor" &&
+                (
+                    <div className="footer d-flex justify-content-between align-items-center" style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>
+                                <button onClick={handle_submit_2} className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+                )
+            }
+
+            </div>
+
+            </div>
+            </div>
+            {/* <h1 className="card-header text-center" style={{ padding: 20 }}>Update Patient Redirection Records</h1> */}
+            {/* <form onSubmit={handle_submit_1}>
                 <div>
                     <label htmlFor="requested_uid">Enter Patient's UID:</label>
                     <input
@@ -267,7 +455,7 @@ export const Redirect_Patient_Page = () => {
                 (
                     <button onClick={handle_submit_2} className="btn btn-primary">Submit</button>
                 )
-            }
+            } */}
 
         </Fragment>
     )
