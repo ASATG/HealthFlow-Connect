@@ -68,8 +68,67 @@ export const Print_Case_Paper = () => {
 
     return (
         <Fragment>
-            <h1>Print Case Paper</h1>
-            <form onSubmit={handle_form_submit}>
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+            <div
+                    className="card w-50 "
+                    style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+                >
+                    <h1 className="card-header text-center" style={{ padding: 20 }}>
+                    Print Case Paper
+                    </h1>
+                    <div className="mb-3" style={{ padding: '10px 10px 10px 10px' }}>
+                    <form onSubmit={handle_form_submit}>
+                <div>
+                    <label htmlFor="requested_uid">Enter Patient's UID:</label>
+                    <input
+                        type="text"
+                        id="requested_uid"
+                        name="requested_uid"
+                        value={uId}
+                        onChange={(e) => setUId(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center">
+                                <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                                <button onClick={(e) => navigator("/counter/home_page")} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                            </div>
+            </form>
+            {
+                Object.keys(casePaper).length !== 0 &&
+                (
+                    <div style={{ padding: '10px 10px 10px 10px' }}>
+                        <h2 >Patient History</h2>
+                        <div className="personal-info">
+                            <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                                <span>Start Date: </span>
+                                <span>{casePaper.start_date_time}</span>
+                            </div>
+                            {casePaper.history_id_array.length > 0 && (<div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                                <span>
+                                    <span>History Ids: </span>
+                                    <ol>
+                                        {
+                                            casePaper.history_id_array.map((id) => (
+                                                <li>{id}</li>
+                                            )
+                                            )
+                                        }
+                                    </ol></span>
+                            </div>)}
+                        </div>
+                        <div className="footer d-flex justify-content-between align-items-center">
+                                    <button onClick={handle_print} className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Print</button>
+                                </div>
+                        {/* <button onClick={handle_print}>Print</button> */}
+                    </div>
+                )
+            }
+                    </div>
+                </div>
+            </div>
+            {/* <h1>Print Case Paper</h1> */}
+            {/* <form onSubmit={handle_form_submit}>
                 <div>
                     <label htmlFor="requested_uid">Enter Patient's UID:</label>
                     <input
@@ -82,8 +141,8 @@ export const Print_Case_Paper = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
-            </form>
-            {
+            </form> */}
+            {/* {
                 Object.keys(casePaper).length !== 0 &&
                 (
                     <div>
@@ -109,7 +168,7 @@ export const Print_Case_Paper = () => {
                         <button onClick={handle_print}>Print</button>
                     </div>
                 )
-            }
+            } */}
         </Fragment>
     )
 }

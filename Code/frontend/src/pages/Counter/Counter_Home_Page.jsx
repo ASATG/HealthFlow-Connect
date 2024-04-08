@@ -27,17 +27,102 @@ export const Counter_Home_Page = () => {
         fetchData();
     }, []);
     return (
-        <Fragment>
-            <h1>This is Counter Home Page</h1>
+        <div className="home-container">
+            <h1>Counter Home Page</h1>
+            <div>
+            <div className="sidebar">
+          <p>Admin Facilities</p>
+          <ul>
+          <hr />
+            <li
+              onClick={(e) => navigator("/counter/create_patient_record")}
+            >
+            Create Patient Record
+            </li>
+            <hr />
+            <li
+              onClick={(e) => navigator("/counter/update_patient_record")}
+            >
+              Update Patient Record
+            </li>
+            <hr />
+            <li
+              onClick={(e) => navigator("/counter/redirect_patient")}
+            >
+              Redirect Patient
+            </li>
+            <hr />
+            <li
+              onClick={(e) => navigator("/counter/show_patient_redirection_record")}
+            >
+              Show Patient Redirection Records
+            </li>
+            <hr />
+            <li
+              onClick={(e) => navigator("/counter/print_case_paper")}
+            >
+              Print Case Paper
+            </li>
+            <hr />
+            <li onClick={(e) => navigator("/logout/", { replace: true })}>
+              Logout
+            </li>
+            <hr />
+          </ul>
+        </div>
+
+        <div className="main-container">
+          <h2>Admin Information</h2>
+          <div className="personal-info">
+            <div>
+              <p>UID</p>
+              <p>{personInfo["u_id"]}</p>
+            </div>
+            <div>
+              <p>First Name</p>
+              <p>{personInfo["first_name"]}</p>
+            </div>
+            <div>
+              <p>Middle Name</p>
+              <p>{personInfo["middle_name"]}</p>
+            </div>
+            <div>
+              <p>Last Name</p>
+              <p>{personInfo["last_name"]}</p>
+            </div>
+            <div>
+              <p>Gender</p>
+              <p>{personInfo["gender"]}</p>
+            </div>
+            <div>
+              <p>Date of Birth</p>
+              <p>{personInfo["dob"]}</p>
+            </div>
+            <div>
+              <p>Phone Number</p>
+              <p>{personInfo["phone_number"]}</p>
+            </div>
+            <div>
+              <p>Address</p>
+              <p>{personInfo["address"]}</p>
+            </div>
+            <div>
+              <p>Role</p>
+              <p>{personInfo["role"]}</p>
+            </div>
+          </div>
+        </div>
+            </div>
+            {/* <h1>This is Counter Home Page</h1>
             <button onClick={(e) => navigator("/logout/", { replace: true })}>Logout</button>
             <div>
                 <Personal_Info_Component explicit_keys_to_exclude={[]} record={personInfo} />
-            </div>
-            <h2 onClick={(e) => navigator("/counter/create_patient_record")}>Create Patient Record</h2>
+            </div> */}
+            {/* <h2 onClick={(e) => navigator("/counter/create_patient_record")}>Create Patient Record</h2>
             <h2 onClick={(e) => navigator("/counter/update_patient_record")}>Update Patient Record</h2>
             <h2 onClick={(e) => navigator("/counter/redirect_patient")}>Redirect Patient</h2>
             <h2 onClick={(e) => navigator("/counter/show_patient_redirection_record")}>Show Patient Redirection Records</h2>
-            <h2 onClick={(e) => navigator("/counter/print_case_paper")}>Print Case Paper</h2>
-        </Fragment>
+            <h2 onClick={(e) => navigator("/counter/print_case_paper")}>Print Case Paper</h2> */}
+        </div>
     );
 };
