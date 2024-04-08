@@ -4,6 +4,41 @@ import { pharmacist_model } from "../db_scripts/Models/Pharmacist_Model.js";
 import { lab_technician_model } from "../db_scripts/Models/Lab_Technician_Model.js";
 import { person_model } from "../db_scripts/Models/Person_Model.js";
 
+export const get_reqd_designation_all_records = async (req, res) => {
+    const { role } = req.body;
+    const ans = [];
+    
+    if (role === "Doctor") {
+        const all_doctor_records = await doctor_model.find({});
+        for (const doctor_record of all_doctor_records) {
+            const person_record = await person_model.findById(doctor_record.person_id);
+            ans.push([person_record, doctor_record]);
+        }
+    }
+    else if (role === "Pharmacist") {
+        const all_pharmacist_records = await pharmacist_model.find({});
+        for (const pharmacist_record of all_pharmacist_records) {
+            const person_record = await person_model.findById(pharmacist_record.person_id);
+            ans.push([person_record, pharmacist_record]);
+        }
+    }
+    else if (role === "Lab Technician") {
+        const all_lab_technician_records = await lab_technician_model.find({});
+        for (const lab_technician_record of all_lab_technician_records) {
+            const person_record = await person_model.findById(lab_technician_record.person_id);
+            ans.push([person_record, lab_technician_record]);
+        }
+    }
+    else if (role === "Counter") {
+        const all_counter_records = await person_model.find({ role: "Counter" });
+        for (const counter_record of all_counter_records) {
+            ans.push([counter_record, {}]);
+        }
+    }
+
+    return res.send({ success_status: true, ans: ans });
+};
+
 export const get_admin_info = async (req, res) => {
     const { u_id } = req.body;
     const temp = await get_person_info(u_id);
