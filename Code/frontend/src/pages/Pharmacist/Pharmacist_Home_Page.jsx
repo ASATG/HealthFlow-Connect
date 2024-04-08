@@ -35,7 +35,7 @@ export const Pharmacist_Home_Page = () => {
         const helper_id = event.target.id;
         const target_div_id = "div_" + helper_id;
         const target_div = document.getElementById(target_div_id);
-        const patient_id = target_div.childNodes[5].textContent.split(":")[1].slice(1);
+        const patient_id = target_div.childNodes[5].textContent.split(":")[1];
 
         let api_call = await axios.post("http://localhost:3500/get_phone_number_from_uid", { u_id: patient_id });
         if (api_call.data.success_status) {
@@ -79,10 +79,118 @@ export const Pharmacist_Home_Page = () => {
     };
 
     return (
-        <Fragment>
-            <h1>This is Pharmacist Home Page</h1>
-            <button onClick={(e) => navigator("/logout/", { replace: true })}>Logout</button>
-            <h3>Your Info</h3>
+        <div className="doctor-home-container">
+            <div class="content">
+        <h1>Pharmacist Home Page</h1>
+        <button className="logout-button" onClick={(e) => navigator("/logout/", { replace: true })}>
+          Logout
+        </button>
+        </div>
+
+        <div>
+        <div className="sidebar-doctor">
+        <p className="p_doctor">Pharmacist's Work</p>
+        <div className="records-container">
+          {unserved_redirection_records.map((record) => (
+            <div className="served-patients" id={"div_" + record.redirection_record_id_string}>
+              <hr />
+              <div class="form-group">
+                <label>Redirection Creation Date Time:</label>
+                <p>{record.redirection_creation_date_time}</p>
+              </div>
+              <div class="form-group">
+                <label>Is Redirection Served:{" "}</label>
+                <p>{record.is_redirection_served ? "Yes" : "No"}</p>
+              </div>
+              <div class="form-group">
+                <label>Staff ID:</label>
+                <p>{record.staff_u_id}</p>
+              </div>
+              <div class="form-group">
+                <label>Staff Designation:</label>
+                <p>{record.staff_designation}</p>
+              </div>
+              <div class="form-group">
+                <label>Patient ID:</label>
+                <p>{record.patient_u_id}</p>
+              </div>
+              <div class="form-group">
+                <label>Patient Name:</label>
+                <p>{record.patient_name}</p>
+              </div>
+              <div class="form-group">
+              <label>Medicines To Be Given:</label>
+                   
+                        {record.medicines_to_be_given.map((test, index) => (
+                            <p key={index}>{test}</p>
+                        ))}
+                    
+              </div>
+              
+              <button
+                class="btn1"
+                onClick={handle_redirection_serve_btn}
+                id={record.redirection_record_id_string}
+              >
+                Serve
+              </button>
+              <hr />
+            </div>
+          ))}
+          </div>
+        </div>
+        <div className="main-container">
+          <h2>Pharmacist Information</h2>
+          <div className="personal-info">
+            <div>
+              <p>UID</p>
+              <p>{person_info["u_id"]}</p>
+            </div>
+            <div>
+              <p>First Name</p>
+              <p>{person_info["first_name"]}</p>
+            </div>
+            <div>
+              <p>Middle Name</p>
+              <p>{person_info["middle_name"]}</p>
+            </div>
+            <div>
+              <p>Last Name</p>
+              <p>{person_info["last_name"]}</p>
+            </div>
+            <div>
+              <p>Gender</p>
+              <p>{person_info["gender"]}</p>
+            </div>
+            <div>
+              <p>Date of Birth</p>
+              <p>{person_info["dob"]}</p>
+            </div>
+            <div>
+              <p>Phone Number</p>
+              <p>{person_info["phone_number"]}</p>
+            </div>
+            <div>
+              <p>Address</p>
+              <p>{person_info["address"]}</p>
+            </div>
+            <div>
+              <p>Role</p>
+              <p>{person_info["role"]}
+              </p>
+            </div>
+            <div>
+              <p>Degree</p>
+              <p>{other_info["degree"]}</p>
+            </div>
+            <div>
+              <p>Specialization</p>
+              <p>{other_info["specialization"]}</p>
+            </div>
+          </div>
+        </div>
+        </div>
+            {/* <h3>Your Info</h3>
             <div className="personal-info">
                 <div>
                     <span>StaffUID: </span>
@@ -167,7 +275,7 @@ export const Pharmacist_Home_Page = () => {
                     <hr />
                 </div>
             ))
-            }
-        </Fragment>
+            } */}
+        </div>
     );
 };
