@@ -6,6 +6,7 @@ export const Lab_Technician_Serve_Patient_Page = () => {
     const naviagator = useNavigate();
     const redirection_id = useParams()["redirection_id"];
     const [patient_uid, set_patient_uid] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (sessionStorage.getItem("user_designation") !== "Lab Technician") {
@@ -22,6 +23,10 @@ export const Lab_Technician_Serve_Patient_Page = () => {
             naviagator("/lab_technician/home_page", { replace: true });
         }
     }, []);
+
+    const handleBack = () => {
+        navigate(-1); // Navigate back to previous page
+      };
 
     const handle_form_submit = async (event) => {
         event.preventDefault();
@@ -66,15 +71,36 @@ export const Lab_Technician_Serve_Patient_Page = () => {
 
     return (
         <Fragment>
-            <form onSubmit={handle_form_submit} encType="multipart/form-data">
-                <label>Upload Files:</label>
-                <input
+            <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
+            
+            <div
+            className="card w-50 "
+            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+          >
+            <h1 className="card-header text-center" style={{ padding: 20 }}>
+              Adding Lab Reports
+            </h1>
+            <div className="card-body">
+                <form onSubmit={handle_form_submit} encType="multipart/form-data">
+                <div className="mb-3" style={{ padding: '10px 10px 10px 10px' }}>
+                  <label className="form-label">Upload Files:</label>
+                  <input
                     type="file"
                     name="files"
+                    className="form-control"
+                    placeholder="Enter Lab Reports"
                     multiple
                 />
-                <button type="submit">Submit</button>
+                </div>
+                <div className="footer d-flex justify-content-between align-items-center">
+                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
+                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                </div>
             </form>
+            </div>
+            </div>
+            </div>
+            
         </Fragment>
     );
 };
