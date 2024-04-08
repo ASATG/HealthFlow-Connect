@@ -75,7 +75,16 @@ export const get_patient_record_by_uid = async (req, res) => {
     } else {
         return res.send({ success_status: false, error_message: "The given record does not exists" });
     }
-}
+};
+
+export const get_all_patient_records = async (req, res) => {
+    try {
+        const result = await person_model.find({ role: "Patient" });
+        return res.send({ success_status: true, ans: result });
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while fetching all patient records" });
+    }
+};
 
 export const get_staff_list_by_role = async (req, res) => {
     const { role } = req.body;

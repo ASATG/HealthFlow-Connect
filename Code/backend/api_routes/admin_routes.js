@@ -1,8 +1,9 @@
 import express from "express";
-import { get_admin_info, get_staff_record_by_uid, add_doctor_record, delete_doctor_record, add_counter_record, delete_counter_record, add_pharmacist_record, delete_pharmacist_record, add_lab_technician_record, delete_lab_technician_record, update_staff_record } from "../api_controllers/admin_controllers.js";
+import { get_reqd_designation_all_records, get_admin_info, get_staff_record_by_uid, add_doctor_record, delete_doctor_record, add_counter_record, delete_counter_record, add_pharmacist_record, delete_pharmacist_record, add_lab_technician_record, delete_lab_technician_record, update_staff_record } from "../api_controllers/admin_controllers.js";
 
 const admin_router = express.Router();
 
+admin_router.post("/get_reqd_designation_all_records/", get_reqd_designation_all_records);
 admin_router.post('/get_admin_info/', get_admin_info);
 admin_router.post('/get_staff_record_by_uid/', get_staff_record_by_uid);
 admin_router.post('/add_doctor_record/', add_doctor_record);

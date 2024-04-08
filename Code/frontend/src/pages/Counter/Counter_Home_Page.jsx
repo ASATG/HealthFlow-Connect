@@ -64,6 +64,12 @@ export const Counter_Home_Page = () => {
               Print Case Paper
             </li>
             <hr />
+            <li
+              onClick={(e) => navigator("/counter/show_all_patient_records")}
+            >
+              Show all Patient Records
+            </li>
+            <hr />
             <li onClick={(e) => navigator("/logout/", { replace: true })}>
               Logout
             </li>

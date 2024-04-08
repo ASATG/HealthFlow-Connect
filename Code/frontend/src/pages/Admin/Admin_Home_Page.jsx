@@ -100,6 +100,14 @@ export const Admin_Home_Page = () => {
               Delete Staff Record
             </li>
             <hr />
+            <li
+              onClick={(e) =>
+                navigator("/admin/all_staff_records", { replace: false })
+              }
+            >
+              Get all staff Records
+            </li>
+            <hr />
             <li onClick={(e) => navigator("/logout/", { replace: true })}>
               Logout
             </li>
