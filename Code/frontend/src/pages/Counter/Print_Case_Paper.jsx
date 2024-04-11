@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import html2pdf from "html2pdf.js"
 
 export const Print_Case_Paper = () => {
   const [uId, setUId] = useState("");
@@ -14,6 +15,20 @@ export const Print_Case_Paper = () => {
       navigator("/", { replace: true });
     }
   }, []);
+  const handle_print1 = () => {
+    const divToConvert = document.getElementById("printing_case_paper");
+
+    const options = {
+      margin: 1,
+      filename: "casepaper.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
+
+    // Convert the div contents to PDF
+    html2pdf().from(divToConvert).set(options).save();
+  };
 
   const handle_form_submit = async (event) => {
     event.preventDefault();
@@ -78,7 +93,7 @@ export const Print_Case_Paper = () => {
         if (result.data.success_status === false) {
           window.alert(result.data.error_message);
         }else{
-          window.alert("Case Paper Printed")
+          window.alert("Please Print the Case Paper")
         }
       } else {
         window.alert("OTP Verification Failed");
@@ -138,7 +153,8 @@ export const Print_Case_Paper = () => {
               </div>
             </form>
             {Object.keys(casePaper).length !== 0 && (
-              <div style={{ padding: "10px 10px 10px 10px" }}>
+              <div  style={{ padding: "10px 10px 10px 10px" }}>
+                <div id="printing_case_paper">
                 <h2>Patient Case Paper</h2>
                 <div className="personal-info">
                   <div
@@ -154,8 +170,18 @@ export const Print_Case_Paper = () => {
                       style={{ padding: "10px 10px 5px 10px" }}
                     >
                       <h3>{history[0].patient_name}</h3>
-                      {history.map((each) => (
+                      {history.map((each,index) => (
                         <div>
+                          <hr />
+                          <div class="form-group">
+                            <span><strong>Sr no. :  </strong></span>
+                            <span><strong>{index+1} </strong></span>
+                            {/* <span style={{ marginBottom: "10px" }}><strong>{each.date_time}</strong></span> */}
+                          </div>
+                          <div class="form-group">
+                            <span><strong>Date & Time:</strong> </span>
+                            <span style={{ marginBottom: "10px" }}><strong>{each.date_time}</strong></span>
+                          </div>
                           <div class="form-group">
                             <span>Staff UID: </span>
                             <span style={{ marginBottom: "10px" }}>{each.staff_u_id}</span>
@@ -167,10 +193,6 @@ export const Print_Case_Paper = () => {
                           <div class="form-group">
                             <span>Staff Designation: </span>
                             <span style={{ marginBottom: "10px" }}>{each.staff_designation}</span>
-                          </div>
-                          <div class="form-group">
-                            <span>Date Time: </span>
-                            <span style={{ marginBottom: "10px" }}>{each.date_time}</span>
                           </div>
                           {each.complaints && each.complaints.length > 0 && (
                             <div class="form-group">
@@ -184,7 +206,21 @@ export const Print_Case_Paper = () => {
                               </ol>
                             </div>
                           )}
-                          {each.general_examination && (<div class="form-group">
+                          <div class="form-group">
+                          <p>General Examination:</p>
+                          {each.general_examination ? (
+                            <ol>
+                              {Object.entries(
+                                each.general_examination
+                              ).map(([key, value]) => (
+                                <li key={key}>
+                                  <strong>{key}:</strong> {value}
+                                </li>
+                              ))}
+                            </ol>
+                          ) : ""}
+                        </div >
+                          {/* {each.general_examination && (<div class="form-group">
                             <span>General Examination: </span>
                             <span style={{ marginBottom: "10px" }}>{JSON.stringify(each.general_examination)}</span>
                           </div>)}
@@ -199,32 +235,43 @@ export const Print_Case_Paper = () => {
                                 }
                               </ol>
                             </div>
-                          )}
-                          {each.medicines_prescribed && each.medicines_prescribed.length > 0 && (
-                            <div class="form-group">
-                              <span>Medicines Prescribed: </span>
+                          )} */}
+                          <div class="form-group">
+                          <p>Medicines Prescribed:</p>
+                          <ol>
+                            {each.medicines_prescribed && each.medicines_prescribed.length > 0 && each.medicines_prescribed.map(
+                              (medicine, index) => (
+                                <li key={index}>
+                                  <ul>
+                                    {Object.entries(medicine).map(
+                                      ([key, value]) => (
+                                        <li
+                                          key={key}
+                                          style={{ listStyleType: "none" }}
+                                        >
+                                          <strong>{key}:</strong> {value}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </li>
+                              )
+                            )}
+                          </ol>
+                        </div>
+                        <div class="form-group">
+                          {each.extra_notes && each.extra_notes.length !== 0 && (
+                            <span style={{marginBottom:"10px"}}>
+                              <p>Extra Notes: </p>
                               <ol>
-                                {
-                                  each.medicines_prescribed.map((com) => (
-                                    <li>{JSON.stringify(com)}</li>
-                                  ))
-                                }
+                                {each.extra_notes.map((note) => (
+                                  <li>{note}</li>
+                                ))}
                               </ol>
-                            </div>
+                            </span>
                           )}
-                          {each.extra_notes && each.extra_notes.length > 0 && (
-                            <div class="form-group">
-                              <span>Extra Notes: </span>
-                              <ol>
-                                {
-                                  each.extra_notes.map((com) => (
-                                    <li>{JSON.stringify(com)}</li>
-                                  ))
-                                }
-                              </ol>
-                            </div>
-                          )}
-                          {each.medicines_given && each.medicines_given.length > 0 && (
+                        </div>
+                          {/* {each.medicines_given && each.medicines_given.length > 0 && (
                             <div class="form-group">
                               <span>Medicines Given: </span>
                               <ol>
@@ -235,7 +282,19 @@ export const Print_Case_Paper = () => {
                                 }
                               </ol>
                             </div>
+                          )} */}
+                          <div class="form-group">
+                          {each.medicines_given && each.medicines_given.length > 0 && (
+                            <span>
+                              <span style={{marginBottom:"10px"}}>Medicines Given: </span>
+                              <ol>
+                                {each.medicines_given.map((test) => (
+                                  <li>{test}</li>
+                                ))}
+                              </ol>
+                            </span>
                           )}
+                        </div>
                           {each.lab_report_ids && each.lab_report_ids.length > 0 && (
                             <div class="form-group">
                               <span>Lab Report Ids: </span>
@@ -251,10 +310,24 @@ export const Print_Case_Paper = () => {
                           <p />
                         </div>
                       ))}
+                      <hr />
                     </div>
+                    
                   )}
+                  {/* <hr /> */}
+                </div>
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
+                <button
+                  onClick={(e) => navigator("/counter/home_page")}
+                  className="btn btn-secondary"
+                  style={{
+                    marginRight: "10px",
+                    padding: "10px 60px 10px 60px",
+                  }}
+                >
+                  Back
+                </button>
                   <button
                     onClick={handle_print}
                     className="btn btn-primary "
@@ -263,10 +336,21 @@ export const Print_Case_Paper = () => {
                       padding: "10px 50px 10px 50px",
                     }}
                   >
-                    Print
+                    Close Case Paper
                   </button>
+                  <button
+                  onClick={handle_print1}
+                  className="btn btn-secondary"
+                  style={{
+                    marginRight: "10px",
+                    padding: "10px 60px 10px 60px",
+                  }}
+                >
+                  Print
+                </button>
                 </div>
-                {/* <button onClick={handle_print}>Print</button> */}
+                
+                {/* <button onClick={handle_print1}>Test Print</button> */}
               </div>
             )}
           </div>
