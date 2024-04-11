@@ -140,7 +140,7 @@ export const Lab_Technician_Home_Page = () => {
 
         </div>
         <div className="main-container">
-          <h2>Doctor Information</h2>
+          <h2>Lab Technician Information</h2>
           <div className="personal-info">
             <div>
               <p>UID</p>

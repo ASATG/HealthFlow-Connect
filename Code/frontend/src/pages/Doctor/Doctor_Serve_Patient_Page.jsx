@@ -508,7 +508,7 @@ export const Doctor_Serve_Patient_Page = () => {
                         <div class="form-group">
                           {personInfoentry.medicines_given.length !== 0 && (
                             <span>
-                              <span style={{marginBottom:"10px"}}>medicines_given: </span>
+                              <span style={{marginBottom:"10px"}}>Medicines Given: </span>
                               <ol>
                                 {personInfoentry.medicines_given.map((test) => (
                                   <li>{test}</li>
