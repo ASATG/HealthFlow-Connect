@@ -481,3 +481,111 @@ text-align: left;
 .form-group>p>ul{
   padding-left: 0rem;
 }
+
+.home-container2{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: url('../images/bgadmin.jpg');
+  background-repeat: no-repeat;
+  backdrop-filter: blur(5px);
+  background-size: cover;
+}
+
+.home-container2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white overlay */
+  backdrop-filter: blur(5px); /* Apply blur effect to the background image */
+}
+
+.home-container2 h1{
+  font-size: 35px;
+  font-weight: 700;
+  padding: 15px 0;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.patient-t{
+  align-items: center;
+  justify-content: center;
+  width: 75vw;
+}
+
+.logout-button1 {
+  position: absolute;
+  top: 2%;
+  right: 3.5%;
+  background-color: rgb(83, 77, 77); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition-duration: 0.4s;
+}
+.table-border-black {
+  border: 2px solid #000; /* Black border */
+}
+
+.sub-patient{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 5vh;
+  padding-top: 10vh;
+}
+
+.first-row-black th {
+  background-color: #6456e3; /* Black background color */
+  color: #fff; /* White text color */
+}
+
+.select-desig{
+  /* margin-left: 30vw; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center */
+}
+
+.select-desig label{
+  margin-left: 10vw;
+  /* margin-right: 20vw; */
+  min-width: 25vh;
+  /* text-align: center; */
+  /* text-align: end; */
+  padding-top: 5px;
+}
+
+.logout-button2 {
+  /* position: absolute; */
+  top: 2%;
+  right: 3.5%;
+  background-color: rgb(83, 77, 77); /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 40px 2px 4px 2px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition-duration: 0.4s;
+}
