@@ -5,6 +5,7 @@ import axios from "axios";
 export const Print_Case_Paper = () => {
   const [uId, setUId] = useState("");
   const [casePaper, setcasePaper] = useState({});
+  const [history, sethistory] = useState([]);
 
   const navigator = useNavigate();
 
@@ -22,7 +23,19 @@ export const Print_Case_Paper = () => {
     );
     if (result.data.success_status) {
       setcasePaper(result.data.ans);
-      console.log(casePaper);
+      const is_active_case_paper_api_call = await axios.post("http://localhost:3500/counter/get_all_case_papers_of_patients", { patient_u_id: uId })
+      if (is_active_case_paper_api_call.data.success_status) {
+        const arr = is_active_case_paper_api_call.data.ans;
+        for (const i of arr) {
+          if (i.is_active === true) {
+            console.log(i);
+            sethistory(i.all_history)
+          }
+        }
+      }
+      else {
+        window.alert("No active case paper found so please add first active case paper and then add redirection record");
+      }
     } else {
       window.alert(result.data.error_message);
     }
@@ -64,6 +77,8 @@ export const Print_Case_Paper = () => {
         );
         if (result.data.success_status === false) {
           window.alert(result.data.error_message);
+        }else{
+          window.alert("Case Paper Printed")
         }
       } else {
         window.alert("OTP Verification Failed");
@@ -124,7 +139,7 @@ export const Print_Case_Paper = () => {
             </form>
             {Object.keys(casePaper).length !== 0 && (
               <div style={{ padding: "10px 10px 10px 10px" }}>
-                <h2>Patient History</h2>
+                <h2>Patient Case Paper</h2>
                 <div className="personal-info">
                   <div
                     className="mb-3"
@@ -133,19 +148,109 @@ export const Print_Case_Paper = () => {
                     <span>Start Date: </span>
                     <span>{casePaper.start_date_time}</span>
                   </div>
-                  {casePaper.history_id_array.length > 0 && (
+                  {casePaper.history_id_array.length > 0 && history.length > 0 && (
                     <div
                       className="mb-3"
                       style={{ padding: "10px 10px 5px 10px" }}
                     >
-                      <span>
-                        <span>History Ids: </span>
-                        <ol>
-                          {casePaper.history_id_array.map((id) => (
-                            <li>{id}</li>
-                          ))}
-                        </ol>
-                      </span>
+                      <h3>{history[0].patient_name}</h3>
+                      {history.map((each) => (
+                        <div>
+                          <div class="form-group">
+                            <span>Staff UID: </span>
+                            <span style={{ marginBottom: "10px" }}>{each.staff_u_id}</span>
+                          </div>
+                          <div class="form-group">
+                            <span>Staff Name: </span>
+                            <span style={{ marginBottom: "10px" }}>{each.staff_name}</span>
+                          </div>
+                          <div class="form-group">
+                            <span>Staff Designation: </span>
+                            <span style={{ marginBottom: "10px" }}>{each.staff_designation}</span>
+                          </div>
+                          <div class="form-group">
+                            <span>Date Time: </span>
+                            <span style={{ marginBottom: "10px" }}>{each.date_time}</span>
+                          </div>
+                          {each.complaints && each.complaints.length > 0 && (
+                            <div class="form-group">
+                              <span>Complaint: </span>
+                              <ol>
+                                {
+                                  each.complaints.map((com) => (
+                                    <li>{com}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          {each.general_examination && (<div class="form-group">
+                            <span>General Examination: </span>
+                            <span style={{ marginBottom: "10px" }}>{JSON.stringify(each.general_examination)}</span>
+                          </div>)}
+                          {each.lab_testing_to_be_done && each.lab_testing_to_be_done.length > 0 && (
+                            <div class="form-group">
+                              <span>Lab Testing To Be Done: </span>
+                              <ol>
+                                {
+                                  each.lab_testing_to_be_done.map((com) => (
+                                    <li>{com}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          {each.medicines_prescribed && each.medicines_prescribed.length > 0 && (
+                            <div class="form-group">
+                              <span>Medicines Prescribed: </span>
+                              <ol>
+                                {
+                                  each.medicines_prescribed.map((com) => (
+                                    <li>{JSON.stringify(com)}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          {each.extra_notes && each.extra_notes.length > 0 && (
+                            <div class="form-group">
+                              <span>Extra Notes: </span>
+                              <ol>
+                                {
+                                  each.extra_notes.map((com) => (
+                                    <li>{JSON.stringify(com)}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          {each.medicines_given && each.medicines_given.length > 0 && (
+                            <div class="form-group">
+                              <span>Medicines Given: </span>
+                              <ol>
+                                {
+                                  each.medicines_given.map((com) => (
+                                    <li>{JSON.stringify(com)}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          {each.lab_report_ids && each.lab_report_ids.length > 0 && (
+                            <div class="form-group">
+                              <span>Lab Report Ids: </span>
+                              <ol>
+                                {
+                                  each.lab_report_ids.map((com) => (
+                                    <li>{JSON.stringify(com)}</li>
+                                  ))
+                                }
+                              </ol>
+                            </div>
+                          )}
+                          <p />
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
