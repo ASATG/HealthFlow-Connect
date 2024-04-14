@@ -5,6 +5,30 @@ import { user_model } from "../db_scripts/Models/User_Model.js";
 import { history_model } from "../db_scripts/Models/History_Model.js";
 import bcrypt from "bcrypt";
 
+export const get_role_of_person_from_u_id = async (u_id) => {
+    try {
+        const result = await person_model.findOne({ u_id: u_id });
+        return { success_status: true, role: result.role };
+    } catch (error) {
+        return { success_status: false, error_message: "Error while searching the person!" }
+    }
+};
+
+export const api_verify_role_of_person_from_u_id = async (req, res) => {
+    const { u_id, expected_role } = req.body;
+    try {
+        const result = await person_model.findOne({ u_id: u_id });
+        if (result.role === expected_role) {
+            return res.send({ success_status: true, role: result.role });
+        }
+        else {
+            return res.send({ success_status: false });
+        }
+    } catch (error) {
+        return res.send({ success_status: false, error_message: "Error while searching the person!" })
+    }
+}
+
 export const get_person_info = async (u_id) => {
     try {
         const record = await person_model.findOne({ u_id: u_id });

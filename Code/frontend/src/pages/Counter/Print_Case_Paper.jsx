@@ -32,6 +32,16 @@ export const Print_Case_Paper = () => {
 
   const handle_form_submit = async (event) => {
     event.preventDefault();
+
+    const check_role_response = await axios.post("http://localhost:3500/api_verify_role_of_person_from_u_id", {
+      u_id: uId,
+      expected_role: "Patient"
+    })
+    if (check_role_response.data.success_status === false) {
+      window.alert("This is invalid u_id for patient!");
+      return;
+    }
+
     const result = await axios.post(
       "http://localhost:3500/counter/get_active_case_paper_of_patient",
       { patient_u_id: uId }
@@ -92,7 +102,7 @@ export const Print_Case_Paper = () => {
         );
         if (result.data.success_status === false) {
           window.alert(result.data.error_message);
-        }else{
+        } else {
           window.alert("Please Print the Case Paper")
         }
       } else {

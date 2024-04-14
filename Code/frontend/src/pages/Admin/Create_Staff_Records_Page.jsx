@@ -184,7 +184,7 @@ export const Create_Staff_Records_Page = () => {
     // }
 
     // Code for avoiding the otp verifation for testing only 🛑
-    let otp_entered = prompt(`Please enter Hello${phoneNumber}`, '');
+    let otp_entered = prompt(`Please enter Hello${phoneNumber}`, "");
     if (otp_entered === "Hello") {
       window.alert("OTP Verification Successfull");
       if (entity === "Counter") {
@@ -321,12 +321,9 @@ export const Create_Staff_Records_Page = () => {
           window.alert(result.data.error_message);
         }
       }
-    }
-    else {
+    } else {
       window.alert("OTP Verification Failed");
     }
-
-
   };
 
   if (entity === "Counter") {
@@ -335,14 +332,19 @@ export const Create_Staff_Records_Page = () => {
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
           <div
             className="card w-50 "
-            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+            style={{
+              padding: 10,
+              borderRadius: "15px",
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
           >
             <h1 className="card-header text-center" style={{ padding: 20 }}>
               Adding Counter Record
             </h1>
             <div className="card-body">
               <form onSubmit={handle_form_submit}>
-                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
                   <label className="form-label">Unique ID</label>
                   <input
                     type="text"
@@ -353,7 +355,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
@@ -364,7 +366,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Middle Name</label>
                   <input
                     type="text"
@@ -374,7 +376,7 @@ export const Create_Staff_Records_Page = () => {
                     onInput={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
@@ -385,7 +387,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Gender</label>
                   <select
                     className="form-control"
@@ -399,7 +401,7 @@ export const Create_Staff_Records_Page = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Date of Birth</label>
                   <input
                     type="date"
@@ -409,7 +411,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Phone Number</label>
                   <input
                     type="text"
@@ -420,7 +422,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 10px 10px" }}>
                   <label className="form-label">Address</label>
                   <input
                     type="text"
@@ -432,8 +434,26 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
-                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
-                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary "
+                    style={{
+                      marginLeft: "10px",
+                      padding: "10px 50px 10px 50px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onClick={handleBack}
+                    className="btn btn-secondary"
+                    style={{
+                      marginRight: "10px",
+                      padding: "10px 60px 10px 60px",
+                    }}
+                  >
+                    Back
+                  </button>
                 </div>
               </form>
             </div>
@@ -449,14 +469,19 @@ export const Create_Staff_Records_Page = () => {
           <div
             className="card w-50 "
             // style={{ padding: 10, borderRadius: "15px" }}
-            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+            style={{
+              padding: 10,
+              borderRadius: "15px",
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
           >
             <h1 className="card-header text-center" style={{ padding: 20 }}>
               Adding Doctor Record
             </h1>
             <div className="card-body">
               <form onSubmit={handle_form_submit}>
-                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
                   <label className="form-label">Unique ID</label>
                   <input
                     type="text"
@@ -467,7 +492,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
@@ -478,7 +503,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Middle Name</label>
                   <input
                     type="text"
@@ -488,7 +513,7 @@ export const Create_Staff_Records_Page = () => {
                     onInput={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
@@ -499,7 +524,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Gender</label>
                   <select
                     className="form-control"
@@ -513,7 +538,7 @@ export const Create_Staff_Records_Page = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Date of Birth</label>
                   <input
                     type="date"
@@ -523,7 +548,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Phone Number</label>
                   <input
                     type="text"
@@ -534,7 +559,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Address</label>
                   <input
                     type="text"
@@ -545,7 +570,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">OPD</label>
                   <select
                     className="form-control"
@@ -568,7 +593,7 @@ export const Create_Staff_Records_Page = () => {
                   </select>
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Degree</label>
                   <input
                     type="text"
@@ -580,7 +605,7 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 10px 10px" }}>
                   <label className="form-label">Specialization</label>
                   <input
                     type="text"
@@ -592,8 +617,26 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
-                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
-                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary "
+                    style={{
+                      marginLeft: "10px",
+                      padding: "10px 50px 10px 50px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onClick={handleBack}
+                    className="btn btn-secondary"
+                    style={{
+                      marginRight: "10px",
+                      padding: "10px 60px 10px 60px",
+                    }}
+                  >
+                    Back
+                  </button>
                 </div>
                 {/* <button type="submit" className="btn btn-primary">
             Submit
@@ -602,7 +645,6 @@ export const Create_Staff_Records_Page = () => {
             </div>
           </div>
         </div>
-
       </Fragment>
     );
     return doctor_jsx;
@@ -612,14 +654,19 @@ export const Create_Staff_Records_Page = () => {
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
           <div
             className="card w-50 "
-            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+            style={{
+              padding: 10,
+              borderRadius: "15px",
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
           >
             <h1 className="card-header text-center" style={{ padding: 20 }}>
               Adding Lab Technician Record
             </h1>
             <div className="card-body">
               <form onSubmit={handle_form_submit}>
-                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
                   <label className="form-label">Unique ID</label>
                   <input
                     type="text"
@@ -630,7 +677,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
@@ -641,7 +688,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Middle Name</label>
                   <input
                     type="text"
@@ -651,7 +698,7 @@ export const Create_Staff_Records_Page = () => {
                     onInput={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
@@ -662,7 +709,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Gender</label>
                   <select
                     className="form-control"
@@ -676,7 +723,7 @@ export const Create_Staff_Records_Page = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Date of Birth</label>
                   <input
                     type="date"
@@ -686,7 +733,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Phone Number</label>
                   <input
                     type="text"
@@ -697,7 +744,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Address</label>
                   <input
                     type="text"
@@ -709,7 +756,7 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Lab Type</label>
                   <select
                     className="form-control"
@@ -723,7 +770,7 @@ export const Create_Staff_Records_Page = () => {
                   </select>
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Degree</label>
                   <input
                     type="text"
@@ -735,7 +782,7 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 10px 10px" }}>
                   <label className="form-label">Specialization</label>
                   <input
                     type="text"
@@ -747,8 +794,26 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
-                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
-                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary "
+                    style={{
+                      marginLeft: "10px",
+                      padding: "10px 50px 10px 50px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onClick={handleBack}
+                    className="btn btn-secondary"
+                    style={{
+                      marginRight: "10px",
+                      padding: "10px 60px 10px 60px",
+                    }}
+                  >
+                    Back
+                  </button>
                 </div>
                 {/* <button type="submit" className="btn btn-primary">
             Submit
@@ -766,14 +831,19 @@ export const Create_Staff_Records_Page = () => {
         <div className="container-fluid vh-100 d-flex justify-content-center align-items-center landing-page">
           <div
             className="card w-50 "
-            style={{ padding: 10, borderRadius: "15px", maxHeight: "80vh", overflowY: "auto" }}
+            style={{
+              padding: 10,
+              borderRadius: "15px",
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
           >
             <h1 className="card-header text-center" style={{ padding: 20 }}>
               Adding Pharmacist Record
             </h1>
             <div className="card-body">
               <form onSubmit={handle_form_submit}>
-                <div className="mb-3" style={{ padding: '10px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "10px 10px 5px 10px" }}>
                   <label className="form-label">Unique ID</label>
                   <input
                     type="text"
@@ -784,7 +854,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">First Name</label>
                   <input
                     type="text"
@@ -795,7 +865,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Middle Name</label>
                   <input
                     type="text"
@@ -805,7 +875,7 @@ export const Create_Staff_Records_Page = () => {
                     onInput={(e) => setMiddleName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Last Name</label>
                   <input
                     type="text"
@@ -816,7 +886,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Gender</label>
                   <select
                     className="form-control"
@@ -830,7 +900,7 @@ export const Create_Staff_Records_Page = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Date of Birth</label>
                   <input
                     type="date"
@@ -840,7 +910,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Phone Number</label>
                   <input
                     type="text"
@@ -851,7 +921,7 @@ export const Create_Staff_Records_Page = () => {
                     required
                   />
                 </div>
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Address</label>
                   <input
                     type="text"
@@ -863,7 +933,7 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 5px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 5px 10px" }}>
                   <label className="form-label">Degree</label>
                   <input
                     type="text"
@@ -875,7 +945,7 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
 
-                <div className="mb-3" style={{ padding: '5px 10px 10px 10px' }}>
+                <div className="mb-3" style={{ padding: "5px 10px 10px 10px" }}>
                   <label className="form-label">Specialization</label>
                   <input
                     type="text"
@@ -887,8 +957,26 @@ export const Create_Staff_Records_Page = () => {
                   />
                 </div>
                 <div className="footer d-flex justify-content-between align-items-center">
-                  <button type="submit" className="btn btn-primary " style={{ marginLeft: "10px", padding: "10px 50px 10px 50px" }}>Submit</button>
-                  <button onClick={handleBack} className="btn btn-secondary" style={{ marginRight: "10px", padding: "10px 60px 10px 60px" }}>Back</button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary "
+                    style={{
+                      marginLeft: "10px",
+                      padding: "10px 50px 10px 50px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onClick={handleBack}
+                    className="btn btn-secondary"
+                    style={{
+                      marginRight: "10px",
+                      padding: "10px 60px 10px 60px",
+                    }}
+                  >
+                    Back
+                  </button>
                 </div>
                 {/* <button type="submit" className="btn btn-primary">
             Submit
@@ -897,7 +985,6 @@ export const Create_Staff_Records_Page = () => {
             </div>
           </div>
         </div>
-
       </Fragment>
     );
     return pharmacist_jsx;

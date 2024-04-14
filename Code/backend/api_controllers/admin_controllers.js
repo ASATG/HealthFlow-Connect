@@ -1,4 +1,4 @@
-import { get_person_info, add_person_record, add_user_record, update_person_record, delete_person_record, delete_user_record } from "./general_controller.js";
+import { get_role_of_person_from_u_id, get_person_info, add_person_record, add_user_record, update_person_record, delete_person_record, delete_user_record } from "./general_controller.js";
 import { doctor_model } from "../db_scripts/Models/Doctor_Model.js";
 import { pharmacist_model } from "../db_scripts/Models/Pharmacist_Model.js";
 import { lab_technician_model } from "../db_scripts/Models/Lab_Technician_Model.js";
@@ -7,7 +7,7 @@ import { person_model } from "../db_scripts/Models/Person_Model.js";
 export const get_reqd_designation_all_records = async (req, res) => {
     const { role } = req.body;
     const ans = [];
-    
+
     if (role === "Doctor") {
         const all_doctor_records = await doctor_model.find({});
         for (const doctor_record of all_doctor_records) {
@@ -113,6 +113,16 @@ export const add_doctor_record = async (req, res) => {
 export const delete_doctor_record = async (req, res) => {
     const { u_id } = req.body;
     try {
+        const check_response = await get_role_of_person_from_u_id(u_id);
+        if (check_response.success_status) {
+            if (check_response.role !== "Doctor") {
+                return res.send({ success_status: false, error_message: "You don't have permission to delete this record" });
+            }
+        }
+        else {
+            return res.send({ success_status: false, error_message: "Error at server end!" });
+        }
+
         const delete_person_response = await delete_person_record(u_id);
         if (delete_person_response.success_status) {
             await doctor_model.findOneAndDelete({ person_id: delete_person_response.person_id });
@@ -158,6 +168,16 @@ export const add_counter_record = async (req, res) => {
 export const delete_counter_record = async (req, res) => {
     const { u_id } = req.body;
     try {
+        const check_response = await get_role_of_person_from_u_id(u_id);
+        if (check_response.success_status) {
+            if (check_response.role !== "Counter") {
+                return res.send({ success_status: false, error_message: "You don't have permission to delete this record" });
+            }
+        }
+        else {
+            return res.send({ success_status: false, error_message: "Error at server end!" });
+        }
+
         await delete_person_record(u_id);
         const delete_user_response = await delete_user_record(u_id);
         if (delete_user_response.success_status) {
@@ -209,6 +229,16 @@ export const add_pharmacist_record = async (req, res) => {
 export const delete_pharmacist_record = async (req, res) => {
     const { u_id } = req.body;
     try {
+        const check_response = await get_role_of_person_from_u_id(u_id);
+        if (check_response.success_status) {
+            if (check_response.role !== "Pharmacist") {
+                return res.send({ success_status: false, error_message: "You don't have permission to delete this record" });
+            }
+        }
+        else {
+            return res.send({ success_status: false, error_message: "Error at server end!" });
+        }
+
         const delete_person_response = await delete_person_record(u_id);
         if (delete_person_response.success_status) {
             await pharmacist_model.findOneAndDelete({ person_id: delete_person_response.person_id });
@@ -268,6 +298,16 @@ export const add_lab_technician_record = async (req, res) => {
 export const delete_lab_technician_record = async (req, res) => {
     const { u_id } = req.body;
     try {
+        const check_response = await get_role_of_person_from_u_id(u_id);
+        if (check_response.success_status) {
+            if (check_response.role !== "Lab Technician") {
+                return res.send({ success_status: false, error_message: "You don't have permission to delete this record" });
+            }
+        }
+        else {
+            return res.send({ success_status: false, error_message: "Error at server end!" });
+        }
+
         const delete_person_response = await delete_person_record(u_id);
         if (delete_person_response.success_status) {
             await lab_technician_model.findOneAndDelete({ person_id: delete_person_response.person_id });
@@ -299,6 +339,17 @@ export const update_staff_record = async (req, res) => {
         phone_number: body.phone_number,
         address: body.address
     };
+
+    const check_response = await get_role_of_person_from_u_id(u_id);
+    if (check_response.success_status) {
+        if (check_response.role === "Patient") {
+            return res.send({ success_status: false, error_message: "You don't have permission to update this record" });
+        }
+    }
+    else {
+        return res.send({ success_status: false, error_message: "Error at server end!" });
+    }
+
     const person_update_result = await update_person_record(u_id, person_body);
     if (person_update_result.success_status) {
         if (role === "Doctor") {

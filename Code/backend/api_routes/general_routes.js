@@ -1,8 +1,9 @@
 import express from "express";
-import { get_phone_number_from_uid, verify_user, change_password, add_history_id_to_redirection_record_and_mark_complete } from "../api_controllers/general_controller.js";
+import { api_verify_role_of_person_from_u_id, get_phone_number_from_uid, verify_user, change_password, add_history_id_to_redirection_record_and_mark_complete } from "../api_controllers/general_controller.js";
 
 const general_router = express.Router();
 
+general_router.post("/api_verify_role_of_person_from_u_id", api_verify_role_of_person_from_u_id);
 general_router.post("/get_phone_number_from_uid", get_phone_number_from_uid);
 general_router.post('/verify_user/', verify_user);
 general_router.post('/change_password/', change_password);

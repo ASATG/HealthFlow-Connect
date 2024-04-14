@@ -20,8 +20,10 @@ const sendSMS = async (newOtp, number) => {
         });
 
         console.log(response.data);
+        return { success_status: true }
     } catch (error) {
         console.error(error);
+        return { success_status: false, error_message: "Could not send otp to given phone number" };
     }
 };
 
@@ -30,8 +32,13 @@ export const send_otp = async (req, res) => {
     const newOtp = otpGenerator.generate(6, { digits: true, lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
 
     try {
-        await sendSMS(newOtp, phoneNumber);
-        res.send({ "success_status": true, otp: newOtp });
+        const temp = await sendSMS(newOtp, phoneNumber);
+        if (temp.success_status === true) {
+            res.send({ "success_status": true, otp: newOtp });
+        }
+        else {
+            res.send(temp);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send({ "success_status": false, "error": "Failed to send OTP" });
